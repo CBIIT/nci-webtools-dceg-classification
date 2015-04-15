@@ -129,8 +129,8 @@ label {
 
 #banners {
     margin-top: 10px;
-    margin-bottom: 10px;
-    height: 66px;
+    margin-bottom: 5px; 
+    height: 90px;
 }
 
 #banners #left {
