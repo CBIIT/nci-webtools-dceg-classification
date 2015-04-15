@@ -405,6 +405,8 @@ $(function () {
         //$(this).attr('data-content', 'value: ' + socSystem);   
         $(this).attr('data-original-title', "MODEL: SOCcer");         
         $(this).attr('data-content', "Features: JOB Title, SIC, Job Tasks");         
+    }, function() {
+        $('[data-toggle=popover]').popover('hide');
     });
 
 });

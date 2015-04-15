@@ -11,7 +11,7 @@ label {
 }
 
 .example {
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .logo {    
@@ -26,7 +26,6 @@ label {
     border-left: 1px solid #ddd;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    margin-right: 5px;
     text-align: center;
 }
 
@@ -43,7 +42,8 @@ label {
     background-position: 0px 0px;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: help;        /* make the cursor like hovering over an <a> element */
-    height: 20px;           /* make this the size of your image */
+    height: 24px;           /* make this the size of your image */
+    width: 24px; 
     text-align: center;
     vertical-align: middle; /* align the text vertically centered */
 }
@@ -72,7 +72,7 @@ label {
 }
 
 #socSystem {
-    width: 68%;
+    width: 66%;
     height: 28px;
 }
 
