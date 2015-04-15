@@ -22,8 +22,17 @@ label {
     font-size: 10px;
 }
 
-#wrapper {    
-    
+#resultContent {           
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.plotImg { 
+    padding: 5px;    
+    height: auto;
+    width: auto;
 }
 
 #btnInfo {

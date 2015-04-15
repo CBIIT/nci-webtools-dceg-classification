@@ -1,5 +1,16 @@
-soccerResultPlot<-function(soccerResultsFile, breaks=seq(-0.005,1.005,0.01),...){
-  
+#SoccerResultPlot.R
+options(echo=TRUE) # if you want see commands in output file
+args <- commandArgs(trailingOnly = TRUE)
+print(args)
+# trailingOnly=TRUE means that only your arguments are returned, check:
+# print(commandsArgs(trailingOnly=FALSE))
+
+soccer_result_file <- args[1]
+plot_output_img_file <- args[2]
+rm(args)
+
+soccerResultPlot<-function(soccerResultsFile, plotOutputImgFile, breaks=seq(-0.005,1.005,0.01),...){
+  png(plotOutputImgFile);
   opar<-par(no.readonly=T);
   soccerResults<-read.csv(soccerResultsFile,stringsAsFactor=F)
   s=soccerResults
@@ -9,7 +20,8 @@ soccerResultPlot<-function(soccerResultsFile, breaks=seq(-0.005,1.005,0.01),...)
   plot(h$mids,cumsum(h$counts)/sum(h$counts),xlim=c(0,1),ylim=c(0,1),xlab="SOCcer score",ylab="cdf",...)
   h<-hist(s$Prob1[tie],breaks=seq(-0.01,1.01,0.02),plot=F)
   plot(h$mids,cumsum(h$counts)/sum(h$counts),xlim=c(0,1),ylim=c(0,1),xlab="SOCcer score tie",ylab="cdf",...)
-  
-  par(opar)
+  par(opar)  
+  invisible(dev.off())
 }
 
+soccerResultPlot(soccer_result_file, plot_output_img_file);

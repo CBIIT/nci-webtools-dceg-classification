@@ -112,7 +112,7 @@
                                             <option value = "three">SOC System Three</option>
                                             <option value = "four">SOC System Four</option>
                                         </select>
-                                        <button type="button" id="btnInfo" data-toggle="popover" title="MODEL: SOCcer" data-content="Features: JOB Title, SIC, Job Tasks"></button>
+                                        <button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer" data-content="Features: JOB Title, SIC, Job Tasks"></button>
                                     </p>
 
                                     <button id="fileSubmit" class="btn btn-success" type="submit">Upload</button>
@@ -161,7 +161,7 @@
                                         </a>
                                     </div>
                                     <div class="row">
-                                        <pre id="resultContent">No Results</pre>
+                                        <div id="resultContent">No Results</div>
                                     </div>
                                     <div class="row">
                                         <a id="downloadHref2" href="#">
@@ -176,42 +176,64 @@
                     <!-- Help Tab -->
                     <div id="helpTab" class="tab-pane fade">
                         <h3>Help</h3>
+                        <h4>Input Data Format</h4>
                         <p>
-                        <h4>Input Data Format</h4>                                                    
-                        Currently, the input for SOCcer, is a comma-separated file with three columns, job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also): 
+                            Currently, the input for SOCcer, is a comma-separated file with three columns, job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also):
+                        </p>
                         <blockquote>JobTitle,SIC,JobTask</blockquote>
-                        Following the header line are the job descriptions. Each row contains one job description. The MUST be three comma separated values on each line. If the job title or task contains a comma, the value must be quoted or else there will be an error. For example: <br>
-                        <blockquote>"Teacher, high school", 8211, "formulate lesson plans, teach 11th grade match"</blockquote>
-                        is a valid job description. Leaving out the quotation marks would cause the line to appear to have five values. SOCcer will return an error with the line number asking you to fix the input. A value make be blank, but must be included. For example:<br>
-                        <blockquote>
-                        "Teacher, high school", , "formulate lesson plans, teach 11th grade match"<br>
-                        ,8211, "formulate lesson plans, teach 11th grade match"<br>
-                        "Teacher, high school",,<br>
-                        are all valid job descriptions.<br>
-                        </blockquote>
-                        The results are a comma-separated file that contains the row number, job title, SIC, job tasks, and the top ten SOC codes, with SOCcer scores. <br>
-                        If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCISOCcerWebAdmin@mail.nih.gov</a>.<br>
-                        </p>
                         <p>
-                            <h4>References</h4>
-                            <ol><li>Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Manuscript in preparation.</li>
-                            <li>Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", <i>Proc IEEE Int Symp Comput Based Med Syst 2014</i>, 2014, pp. 347-350.
-                            </li></ol>                               
+                            Following the header line are the job descriptions. Each row contains one job description. The MUST be three comma separated values on each line. If the job title or task contains a comma, the value must be quoted or else there will be an error. For example:
+                            <br/>                    
                         </p>
+                        <blockquote>
+                            "Teacher, high school", 8211, "formulate lesson plans, teach 11th grade match"
+                        </blockquote>
+                        is a valid job description. Leaving out the quotation marks would cause the line to appear to have five values. SOCcer will return an error with the line number asking you to fix the input. A value make be blank, but must be included. For example:
+                        <br/>                    
+                        <blockquote>
+                            "Teacher, high school", , "formulate lesson plans, teach 11th grade match"
+                            <br/>                    
+                            ,8211, "formulate lesson plans, teach 11th grade match"
+                            <br/>                    
+                            "Teacher, high school",,
+                            <br/>                    
+                            are all valid job descriptions.
+                            <br/>                    
+                        </blockquote>
+                        <p>
+                            The results are a comma-separated file that contains the row number, job title, SIC, job tasks, and the top ten SOC codes, with SOCcer scores.
+                            <br/>                    
+                            If you have any questions, comments, or concerns, send us an e-mail at
+                            <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCISOCcerWebAdmin@mail.nih.gov</a>                            
+                            <br/>                    
+                        </p>
+
+                        <h4>References</h4>
+                        
+                        <ol>
+                            <li>
+                                Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Manuscript in preparation.
+                            </li>
+                            <li>
+                                Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", <i>Proc IEEE Int Symp Comput Based Med Syst 2014</i>
+                                , 2014, pp. 347-350.
+                            </li>
+                        </ol>
+                        
                     </div>
                     <!-- FAQ Tab -->
                     <div id="faqTab" class="tab-pane fade">
                         <h3>FAQ</h3>
-                        <p>
-                            <h4>What can I do to improve the results of SOCcer?</h4>
-                            If you have job descriptions that have been coded by an expert coder and you are willing to provide them to us, we will be happy to retrain our models. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.<br><br>
-                            <h4>
-                                What about HIPAA concerns?</h4>
-                            Our system is not HIPAA compliant. We do not require any Personal Identifying Information (PII), and our input data format does not accept identifiers in order to help prevent you from uploading PII. We make no attempt to screen your data for PII. Please check you input file for PII before you upload you data onto our server.<br><br>
-                            <h4>
-                                What are SOCcer scores?</h4>
-                            Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details in the relationship between SOCcer score and probability of matching. Some dataset are more difficult to classify than others. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.
-                        </p>
+                        
+                        <h4>What can I do to improve the results of SOCcer?</h4>
+                        If you have job descriptions that have been coded by an expert coder and you are willing to provide them to us, we will be happy to retrain our models. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.<br><br>
+                        <h4>
+                            What about HIPAA concerns?</h4>
+                        Our system is not HIPAA compliant. We do not require any Personal Identifying Information (PII), and our input data format does not accept identifiers in order to help prevent you from uploading PII. We make no attempt to screen your data for PII. Please check you input file for PII before you upload you data onto our server.<br><br>
+                        <h4>
+                            What are SOCcer scores?</h4>
+                        Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details in the relationship between SOCcer score and probability of matching. Some dataset are more difficult to classify than others. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.
+                    
                     </div>
                 </div>
             </div>

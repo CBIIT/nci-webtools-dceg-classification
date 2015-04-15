@@ -10,6 +10,7 @@ import gov.nih.nci.queue.model.ResponseModel;
 import gov.nih.nci.queue.utils.PropertiesUtil;
 import gov.nih.nci.soccer.SoccerServiceHelper;
 import gov.nih.nci.queue.utils.UniqueIdUtil;
+import gov.nih.nci.soccer.SoccerRHelper;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,10 +59,18 @@ public class FileCalculateServlet extends HttpServlet {
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);
             ssh.ProcessingFile(new File(absoluteInputFileName), new File(absoluteOutputFileName));
-            // all good. Prepare the json output.
-            LOGGER.log(Level.INFO, "The output file <{0}> has been generated successfully.", absoluteOutputFileName);
-            rm.setStatus("pass");
-            rm.setOutputFileId(outputFileId);
+           
+            SoccerRHelper srh = new SoccerRHelper(repositoryPath);
+            if(srh.generatePlotImg(outputFileId)) {            
+                // all good. Prepare the json output.
+                LOGGER.log(Level.INFO, "The output file <{0}> has been generated successfully.", absoluteOutputFileName);
+                rm.setStatus("pass");
+                rm.setOutputFileId(outputFileId);
+            }
+            else {
+                rm.setStatus("fail");
+                LOGGER.log(Level.SEVERE, "R function failed. Error Message: {0}.png does not exist!", absoluteOutputFileName);
+            }
 
         } catch (IOException | SOCcerException e) {
             rm.setStatus("fail");
