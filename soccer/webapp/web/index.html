@@ -68,6 +68,12 @@
                     <li>
                         <a href="#soccerTab">SOCcer</a>
                     </li>
+                    <li class="">
+                        <a href="#modelTab">Models</a>
+                    </li>
+                     <li class="">
+                        <a href="#resourcesTab">Resources</a>
+                    </li>
                     <li>
                         <a href="#helpTab">Help</a>
                     </li>
@@ -79,13 +85,21 @@
                     <!-- HOME Tab -->
                     <div id="homeTab" class="tab-pane fade in active">                        
                         <p>
-                            <strong><abbr title="Standardized Occupation Coding for Computer-assisted Epidemiological Research">SOCcer</abbr></strong> (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publically available application that assigns SOC 2010 codes based on multiple components of a job description.  The coding is performed using a ensemble classifier, which combines the results of multiple poorly performing classifiers to produce a single classifier that performs well.  
-                            <br><br>
-                            If you publish results that use SOCcer, please reference <br><br>
-                            [1] Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Manuscript in preparation.
-                            <br><br>
+							<strong><abbr title="Standardized Occupation Coding for Computer-assisted Epidemiological Research">SOCcer</abbr></strong> is a publically available application to assist epidemiological 
+							researchers incorporate occupational risk into thier models.  The application is not intended to replace expert coders, but rather to prioritize job descriptions which would most benefit 
+							from expert coders. Low scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an 
+							<a href="http://en.wikipedia.org/wiki/Ensemble_learning">ensemble classifier</a>, which combines the results of multiple classifiers to produce a single classifier that performs better than 
+							any single classifier in the ensemble.
+						</p>
+						
+						<p>If you publish results that use SOCcer, please reference<br> 
+						Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, 
+						Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies. Manuscript in preparation.
+                        </p>
+                        <p>
                             <a href="#" onclick="activateSoccerTab();">Run SOCcer</a>
-                        </p>                        
+                        </p>
+                     
                     </div>
                     <!-- SOCCER Tab -->
                     <div id="soccerTab" class="tab-pane fade">                        
@@ -172,10 +186,31 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- Model Tab -->
+                    <div id="modelTab" class="tab-pane fade">
+                    <p>SOCcer can use different models, depending on the type of data that you have.  The table below describes the models available</p>
+					<table class="table table-striped">
+						<thead>
+							<tr><th>model</th><th>description</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>model 1.0</td><td>The model described in <em>Computer-Based Coding of Free-Text Job Descriptions to Efficiently and Reliably Incorporate Occupational Risk Factors into Large-Scale Epidemiological Studies</em> the model uses JobTitle,SIC,JobTask </td></tr>
+						</tbody>
+					</table>
+					</div>
+					<!-- Resources Tab -->
+                    <div id="resourcesTab" class="tab-pane fade">
+                     <h3>Resources</h3>
+                        <h4>links</h4>
+                        <ul>
+                          <li><a href="http://www.bls.gov/soc/major_groups.htm">SOC 2010 System</a></li>
+                          <li><a href="https://www.osha.gov/pls/imis/sic_manual.html">SIC 1987 System</a></li>
+                          <li><a href="https://www.onetonline.org/">O*NET online</a></li>
+                          <li><a href="https://wwwn.cdc.gov/niosh-nioccs/">NIOCCS</a></li>
+                        </ul>
+					</div>
                     <!-- Help Tab -->
                     <div id="helpTab" class="tab-pane fade">
-                        <h3>Help</h3>
                         <p>
                         <h4>Input Data Format</h4>                                                    
                         Currently, the input for SOCcer, is a comma-separated file with three columns, job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also): 
@@ -192,6 +227,19 @@
                         The results are a comma-separated file that contains the row number, job title, SIC, job tasks, and the top ten SOC codes, with SOCcer scores. <br>
                         If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCISOCcerWebAdmin@mail.nih.gov</a>.<br>
                         </p>
+                        
+
+
+						<table class="table table-striped">
+							<thead>
+								<tr><th>Id</th><th>JobTitle</th><th>SIC</th><th>JobTask</th><th>SOC1</th><th>Prob1</th><th>SOC2</th><th>Prob2</th><th>SOC3</th><th>Prob3</th><th>...</th><th>SOC10</th><th>Prob10</th></tr>
+							</thead>
+							<tbody>
+								<tr><td>1</td><td>"Teacher, high school"</td><td> "8211"</td><td> "formulate lesson plans, teach 11th grade match"</td><td>25-2031</td><td>0.979...</td><td>25-2032</td><td>0.357...</td><td>25-2054</td><td>0.216..</td><td>...</td><td>25-1194</td><td>0.042...</td></tr>
+								<tr><td>2</td><td>"Java Developer"</td><td>"7371"</td><td>"Develop use cases, write computer software in java"</td><td>15-1131</td><td>0.959...</td><td>15-1132</td><td>0.717...</td><td>15-1133</td><td>0.125...</td><td>...</td><td>11-2031</td><td>0.034...</td></tr>
+							</tbody>
+						</table>
+                        
                         <p>
                             <h4>References</h4>
                             <ol><li>Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Manuscript in preparation.</li>
