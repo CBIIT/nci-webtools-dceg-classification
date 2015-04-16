@@ -61,17 +61,19 @@ public class SoccerJob implements Job {
             } catch(IOException e){;}
             
             // Run command.  
-            String fullCmd = new StringBuilder(cmd)
-                    .append(" ")
-                    .append(path).append(File.separator).append(fileName)
+            String outputFile = outputDir + File.separator + outputFilePre + fileName; // the extected soccer result file name.
+            String outputFile2 = outputDir + File.separator + outputFileId; // the uniqueId 
+            String outputFile3 = outputDir + File.separator + outputFileId + ".png"; // the image file.
+            String fullCmd = new StringBuilder(cmd).append(" ")
+                    .append(path).append(File.separator).append(fileName).append(" ")
+                    .append(outputFile).append(" ")
+                    .append(outputFile3).append(" ")
                     .toString();
             LOGGER.info("Full Command: " + fullCmd);
             if (ExeCommand(fullCmd)) {
-                // rename to the outputFileId.
-                String outputFile = outputDir + File.separator + outputFilePre + fileName;
-                String outputFile2 = outputDir + File.separator + outputFileId;
+                // rename to the outputFileId.                
                 renameFileName(outputFile, outputFile2);
-
+                
                 // Send email. 
                 String from = "SOCcer <do.not.reply@mail.nih.gov>";
                 boolean isMailSent = new MailUtil().mailTo(from, email, composeMailTitle(), composeMailBody(timeStamp, outputFileId));

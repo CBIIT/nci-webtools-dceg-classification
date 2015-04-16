@@ -22,8 +22,17 @@ label {
     font-size: 10px;
 }
 
-#wrapper {    
-    
+#resultContent {           
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.plotImg { 
+    padding: 5px;    
+    height: auto;
+    width: auto;
 }
 
 #btnInfo {
@@ -33,7 +42,8 @@ label {
     background-position: 0px 0px;  /* equivalent to 'top left' */
     border: none;           /* assuming we don't want any borders */
     cursor: help;        /* make the cursor like hovering over an <a> element */
-    height: 20px;           /* make this the size of your image */
+    height: 24px;           /* make this the size of your image */
+    width: 24px; 
     text-align: center;
     vertical-align: middle; /* align the text vertically centered */
 }
@@ -62,7 +72,7 @@ label {
 }
 
 #socSystem {
-    width: 68%;
+    width: 66%;
     height: 28px;
 }
 
@@ -119,8 +129,8 @@ label {
 
 #banners {
     margin-top: 10px;
-    margin-bottom: 10px;
-    height: 66px;
+    margin-bottom: 5px; 
+    height: 90px;
 }
 
 #banners #left {

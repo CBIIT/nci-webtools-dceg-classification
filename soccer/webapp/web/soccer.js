@@ -3,7 +3,10 @@
 $(function () {
 
     // Restriction. // TODO - adjust this file extenstion restriction.
-    $('#fileSelect').attr('accept', '.csv, text/plain');   
+    $('#fileSelect').attr('accept', '.csv, text/plain');        
+    $('[data-toggle="popover"]').popover({
+        placement : 'right'
+    }); 
 
     // Initilize  
     init();
@@ -210,7 +213,9 @@ $(function () {
      * Given fileId, show the content.
      */
     function showResult(fileId) {
+        console.log('showResult ' + fileId);
         var fileUrl = "files/" + fileId;
+        var imgUrl = "files/" + fileId+".png";
         var xmlHttpResult = new XMLHttpRequest();
         xmlHttpResult.open("GET", fileUrl, false);
         xmlHttpResult.send(null);    
@@ -221,7 +226,8 @@ $(function () {
         }
         else {
             $("#resultArea").show();
-            $("#resultContent").text(xmlHttpResult.responseText);
+            //$("#resultContent").text(xmlHttpResult.responseText);
+            $("#resultContent").html("<img class='plotImg' src='"+imgUrl+"'>");
             $("#downloadHref1").prop("href", fileUrl);   
             $("#downloadHref2").prop("href", fileUrl);          
         }
@@ -391,17 +397,19 @@ $(function () {
         $(this).tab('show');
     });
 
-    // Info button.  ----- TEMP
-    $("#btnInfo").hover(function(e){
+    // change the content. 
+    $("#btnInfo").hover(function() {       
         var socSystem = $('#socSystem').val();
         //$(this).attr('data-original-title', $('#socSystem option:selected').text());         
-        //$(this).attr('data-content', 'value: ' + socSystem);   
+        //$(this).attr('data-content', 'value: ' + socSystem);           
         $(this).attr('data-original-title', "MODEL: SOCcer");         
-        $(this).attr('data-content', "Features: JOB Title, SIC, Job Tasks"); 
-        $(this).popover('show');
-    }, function() {
-        $(this).popover('hide');
-    });      
+        $(this).attr('data-content', "Features: JOB Title, SIC, Job Tasks");         
+    }, function() {         
+        $('[data-toggle="popover"]').popover('hide');
+    });
+    $("#btnInfo").click(function(){
+        $('[data-toggle="popover"]').popover('show'); 
+    });
 
 });
 
