@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ComputingApp" default="default" basedir=".">
-    <property file="build.properties"/>
+    <exec executable="hostname" outputproperty="computer.hostname"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
             <not>
@@ -24,9 +24,9 @@
     <target name="pre-init">
         <propertyfile
             file="src/computingApp.properties" comment="Application properties">
-            <entry key="queue.remote.url" value="${queue.remote.url}"/>
-            <entry key="queue.remote.name" value="${queue.remote.name}"/>
-            <entry key="soccer.remote.web.host" value="${soccer.remote.web.host}"/>
+            <entry key="queue.remote.url" value="tcp://${computer.hostname}:61616?trace=false&amp;soTimeout=60000"/>
+            <entry key="queue.remote.name" value="soccerqueue"/>
+            <entry key="soccer.remote.web.host" value="${computer.hostname}"/>
             <entry key="soccer.remote.web.port" value="${soccer.remote.web.port}"/>
         </propertyfile>
     </target>
@@ -70,8 +70,8 @@
     <target name="doWindows" if="isWindows">
     <echo message="Came into the Windows target" />
     <echo file="dist/jcmd.bat" append="false">REM 
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${gov.nih.cit.soccer.output.dir}" gov.nih.cit.soccer.Soccer %1
-"${gov.nih.cit.soccer.rscript}" ${gov.nih.cit.soccer.r.file} %2 %3 
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer %1
+"${gov.nih.cit.soccer.rscript}" ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R %2 %3 
     </echo>
     <echo file="dist/config.properties" append="false"># Soccer Job Related. 
 # How often do you want your cmd execute
@@ -85,8 +85,8 @@ full_cmd=jcmd.bat
     <echo file="dist/jcmd.sh" append="false">#!/bin/bash
 if [ -e "$1" ]
 then
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${gov.nih.cit.soccer.output.dir}" gov.nih.cit.soccer.Soccer $1
-${gov.nih.cit.soccer.rscript} ${gov.nih.cit.soccer.r.file} $2 $3
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1
+${gov.nih.cit.soccer.rscript} ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R $2 $3
 else
 echo "$1 does not exist!"
 fi
@@ -97,6 +97,7 @@ interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
 full_cmd=jcmd.sh
     </echo>
+    <chmod file="dist/jcmd.sh" perm="ugo+rx"/>
     </target>   
     <target name="doMac" if="isMac">
     <echo message="*** This ant build does not support Mac yet *** " />    
