@@ -13,10 +13,12 @@ import gov.nih.nci.queue.utils.QueueConsumerUtil;
 import gov.nih.nci.queue.utils.UniqueIdUtil;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -53,6 +55,9 @@ public class SoccerJob implements Job {
             String outputDir = qm.getOutputDir();
             LOGGER.log(Level.INFO, "{0}", qm);
             
+            // get original file name
+            String originalFileName = getOriginalFileName(fileName, path);             
+            
             String outputFileId = new UniqueIdUtil(fileName).getOutputUniqueID();
 
             // Save metadata info.
@@ -76,7 +81,7 @@ public class SoccerJob implements Job {
                 
                 // Send email. 
                 String from = "SOCcer <do.not.reply@mail.nih.gov>";
-                boolean isMailSent = new MailUtil().mailTo(from, email, composeMailTitle(), composeMailBody(timeStamp, outputFileId));
+                boolean isMailSent = new MailUtil().mailTo(from, email, composeMailTitle(), composeMailBody(timeStamp, outputFileId, originalFileName));
                 if (isMailSent) {
                     LOGGER.log(Level.INFO, "Message has been sent to {0} successfully.", email);
                 } else {
@@ -131,6 +136,42 @@ public class SoccerJob implements Job {
             return false;
         }
     }
+    
+    /*
+     * Get original file name
+     * fileName: {fileName: blabla.csv ...} 
+     * path:     {...; path: blabal; ...}
+    */
+    private String getOriginalFileName(String fileName, String path) {
+        String retString = "";
+        
+        // get jsonFilePath
+        String jsonFilePath = path + File.separator + fileName + ".json";         
+        // read file to string
+        String jsonString = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(jsonFilePath)))
+        {
+            String sCurrentLine;
+            while ((sCurrentLine = br.readLine()) != null) {
+                jsonString += sCurrentLine;
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "{0} does not exist! Cannot get original file name! {1}", new Object[]{jsonFilePath, e.getMessage()});   
+            return retString;
+        } 
+        
+        // parse json string.
+        LOGGER.log(Level.INFO, "{0} : {1}", new Object[]{jsonFilePath, jsonString});
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode actualObj = mapper.readTree(jsonString);
+            retString = actualObj.get("fileName").toString().replace("\"", "");
+            LOGGER.log(Level.INFO, "Original File Name: {0}", retString);
+        } catch(IOException e) {
+        }
+        
+        return retString;
+    }
 
     // Compose Mail Title.
     private String composeMailTitle() {
@@ -138,12 +179,14 @@ public class SoccerJob implements Job {
     }
 
     // Compose Mail Body.
-    private String composeMailBody(String timeStamp, String outputFileId) {
+    private String composeMailBody(String timeStamp, String outputFileId, String originalFileName) {
         // get hostname automatically.
         String hostname = PropertiesUtil.getProperty("soccer.remote.web.host");
         String port = PropertiesUtil.getProperty("soccer.remote.web.port");        
 
-        return new StringBuilder("\r\nThe file you uploaded on ")
+        return new StringBuilder("\r\nThe file (")
+                .append(originalFileName)
+                .append(") you uploaded on ")
                 .append(timeStamp)
                 .append(" has been processed. ")
                 .append("\r\nYou can view the result page at: http://")

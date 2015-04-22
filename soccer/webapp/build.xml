@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="soccer" default="default" basedir=".">
-    <property file="build.properties"/>
+    <exec executable="hostname" outputproperty="computer.hostname"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
             <not>
@@ -11,13 +11,13 @@
     <target name="pre-init">
         <propertyfile
             file="src/java/applicationQueue.properties" comment="Application properties">
-            <entry  key="gov.nih.nci.queue.repository.dir" value="${gov.nih.nci.queue.repository.dir}"/>
-            <entry  key="gov.nih.cit.soccer.output.dir" value="${gov.nih.cit.soccer.output.dir}"/>
+            <entry  key="gov.nih.nci.queue.repository.dir" value="${tomee.dir}/webapps/soccer/files"/>
+            <entry  key="gov.nih.cit.soccer.output.dir" value="${tomee.dir}/webapps/soccer/files"/>
             <entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>   
-            <entry  key="gov.nih.cit.soccer.r.file" value="${gov.nih.cit.soccer.r.file}"/>  
+            <entry  key="gov.nih.cit.soccer.r.file" value="${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R"/>  
             <entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/> 
-            <entry  key="resource.queue.connectionfactory" value="${resource.queue.connectionfactory}"/>
-            <entry  key="resource.queue.name" value="${resource.queue.name}"/>
+            <entry  key="resource.queue.connectionfactory" value="TomiJmsConnectionFactory"/>
+            <entry  key="resource.queue.name" value="soccerqueue"/>
         </propertyfile>
     </target>
     <target name="init" depends="pre-init">
@@ -28,8 +28,8 @@
         <echoxml file="dist/tomee.xml">
             <tomee>
                 <Resource id="TomiJmsResourceAdapter" type="ActiveMQResourceAdapter">
-                    BrokerXmlConfig =  broker:(tcp://${queue.broker.server}:61616)
-                    ServerUrl       =  tcp://${queue.broker.server}:61616
+                    BrokerXmlConfig =  broker:(tcp://${computer.hostname}:61616)
+                    ServerUrl       =  tcp://${computer.hostname}:61616
                 </Resource>
 
                 <Resource id="TomiJmsConnectionFactory" type="javax.jms.ConnectionFactory">

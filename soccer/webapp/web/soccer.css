@@ -26,7 +26,9 @@ label {
     border-left: 1px solid #ddd;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-	margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
     text-align: center;
 }
 
