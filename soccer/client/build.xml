@@ -85,7 +85,7 @@ full_cmd=jcmd.bat
     </target>
     <target name="doUnix" if="isUnix">
     <echo message="Came into the Unix target" />
-    <echo file="dist/jcmd.sh" append="false">#!/bin/bash
+    <echo file="${deploy.target.dir}/jcmd.sh" append="false">#!/bin/bash
 if [ -e "$1" ]
 then
 java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1
@@ -100,7 +100,7 @@ interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
 full_cmd=jcmd.sh
     </echo>
-    <chmod file="dist/jcmd.sh" perm="ugo+rx"/>
+    <chmod file="${deploy.target.dir}/jcmd.sh" perm="ugo+rx"/>
     </target>   
     <target name="doMac" if="isMac">
     <echo message="*** This ant build does not support Mac yet *** " />    
