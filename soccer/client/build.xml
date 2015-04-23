@@ -56,7 +56,7 @@
             <fileset dir="build/classes"/> 
             <manifest>
                 <attribute name="Manifest-Version" value="1.0"/>
-                <attribute name="Class-Path" value="lib/activemq-all-5.10.0.jar lib/mail.jar lib/quartz-1.6.6.jar lib/jackson-core-asl-1.8.5.jar lib/jackson-mapper-asl-1.8.5.jar lib/commons-logging-1.2.jar lib/SOCcer.jar"/>
+                <attribute name="Class-Path" value="lib/activemq-all-5.10.0.jar lib/mail.jar lib/quartz-1.6.6.jar lib/jackson-core-asl-1.8.5.jar lib/jackson-mapper-asl-1.8.5.jar lib/commons-logging-1.2.jar lib/SOCcer-v0.0.2.jar"/>
                 <attribute name="Main-Class" value="gov.nih.nci.app.computingApp"/>
             </manifest>
         </jar>        
