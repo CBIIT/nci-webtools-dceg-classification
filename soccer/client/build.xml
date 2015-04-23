@@ -65,6 +65,9 @@
         <copy todir="dist/lib">
             <fileset dir="lib"/>
         </copy>
+        <copy todir="${deploy.target.dir}">
+            <fileset dir="dist"/>
+        </copy>
     </target>
     <!-- now create our operating system specific targets -->
     <target name="doWindows" if="isWindows">
