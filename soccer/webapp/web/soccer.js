@@ -221,15 +221,13 @@ $(function () {
         xmlHttpResult.send(null);    
         if(xmlHttpResult.status == 404) {
             $("#resultContent").text('The requested resource is not available.');
-            $("#downloadHref1").text('');  
-            $("#downloadHref2").text('');
+            $("#downloadHref").text('');  
         }
         else {
             $("#resultArea").show();
             //$("#resultContent").text(xmlHttpResult.responseText);
             $("#resultContent").html("<img class='plotImg' src='"+imgUrl+"'>");
-            $("#downloadHref1").prop("href", fileUrl);   
-            $("#downloadHref2").prop("href", fileUrl);          
+            $("#downloadHref").prop("href", fileUrl);   
         }
     }
 
