@@ -98,7 +98,7 @@ fi
 # How often do you want your cmd execute
 interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
-full_cmd=jcmd.sh
+full_cmd=${deploy.target.dir}/jcmd.sh
     </echo>
     <chmod file="${deploy.target.dir}/jcmd.sh" perm="ugo+rx"/>
     </target>   
