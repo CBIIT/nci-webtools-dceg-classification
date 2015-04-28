@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="soccer" default="default" basedir=".">
-    <exec executable="hostname" outputproperty="computer.hostname"/>
+<project name="soccer" default="default" basedir=".">    
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
             <not>
                 <antversion atleast="1.7.1"/>
             </not>
+        </condition>
+    </fail>
+    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript deploy">
+        <condition>
+            <or>
+                <not>
+                    <isset property="soccer.domain.name"/>
+                </not>
+                <not>
+                    <isset property="tomee.dir"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.wordnet.dir"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.rscript"/>
+                </not>
+            </or>            
         </condition>
     </fail>
     <target name="pre-init">
@@ -28,8 +45,8 @@
         <echoxml file="dist/tomee.xml">
             <tomee>
                 <Resource id="TomiJmsResourceAdapter" type="ActiveMQResourceAdapter">
-                    BrokerXmlConfig =  broker:(tcp://${computer.hostname}:61616)
-                    ServerUrl       =  tcp://${computer.hostname}:61616
+                    BrokerXmlConfig =  broker:(tcp://${soccer.domain.name}:61616)
+                    ServerUrl       =  tcp://${soccer.domain.name}:61616
                 </Resource>
 
                 <Resource id="TomiJmsConnectionFactory" type="javax.jms.ConnectionFactory">
