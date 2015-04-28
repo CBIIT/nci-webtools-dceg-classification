@@ -181,20 +181,41 @@ public class SoccerJob implements Job {
     // Compose Mail Body.
     private String composeMailBody(String timeStamp, String outputFileId, String originalFileName) {
         // get hostname automatically.
-        String hostname = PropertiesUtil.getProperty("soccer.remote.web.host");
-        String port = PropertiesUtil.getProperty("soccer.remote.web.port");        
+        String hostname = PropertiesUtil.getProperty("soccer.remote.web.host").trim();
+        String port = PropertiesUtil.getProperty("soccer.remote.web.port").trim();        
 
+        if(hostname == null) {
+            return "";
+        }
+        if(port == null || port.length() == 0) {
+            port = "80";
+        }
+        
+        // remove extra \ from the original file name.
+        originalFileName = originalFileName.replace("\\\\", "\\");
+        
+        // construct the http link.
+        StringBuilder accessLinkSB = new StringBuilder("http://");
+        if(port.equalsIgnoreCase("80")) {
+           accessLinkSB.append(hostname)
+                   .append("/index.html?fileid=")
+                   .append(outputFileId);
+        }
+        else {                    
+            accessLinkSB.append(hostname)
+                .append(":")
+                .append(port)
+                .append("/soccer/index.html?fileid=")
+                .append(outputFileId);
+        }        
+                
         return new StringBuilder("\r\nThe file (")
                 .append(originalFileName)
                 .append(") you uploaded on ")
                 .append(timeStamp)
                 .append(" has been processed. ")
-                .append("\r\nYou can view the result page at: http://")
-                .append(hostname)
-                .append(":")
-                .append(port)
-                .append("/soccer/index.html?fileid=")
-                .append(outputFileId)
+                .append("\r\nYou can view the result page at: ")
+                .append(accessLinkSB.toString())                
                 .append("\r\n\r\n - SOCcer Team\r\n(Note:  Please do not reply to this email. If you need assistance, please contact ncicbiit@mail.nih.gov)")
                 .toString();
     }
