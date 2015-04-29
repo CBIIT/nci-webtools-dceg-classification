@@ -202,7 +202,7 @@ public class SoccerJob implements Job {
                 
                 FileWriter fw = new FileWriter(logNumberOfLinesFilePath);
                 BufferedWriter bw = new BufferedWriter(fw);
-                bw.write("Timestamp, Email, Input  file name, Number of lines");
+                bw.write("Timestamp, Input  file name, Number of lines");
                 bw.close();
             }
             
