@@ -70,7 +70,7 @@ public class SoccerJob implements Job {
             // This information will be stored in soccerStats.csv 
             // Format: Timestamp, Input  file name, Number of lines 
             // Track asynchronous data process only 
-            logNumberOfLines(NUMBER_OF_LINES_TRACK_FILE_NAME, originalFileName, fileName, path, email);
+            logNumberOfLines(NUMBER_OF_LINES_TRACK_FILE_NAME, originalFileName, fileName, path);
             
             // Construct a unique ID to track the output file.
             String outputFileId = new UniqueIdUtil(fileName).getOutputUniqueID();
@@ -189,7 +189,7 @@ public class SoccerJob implements Job {
     }
     
     // Log numbers of lines of the input file. 
-    private void logNumberOfLines(String logNumberOfLinesFileName, String originalFileName, String fileName, String path, String email) {
+    private void logNumberOfLines(String logNumberOfLinesFileName, String originalFileName, String fileName, String path) {
         String deployTargetFolder = PropertiesUtil.getProperty("deploy.target.dir").trim();
         String logNumberOfLinesFilePath = deployTargetFolder + File.separator + logNumberOfLinesFileName;
         
@@ -209,7 +209,7 @@ public class SoccerJob implements Job {
             // Check whether the file is occupied by other processes.
             if(file.canWrite()) {
                 // construct string. Format: Timestamp, Input  file name, Number of lines  
-                String logLineContent = "\r\n" + new Date() + "," + email + "," + originalFileName + "," + getNumberLines(new File(path + File.separator + fileName));
+                String logLineContent = "\r\n" + new Date() + "," + originalFileName + "," + getNumberLines(new File(path + File.separator + fileName));
                 FileWriter fw = new FileWriter(file.getAbsoluteFile(), true); // append.
                 BufferedWriter bw = new BufferedWriter(fw);
                 bw.write(logLineContent);
