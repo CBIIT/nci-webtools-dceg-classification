@@ -28,7 +28,7 @@
                 <not>
                     <isset property="deploy.target.dir"/>
                 </not>
-            </or>            
+            </or>     
         </condition>
     </fail>
     <!-- first create our properties -->
@@ -51,6 +51,7 @@
             <entry key="queue.remote.name" value="soccerqueue"/>
             <entry key="soccer.remote.web.host" value="${soccer.domain.name}"/>
             <entry key="soccer.remote.web.port" value="${soccer.remote.web.port}"/>
+            <entry key="deploy.target.dir" value="${deploy.target.dir}"/>
         </propertyfile>
     </target>
     <target name="init" depends="pre-init">
