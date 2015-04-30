@@ -67,10 +67,10 @@
         <fileset dir="web/WEB-INF/lib">
             <include name="*.jar"/>
         </fileset>
-        <fileset dir="${tomee.dir}/lib">
-            <include name="*.jar"/>
+        <fileset dir="lib">
+            <include name="*.jar"/>    
             <!--Solve the warning: Supported source version 'RELEASE_6' from annotation processor 'org.apache.openjpa.persistence.meta.AnnotationProcessor6' less than -source '1.7'-->
-            <exclude name="openjpa-2.4.0-nonfinal-1598334.jar"/>
+            <exclude name="openjpa-2.4.0-nonfinal-1598334.jar"/>        
         </fileset>
     </path>
     <target name="compile" depends="init" >
