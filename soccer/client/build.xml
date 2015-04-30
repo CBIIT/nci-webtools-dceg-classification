@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ComputingApp" default="default" basedir=".">
-    <exec executable="hostname" outputproperty="computer.hostname"/>
+<project name="ComputingApp" default="default" basedir=".">    
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
             <not>
                 <antversion atleast="1.7.1"/>
             </not>
+        </condition>
+    </fail>
+    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dsoccer.remote.web.port=80 -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript -Ddeploy.target.dir=/local/content/soccer deploy">
+        <condition>
+            <or>
+                <not>
+                    <isset property="soccer.domain.name"/>
+                </not>
+                <not>
+                    <isset property="tomee.dir"/>
+                </not>
+                <not>
+                    <isset property="soccer.remote.web.port"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.wordnet.dir"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.rscript"/>
+                </not>
+                <not>
+                    <isset property="deploy.target.dir"/>
+                </not>
+            </or>     
         </condition>
     </fail>
     <!-- first create our properties -->
@@ -24,10 +47,11 @@
     <target name="pre-init">
         <propertyfile
             file="src/computingApp.properties" comment="Application properties">
-            <entry key="queue.remote.url" value="tcp://${computer.hostname}:61616?trace=false&amp;soTimeout=60000"/>
+            <entry key="queue.remote.url" value="tcp://${soccer.domain.name}:61616?trace=false&amp;soTimeout=60000"/>
             <entry key="queue.remote.name" value="soccerqueue"/>
-            <entry key="soccer.remote.web.host" value="${computer.hostname}"/>
+            <entry key="soccer.remote.web.host" value="${soccer.domain.name}"/>
             <entry key="soccer.remote.web.port" value="${soccer.remote.web.port}"/>
+            <entry key="deploy.target.dir" value="${deploy.target.dir}"/>
         </propertyfile>
     </target>
     <target name="init" depends="pre-init">
@@ -56,7 +80,7 @@
             <fileset dir="build/classes"/> 
             <manifest>
                 <attribute name="Manifest-Version" value="1.0"/>
-                <attribute name="Class-Path" value="lib/activemq-all-5.10.0.jar lib/mail.jar lib/quartz-1.6.6.jar lib/jackson-core-asl-1.8.5.jar lib/jackson-mapper-asl-1.8.5.jar lib/commons-logging-1.2.jar lib/SOCcer.jar"/>
+                <attribute name="Class-Path" value="lib/activemq-all-5.10.0.jar lib/mail.jar lib/quartz-1.6.6.jar lib/jackson-core-asl-1.8.5.jar lib/jackson-mapper-asl-1.8.5.jar lib/commons-logging-1.2.jar lib/SOCcer-v0.0.2.jar"/>
                 <attribute name="Main-Class" value="gov.nih.nci.app.computingApp"/>
             </manifest>
         </jar>        
@@ -65,12 +89,15 @@
         <copy todir="dist/lib">
             <fileset dir="lib"/>
         </copy>
+        <copy todir="${deploy.target.dir}">
+            <fileset dir="dist"/>
+        </copy>
     </target>
     <!-- now create our operating system specific targets -->
     <target name="doWindows" if="isWindows">
     <echo message="Came into the Windows target" />
     <echo file="dist/jcmd.bat" append="false">REM 
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer %1
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer %1 2
 "${gov.nih.cit.soccer.rscript}" ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R %2 %3 
     </echo>
     <echo file="dist/config.properties" append="false"># Soccer Job Related. 
@@ -82,10 +109,10 @@ full_cmd=jcmd.bat
     </target>
     <target name="doUnix" if="isUnix">
     <echo message="Came into the Unix target" />
-    <echo file="dist/jcmd.sh" append="false">#!/bin/bash
+    <echo file="${deploy.target.dir}/jcmd.sh" append="false">#!/bin/bash
 if [ -e "$1" ]
 then
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1 2
 ${gov.nih.cit.soccer.rscript} ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R $2 $3
 else
 echo "$1 does not exist!"
@@ -95,9 +122,9 @@ fi
 # How often do you want your cmd execute
 interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
-full_cmd=jcmd.sh
+full_cmd=${deploy.target.dir}/jcmd.sh
     </echo>
-    <chmod file="dist/jcmd.sh" perm="ugo+rx"/>
+    <chmod file="${deploy.target.dir}/jcmd.sh" perm="ugo+rx"/>
     </target>   
     <target name="doMac" if="isMac">
     <echo message="*** This ant build does not support Mac yet *** " />    
