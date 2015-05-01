@@ -85,31 +85,34 @@
             </manifest>
         </jar>        
     </target>
-    <target name="deploy" depends="clean, jar, doMac, doWindows, doUnix">
+    <target name="dist" depends="clean, jar, doMac, doWindows, doUnix">
         <copy todir="dist/lib">
             <fileset dir="lib"/>
         </copy>
+    </target>
+    <target name="deploy" depends="dist">
         <copy todir="${deploy.target.dir}">
             <fileset dir="dist"/>
         </copy>
+        <chmod file="${deploy.target.dir}/jcmd.sh" perm="ugo+rx"/>
     </target>
     <!-- now create our operating system specific targets -->
     <target name="doWindows" if="isWindows">
     <echo message="Came into the Windows target" />
-    <echo file="dist/jcmd.bat" append="false">REM 
+        <echo file="dist/jcmd.bat" append="false">REM 
 java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer %1 2
 "${gov.nih.cit.soccer.rscript}" ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R %2 %3 
-    </echo>
-    <echo file="dist/config.properties" append="false"># Soccer Job Related. 
+        </echo>
+        <echo file="dist/config.properties" append="false"># Soccer Job Related. 
 # How often do you want your cmd execute
 interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
 full_cmd=jcmd.bat
-    </echo>
+        </echo>
     </target>
     <target name="doUnix" if="isUnix">
-    <echo message="Came into the Unix target" />
-    <echo file="${deploy.target.dir}/jcmd.sh" append="false">#!/bin/bash
+        <echo message="Came into the Unix target" />
+        <echo file="dist/jcmd.sh" append="false">#!/bin/bash
 if [ -e "$1" ]
 then
 java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1 2
@@ -117,22 +120,22 @@ ${gov.nih.cit.soccer.rscript} ${tomee.dir}/webapps/soccer/WEB-INF/classes/Soccer
 else
 echo "$1 does not exist!"
 fi
-    </echo>
-    <echo file="dist/config.properties" append="false"># Soccer Job Related. 
+        </echo>
+        <echo file="dist/config.properties" append="false"># Soccer Job Related. 
 # How often do you want your cmd execute
 interval_in_sec=10
 # Make sure your cmd is able to run properly in terminal,and then copy/paste here.
 full_cmd=${deploy.target.dir}/jcmd.sh
-    </echo>
-    <chmod file="${deploy.target.dir}/jcmd.sh" perm="ugo+rx"/>
+        </echo>    
+        <chmod file="dist/jcmd.sh" perm="ugo+rx"/> 
     </target>   
     <target name="doMac" if="isMac">
-    <echo message="*** This ant build does not support Mac yet *** " />    
-    <echo message="*** If you see this message, please stop and consult Help Desk *** " />    
+        <echo message="*** This ant build does not support Mac yet *** " />    
+        <echo message="*** If you see this message, please stop and consult Help Desk *** " />    
     </target> 
     <target name="clean">
         <delete includeEmptyDirs="true" quiet="true" dir="build"/>
         <delete includeEmptyDirs="true" quiet="true" dir="dist"/>
     </target>   
-    <target name="default" depends="clean, deploy"/>
+    <target name="default" depends="clean, dist"/>
 </project>
