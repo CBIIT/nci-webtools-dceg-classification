@@ -96,7 +96,7 @@
 						
 						<p>If you publish results that use SOCcer, please reference:<br> 
 						Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, 
-						Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies. Manuscript in preparation.
+						Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies. Submitted.
                         </p>
                         <p>
                             <a href="#" onclick="activateSoccerTab();">Run SOCcer</a>
@@ -121,14 +121,14 @@
 
                                     <!--SOC system-->                    
                                     <p>
-                                        <label for="socSystem">SOC System:</label>
+                                        <label for="socSystem">SOCcer Model:</label>
                                         <select id="socSystem" disabled="">
-                                            <option value = "one">SOCcer</option>
+                                            <option value = "model118">model v1.0</option>
                                             <option value = "two">SOC System Two</option>
                                             <option value = "three">SOC System Three</option>
                                             <option value = "four">SOC System Four</option>
                                         </select>
-                                        <button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer" data-content="Features: JOB Title, SIC, Job Tasks"></button>
+                                        <button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JOB Title, SIC, Job Tasks"></button>
                                     </p>
 
                                     <button id="fileSubmit" class="btn btn-success" type="submit">Upload</button>
@@ -199,8 +199,9 @@
 
 					<!-- SOCAssign Tab -->
 					<div id="SOCAssignTab" class="tab-pane fade">
-						<p><img src="comingSoon.png" height="70" align="left" alt="Coming Soon"/>SOCAssign is an application to assist expert reviewers confirm or correct job descriptions coded by SOCcer.  SOCAssign will read the results of SOCcer
-						and allow coding of up to 3 choices.  SOCAssign detects the coding system in the results (currently only SOC 2010) and checks that the codes assigned are real codes.</p>
+						<p><img src="comingSoon.png" height="70" align="left" alt="Coming Soon"/>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment.  SOCAssign will read SOCcer ouput.
+						Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. 
+						The codescan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered.  A validation check ensures that only valid SOC-2010 can be entered</p>
 					</div>
 
 					<!-- Resources Tab -->
@@ -222,7 +223,7 @@
                         </p>
                         <blockquote>JobTitle,SIC,JobTask</blockquote>
                         <p>
-                            After the header line are separate row for each job description. The MUST be three comma-separated values on each line. If the job title or task contains a comma, the value must be in quotes or else there will be an error. An example of a valid job description is:
+                            After the header line this is a separate row for each job description. There MUST be three comma-separated values on each line. If the job title or task contains a comma, the value must be in quotes or else there will be an error. An example of a valid job description is:
                             <br/>                    
                         </p>
                         <blockquote>
@@ -242,7 +243,7 @@
                         <p>The SOCcer results are provided in a comma-separated file that contains the row number, job title, SIC, job tasks, and the top ten highest ranked SOC codes, with corresponding SOCcer scores.</p>
                         <table class="table table-striped">
 							<thead>
-								<tr><th>Id</th><th>JobTitle</th><th>SIC</th><th>JobTask</th><th>SOC1</th><th>Prob1</th><th>SOC2</th><th>Prob2</th><th>...</th><th>SOC10</th><th>Prob10</th></tr>
+								<tr><th>Id</th><th>JobTitle</th><th>SIC</th><th>JobTask</th><th>SOC2010_1</th><th>Score_1</th><th>SOC2010_2</th><th>Score_2</th><th>...</th><th>SOC2010_10</th><th>Score_10</th></tr>
 							</thead>
 							<tbody>
 								<tr><td>1</td><td>"Teacher, high school"</td><td> "8211"</td><td> "formulate lesson plans, teach 11th grade match"</td><td>25-2031</td><td>0.979</td><td>25-2032</td><td>0.357</td><td>...</td><td>25-1194</td><td>0.042</td></tr>
@@ -261,7 +262,7 @@
                         
                         <ol>
                             <li>
-                                Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Manuscript in preparation.
+                                Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Submitted.
                             </li>
                             <li>
                                 Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", <i>Proc IEEE Int Symp Comput Based Med Syst 2014</i>
@@ -274,7 +275,7 @@
                     <div id="faqTab" class="tab-pane fade">
 						<dl>
                         	<dt>What can I do to improve the results of SOCcer?</dt>
-                        	<dd>If you have job descriptions that have been coded by an expert coder and you are willing to provide them to us, we will be happy to retrain our models. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
+                        	<dd>To improve SOCcer’s performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
                         	<dt>What about HIPAA concerns?</dt>
                         	<dd>The data input file does not accept identifiers in order to help prevent you from uploading PII; however, we do not screen your data for PII. Please check your input file for PII before you upload you data onto our server.</dd>                        
                         	<dt>What are SOCcer scores?</dt>
