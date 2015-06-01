@@ -120,17 +120,15 @@
                                     <span id="fileMetaDiv" class="help-block"></span>
 
                                     <!--SOC system-->                    
-                                    <p>
+                                    <div class="input-group">
                                         <label for="socSystem">SOCcer Model:</label>
-                                        <select id="socSystem" disabled="">
+                                        <select id="socSystem" disabled>
                                             <option value = "model118">model v1.0</option>
-                                            <option value = "two">SOC System Two</option>
-                                            <option value = "three">SOC System Three</option>
-                                            <option value = "four">SOC System Four</option>
                                         </select>
-                                        <button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JobTitle, SIC, JobTasks"></button>
-                                    </p>
-
+                                        <span class="input-group-btn"><button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JobTitle, SIC, JobTasks"></button>
+                                        </span>
+                                    </div>
+	
                                     <button id="fileSubmit" class="btn btn-success" type="submit">Upload</button>
 
                                 </form>
