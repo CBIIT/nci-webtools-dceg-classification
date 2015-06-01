@@ -159,7 +159,7 @@ $(function () {
             //        +'Estimated processing time: <b>'+obj.estimatedTime+' seconds</b> <br><br>'
             //        + 'We would like you to provide us with your email address, once we finish processing your file, you will get an email notification.');
             $('#resultDiv').empty().append('Your file has been uploaded successfully and is ready for processing. <br><br>'
-                + 'Since it will likely take longer than 30 seconds to process your data, we would like you to provide us with your email address, once we finish processing your file, you will get an email notification.');
+                + 'Since it will likely take longer than 30 seconds to process your data, please provide your email address, and you will get an email notification once the processing is complete.');
             // set inputFileId Field value
             $('#inputFileId').attr('value', obj.inputFileId);
             // Show the email Form and enable if disabled.
