@@ -83,7 +83,7 @@ $(function () {
     });
 
     /*
-     * Bind an event handler to the “submit” JavaScript event, 
+     * Bind an event handler to the â€œsubmitâ€� JavaScript event, 
      * or trigger that event on an element.
      */
     $('#fileForm').submit(function (event) {
@@ -148,15 +148,18 @@ $(function () {
              // Show the calc Form and enable if disabled.
             $('#calcForm').show();
             $('#calcSubmit').removeAttr('disabled');
-            $('#resultDiv').empty().append('Your file has been uploaded successfully.<br>Estimated processing time: <b>'+obj.estimatedTime+' seconds</b>');             
+            //$('#resultDiv').empty().append('Your file has been uploaded successfully.<br>Estimated processing time: <b>'+obj.estimatedTime+' seconds</b>');    
+            $('#resultDiv').empty().append('Your file has been uploaded successfully.');             
         }
         else if (obj.status === 'queue') {
             // Display continue message. 
             $('#resultDiv').removeClass();
             $('#resultDiv').addClass('alert alert-warning');
+            //$('#resultDiv').empty().append('Your file has been uploaded successfully and is ready for processing. <br><br>'
+            //        +'Estimated processing time: <b>'+obj.estimatedTime+' seconds</b> <br><br>'
+            //        + 'We would like you to provide us with your email address, once we finish processing your file, you will get an email notification.');
             $('#resultDiv').empty().append('Your file has been uploaded successfully and is ready for processing. <br><br>'
-                +'Estimated processing time: <b>'+obj.estimatedTime+' seconds</b> <br><br>'
-                + 'We would like you to provide us with your email address, once we finish processing your file, you will get an email notification.');
+                + 'Since it will likely take longer than 30 seconds to process your data, we would like you to provide us with your email address, once we finish processing your file, you will get an email notification.');
             // set inputFileId Field value
             $('#inputFileId').attr('value', obj.inputFileId);
             // Show the email Form and enable if disabled.
@@ -269,7 +272,7 @@ $(function () {
     }
 
     /*
-     * Bind an event handler to the “emailSubmit” JavaScript event, 
+     * Bind an event handler to the â€œemailSubmitâ€� JavaScript event, 
      * or trigger that event on an element.
      */
     $('#emailForm').submit(function (event) {
@@ -326,7 +329,7 @@ $(function () {
     });
 
     /*
-     * Bind an event handler to the “calcSubmit” JavaScript event, 
+     * Bind an event handler to the â€œcalcSubmitâ€� JavaScript event, 
      * or trigger that event on an element.
      */
     $('#calcForm').submit(function (event) {
