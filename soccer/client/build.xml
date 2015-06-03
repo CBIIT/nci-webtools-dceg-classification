@@ -17,6 +17,9 @@
                     <isset property="tomee.dir"/>
                 </not>
                 <not>
+                    <isset property="soccer.dir"/>
+                </not>
+            	<not>
                     <isset property="soccer.remote.web.port"/>
                 </not>
                 <not>
@@ -100,7 +103,7 @@
     <target name="doWindows" if="isWindows">
     <echo message="Came into the Windows target" />
         <echo file="dist/jcmd.bat" append="false">REM 
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer %1 2
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${soccer.dir}/files" gov.nih.cit.soccer.Soccer %1 2
 "${gov.nih.cit.soccer.rscript}" ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R %2 %3 
         </echo>
         <echo file="dist/config.properties" append="false"># Soccer Job Related. 
@@ -115,7 +118,7 @@ full_cmd=jcmd.bat
         <echo file="dist/jcmd.sh" append="false">#!/bin/bash
 if [ -e "$1" ]
 then
-java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${tomee.dir}/webapps/soccer/files" gov.nih.cit.soccer.Soccer $1 2
+java -cp "lib/*" -Dgov.nih.cit.soccer.wordnet.dir="${gov.nih.cit.soccer.wordnet.dir}" -Dgov.nih.cit.soccer.output.dir="${soccer.dir}/files" gov.nih.cit.soccer.Soccer $1 2
 ${gov.nih.cit.soccer.rscript} ${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R $2 $3
 else
 echo "$1 does not exist!"
