@@ -7,7 +7,7 @@
             </not>
         </condition>
     </fail>
-    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dsoccer.remote.web.port=80 -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript -Ddeploy.target.dir=/local/content/soccer deploy">
+    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dsoccer.dir=/local/content/soccer -Dsoccer.remote.web.port=80 -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript -Ddeploy.target.dir=/local/content/soccer deploy">
         <condition>
             <or>
                 <not>
