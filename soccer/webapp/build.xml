@@ -7,7 +7,7 @@
             </not>
         </condition>
     </fail>
-    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript deploy">
+    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -dsoccer.dir=/local/content/soccer -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript deploy">
         <condition>
             <or>
                 <not>
@@ -17,6 +17,9 @@
                     <isset property="tomee.dir"/>
                 </not>
                 <not>
+                    <isset property="soccer.dir"/>
+                </not>
+            	<not>
                     <isset property="gov.nih.cit.soccer.wordnet.dir"/>
                 </not>
                 <not>
@@ -28,8 +31,8 @@
     <target name="pre-init">
         <propertyfile
             file="src/java/applicationQueue.properties" comment="Application properties">
-            <entry  key="gov.nih.nci.queue.repository.dir" value="${tomee.dir}/webapps/soccer/files"/>
-            <entry  key="gov.nih.cit.soccer.output.dir" value="${tomee.dir}/webapps/soccer/files"/>
+            <entry  key="gov.nih.nci.queue.repository.dir" value="${soccer.dir}/files"/>
+            <entry  key="gov.nih.cit.soccer.output.dir" value="${soccer.dir}/files"/>
             <entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>   
             <entry  key="gov.nih.cit.soccer.r.file" value="${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R"/>  
             <entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/> 
