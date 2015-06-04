@@ -279,7 +279,7 @@ public class SoccerJob implements Job {
                 .append(" has been processed. ")
                 .append("\r\nYou can view the result page at: ")
                 .append(accessLinkSB.toString())
-                .append(".  This link will expire two weeks from two day.")
+                .append(".  This link will expire two weeks from today.")
                 .append("\r\n\r\n - SOCcer Team\r\n(Note:  Please do not reply to this email. If you need assistance, please contact NCISOCcerWebAdmin@mail.nih.gov)")
                 .toString();
     }
