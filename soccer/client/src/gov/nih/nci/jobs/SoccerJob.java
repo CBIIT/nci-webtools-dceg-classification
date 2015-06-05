@@ -259,6 +259,7 @@ public class SoccerJob implements Job {
         
         // construct the http link.
         StringBuilder accessLinkSB = new StringBuilder("http://");
+        /*
         if(port.equalsIgnoreCase("80")) {
            accessLinkSB.append(hostname)
                    .append("/index.html?fileid=")
@@ -271,7 +272,12 @@ public class SoccerJob implements Job {
                 .append("/soccer/index.html?fileid=")
                 .append(outputFileId);
         }        
-                
+        */      
+        accessLinkSB.append(hostname)
+        .append(":")
+        .append(port)
+        .append("/soccer/index.html?fileid=")
+        .append(outputFileId);
         return new StringBuilder("\r\nThe file (")
                 .append(originalFileName)
                 .append(") you uploaded on ")
