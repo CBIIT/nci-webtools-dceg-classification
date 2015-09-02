@@ -15,7 +15,6 @@ import java.util.Set;
  * Singleton class to access properties files anywhere in project’s classpath.
  */
 public class PropertiesUtil {
-
     private final static String propertiesFileName = "computingApp.properties";
     private static Properties props;
 
@@ -45,7 +44,7 @@ public class PropertiesUtil {
     public static Properties getProperties() {
         return props;
     }
-    
+
     /**
      * loads properties file from classpath
      *

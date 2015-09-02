@@ -60,8 +60,7 @@ public class SoccerServiceHelper {
 
     // Get number of lines of the input file.
     @SuppressWarnings("empty-statement")
-    public int getNumberLines(File _file)
-            throws IOException {
+    public int getNumberLines(File _file) throws IOException {
         int numLines;
         try (BufferedReader in = new BufferedReader(new FileReader(_file))) {
             in.readLine();

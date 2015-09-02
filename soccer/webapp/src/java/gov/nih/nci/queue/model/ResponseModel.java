@@ -9,8 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ResponseModel implements Serializable {
+	private static final long serialVersionUID = -431743329221980549L;
 
-    private String status;
+	private String status;
     private String estimatedTime;
     private String errorMessage;
     private String fileName;

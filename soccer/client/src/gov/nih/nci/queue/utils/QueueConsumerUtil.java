@@ -27,14 +27,12 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author Yutao
  */
 public class QueueConsumerUtil implements ExceptionListener {
-
     private final static Logger LOGGER = Logger.getLogger(QueueConsumerUtil.class.getCanonicalName());
 
     private String QUEUE_LINK;
     private String QUEUE_NAME;
 
     public QueueModel cousume() {
-
         QueueModel qm = null;
 
         QUEUE_LINK = PropertiesUtil.getProperty("queue.remote.url");
@@ -65,7 +63,7 @@ public class QueueConsumerUtil implements ExceptionListener {
                 TextMessage textMessage = (TextMessage) message;
                 String text = textMessage.getText();
                 LOGGER.log(Level.INFO, "Received: {0}", text);
-                
+
                 // convert it to Object.
                 qm = convertJsonToObject(text);
             }
@@ -74,7 +72,6 @@ public class QueueConsumerUtil implements ExceptionListener {
             consumer.close();
             session.close();
             connection.close();
-
         } catch (JMSException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
         }
@@ -103,5 +100,4 @@ public class QueueConsumerUtil implements ExceptionListener {
         }
         return qm;
     }
-
 }

@@ -12,7 +12,6 @@ import java.util.UUID;
  * @author Yutao
  */
 public class UniqueIdUtil {
-
     private String fileExt;
     
     // Extract the file Extenetion always.
@@ -40,5 +39,4 @@ public class UniqueIdUtil {
     public String getOutputUniqueID() {
         return new StringBuilder("o").append(UUID.randomUUID()).append(fileExt).toString();
     }
-
 }

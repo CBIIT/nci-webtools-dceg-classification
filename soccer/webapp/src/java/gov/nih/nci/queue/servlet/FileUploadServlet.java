@@ -6,23 +6,15 @@
 package gov.nih.nci.queue.servlet;
 
 import gov.nih.nci.queue.model.ResponseModel;
-import gov.nih.nci.queue.utils.MetadataFileUtil;
-import gov.nih.nci.queue.utils.PropertiesUtil;
-import gov.nih.nci.queue.utils.UniqueIdUtil;
-import gov.nih.nci.soccer.InputFileValidator;
-import gov.nih.nci.soccer.SoccerServiceHelper;
+import gov.nih.nci.queue.utils.*;
+import gov.nih.nci.soccer.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 import javax.servlet.annotation.WebServlet;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -32,8 +24,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "fileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
-
-    private final static Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
+	private static final long serialVersionUID = 4863936005391033592L;
+	private static final Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
 
     /**
      * *************************************************

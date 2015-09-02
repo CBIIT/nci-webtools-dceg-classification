@@ -5,18 +5,13 @@
  */
 package gov.nih.nci.queue.servlet;
 
-import gov.nih.nci.queue.model.QueueModel;
-import gov.nih.nci.queue.model.ResponseModel;
+import gov.nih.nci.queue.model.*;
 import gov.nih.nci.queue.utils.PropertiesUtil;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.util.logging.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import gov.nih.nci.queue.utils.QueueProducerUtil;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -30,8 +25,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "FileQueueServlet", urlPatterns = {"/queue"})
 @MultipartConfig
 public class FileQueueServlet extends HttpServlet {
-
-    private final static Logger LOGGER = Logger.getLogger(FileQueueServlet.class.getCanonicalName());
+	private static final long serialVersionUID = 8388204653049285309L;
+	private static final Logger LOGGER = Logger.getLogger(FileQueueServlet.class.getCanonicalName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

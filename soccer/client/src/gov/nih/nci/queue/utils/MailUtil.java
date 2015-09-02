@@ -18,11 +18,10 @@ import javax.mail.internet.MimeMessage;
  * @author wangy21
  */
 public class MailUtil {
-
     public boolean mailTo(String from, String destEmail, String _title, String _message) {
         // Recipient's email ID needs to be mentioned.
-        String to = destEmail; 
-        String host = "mailfwd.nih.gov";           
+        String to = destEmail;
+        String host = "mailfwd.nih.gov";
 
         // Get system properties
         Properties properties = System.getProperties();
@@ -53,7 +52,7 @@ public class MailUtil {
 
             // Send message
             Transport.send(message);
-        } catch (MessagingException mex) {            
+        } catch (MessagingException mex) {
             return false;
         }
         return true;

@@ -13,8 +13,9 @@ import java.io.Serializable;
  * @author wangy21
  */
 public class QueueModel implements Serializable {
+	private static final long serialVersionUID = -4920860875752174246L;
 
-    // InputFile for Processing
+	// InputFile for Processing
     private String fileName;
     // Path to the inputfile.
     private String path;    

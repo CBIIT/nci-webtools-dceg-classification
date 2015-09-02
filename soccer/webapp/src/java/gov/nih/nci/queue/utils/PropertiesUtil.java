@@ -5,11 +5,8 @@
  */
 package gov.nih.nci.queue.utils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 /**
  * Singleton class to access properties files anywhere in project’s classpath.

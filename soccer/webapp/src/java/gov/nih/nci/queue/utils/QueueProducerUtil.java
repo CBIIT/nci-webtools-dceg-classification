@@ -8,29 +8,17 @@ package gov.nih.nci.queue.utils;
 import gov.nih.nci.queue.model.QueueModel;
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.util.logging.*;
+import javax.jms.*;
+import javax.naming.*;
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.*;
 
 /**
  *
  * @author Yutao
  */
 public class QueueProducerUtil {
-
     private final static Logger LOGGER = Logger.getLogger(QueueProducerUtil.class.getCanonicalName());
 
     private Context context;
@@ -81,6 +69,5 @@ public class QueueProducerUtil {
         producer.close();
         session.close();
         connection.close();
-
     }
 }
