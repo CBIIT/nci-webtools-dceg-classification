@@ -25,8 +25,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "FileQueueServlet", urlPatterns = {"/queue"})
 @MultipartConfig
 public class FileQueueServlet extends HttpServlet {
-	private static final long serialVersionUID = 8388204653049285309L;
-	private static final Logger LOGGER = Logger.getLogger(FileQueueServlet.class.getCanonicalName());
+    private static final long serialVersionUID = 8388204653049285309L;
+    private static final Logger LOGGER = Logger.getLogger(FileQueueServlet.class.getCanonicalName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,11 +43,11 @@ public class FileQueueServlet extends HttpServlet {
         qm.setPath(repositoryPath);
         qm.setEmail(emailAddress);
         qm.setOutputDir(outputDir);
-        // Create objects for JSON response.                
+        // Create objects for JSON response.
         ResponseModel rm = new ResponseModel();
         try {
             new QueueProducerUtil().sendToQueue(qm);
-            LOGGER.log(Level.INFO, "File <{0}> has been queued. ", new Object[]{inputFileId});            
+            LOGGER.log(Level.INFO, "File <{0}> has been queued. ", new Object[]{inputFileId});
 
             // all good. Prepare the json output.
             rm.setStatus("pass");

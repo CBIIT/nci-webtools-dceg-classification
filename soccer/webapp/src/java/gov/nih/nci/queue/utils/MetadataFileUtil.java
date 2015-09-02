@@ -13,14 +13,13 @@ import java.util.logging.*;
  * @author wangy21
  */
 public class MetadataFileUtil {
-
     private final static Logger LOGGER = Logger.getLogger(MetadataFileUtil.class.getCanonicalName());
     private final String METADATA_FILE_EXT = ".json";
     private final String metadataFileId;
     private final String metadataFileDir;
 
-    // we will use fileOutputId as the Id to locate the metadata file. 
-    // 
+    // we will use fileOutputId as the Id to locate the metadata file.
+    //
     public MetadataFileUtil(String fileOutputId, String outputDir) {
         metadataFileId = fileOutputId;
         metadataFileDir = outputDir;

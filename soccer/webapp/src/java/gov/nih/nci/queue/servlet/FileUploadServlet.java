@@ -24,8 +24,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "fileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
-	private static final long serialVersionUID = 4863936005391033592L;
-	private static final Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
+    private static final long serialVersionUID = 4863936005391033592L;
+    private static final Logger LOGGER = Logger.getLogger(FileUploadServlet.class.getCanonicalName());
 
     /**
      * *************************************************
@@ -38,15 +38,14 @@ public class FileUploadServlet extends HttpServlet {
      * **************************************************
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Create an object for JSON response.   
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Create an object for JSON response.
         ResponseModel rm = new ResponseModel();
         // Set response type to json
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
-                
-        // Get property values.        
+
+        // Get property values.
         // SOCcer related.
         final Double estimatedThreshhold = Double.valueOf(PropertiesUtil.getProperty("gov.nih.nci.soccer.computing.time.threshhold").trim());
         // FileUpload Settings.
@@ -66,8 +65,8 @@ public class FileUploadServlet extends HttpServlet {
             DiskFileItemFactory factory = new DiskFileItemFactory();
 
             // Set factory constraints
-//                factory.setSizeThreshold(yourMaxMemorySize);
-            // Configure a repository 
+            // factory.setSizeThreshold(yourMaxMemorySize);
+            // Configure a repository
             factory.setRepository(new File(repositoryPath));
 
             // Create a new file upload handler
@@ -83,13 +82,13 @@ public class FileUploadServlet extends HttpServlet {
                 while (iter.hasNext()) {
                     FileItem item = iter.next();
 
-                    if (!item.isFormField()) { // Handle file field.                              
+                    if (!item.isFormField()) { // Handle file field.
                         String fileName = item.getName();
                         rm.setFileName(fileName);
                         String contentType = item.getContentType();
                         rm.setFileType(contentType);
                         long sizeInBytes = item.getSize();
-                        rm.setFileSize(String.valueOf(sizeInBytes));                        
+                        rm.setFileSize(String.valueOf(sizeInBytes));
 
                         String inputFileId = new UniqueIdUtil(fileName).getInputUniqueID();
                         rm.setInputFileId(inputFileId);
@@ -100,7 +99,7 @@ public class FileUploadServlet extends HttpServlet {
                         File inputFile = new File(absoluteInputFileName);
                         item.write(inputFile);
 
-                        // Validation.                        
+                        // Validation.
                         InputFileValidator validator = new InputFileValidator();
                         List<String> validationErrors = validator.validateFile(inputFile);
 
@@ -111,25 +110,21 @@ public class FileUploadServlet extends HttpServlet {
                             rm.setEstimatedTime(String.valueOf(estimatedTime));
                             if (estimatedTime > estimatedThreshhold) { // STATUS: QUEUE (Ask client for email)
                                 // Construct Response String in JSON format.
-                                rm.setStatus("queue");  
+                                rm.setStatus("queue");
                             } else { // STATUS: PASS (Ask client to confirm calculate)
                                 // all good. Process the output and Go to result page directly.
-                                rm.setStatus("pass");                                  
+                                rm.setStatus("pass");
                             }
-                        } else {  // STATUS: FAIL // Did not pass validation. 
+                        } else {  // STATUS: FAIL // Did not pass validation.
                             // Construct Response String in JSON format.
                             rm.setStatus("invalid");
                             rm.setDetails(validationErrors);
                         }
-                    } else { // TODO: Handel Form Fields such as SOC_SYSTEM.
-
-                        /* // Place Holder
-                         String name = item.getFieldName();
-                         String value = item.getString();
-                         */
+                    } else {
+                        // TODO: Handle Form Fields such as SOC_SYSTEM.
                     } // End of isFormField
                 }
-            } catch (Exception e) {  
+            } catch (Exception e) {
                 LOGGER.log(Level.SEVERE, "FileUploadException or FileNotFoundException. Error Message: {0}", new Object[]{e.getMessage()});
                 rm.setStatus("fail");
                 rm.setErrorMessage("Oops! We met with problems when uploading your file. Error Message: " + e.getMessage());
@@ -140,7 +135,7 @@ public class FileUploadServlet extends HttpServlet {
             LOGGER.log(Level.INFO, "Response: {0}", new Object[]{jsonMapper.writeValueAsString(rm)});
             // Generate metadata file
             new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(jsonMapper.writeValueAsString(rm));
-            // Responde to the client. 
+            // Responde to the client.
             writer.print(jsonMapper.writeValueAsString(rm));
 
         } else { // The request is NOT actually a file upload request

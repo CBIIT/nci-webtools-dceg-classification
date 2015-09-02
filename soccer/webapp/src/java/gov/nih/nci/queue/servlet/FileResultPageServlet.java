@@ -19,8 +19,8 @@ import javax.servlet.http.*;
  */
 @WebServlet(name = "FileResultPageServlet", urlPatterns = {"/resultpage"})
 public class FileResultPageServlet extends HttpServlet {
-	private static final long serialVersionUID = -5840809121389389940L;
-	private static final Logger LOGGER = Logger.getLogger(FileResultPageServlet.class.getCanonicalName());
+    private static final long serialVersionUID = -5840809121389389940L;
+    private static final Logger LOGGER = Logger.getLogger(FileResultPageServlet.class.getCanonicalName());
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -32,8 +32,7 @@ public class FileResultPageServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get Property value.
         String path = PropertiesUtil.getProperty("gov.nih.nci.queue.repository.dir");
         LOGGER.log(Level.INFO, "Get information from properties file: gov.nih.cit.soccer.input.dir={0}", path);

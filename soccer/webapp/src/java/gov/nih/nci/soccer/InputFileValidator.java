@@ -18,18 +18,17 @@ import java.util.logging.*;
  * @author wangy21
  */
 public class InputFileValidator {
-
     private final static Logger LOGGER = Logger.getLogger(InputFileValidator.class.getCanonicalName());
     private final Soccer soc = new Soccer();
 
     /*
      * Validate the file uploaded.
      * Check format etc.
-     * @return String : null means no validation error. 
-     * 
+     * @return String : null means no validation error.
+     *
      */
     public List<String> validateFile(File _file) {
-        // Invoke Soccer object to validate file.         
+        // Invoke Soccer object to validate file.
         ArrayList<String> validationErrors = null;
 
         try {
@@ -46,5 +45,4 @@ public class InputFileValidator {
 
         return validationErrors;
     }
-
 }

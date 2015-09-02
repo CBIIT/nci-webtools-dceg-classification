@@ -26,7 +26,7 @@ public class SoccerRHelper {
 
     /*
      * soccerResultFileId: "o5b659690-f611-4d17-9809-16a3bbea0ba6.csv";
-    */
+     */
     public boolean generatePlotImg(String soccerResultFileId) {
         String sOutputFile = outputDir  + File.separator +  soccerResultFileId;
         String sPlotOutputImgFile = outputDir  + File.separator + soccerResultFileId + ".png";
@@ -49,7 +49,7 @@ public class SoccerRHelper {
         return ExeCommand(commandFull);
     }
 
-        /*
+    /*
      * Execute shell command.
      */
     private boolean ExeCommand(String cmd) {

@@ -12,7 +12,6 @@ rm(args)
 soccerResultPlot<-function(soccerResultsFile, plotOutputImgFile, breaks=seq(-0.005,1.005,0.01),...){
   png(plotOutputImgFile);
 
-
   opar<-par(no.readonly=T);
   soccerResults<-read.csv(soccerResultsFile,stringsAsFactor=F)
   tie<-(soccerResults$Score_1 == soccerResults$Score_2);

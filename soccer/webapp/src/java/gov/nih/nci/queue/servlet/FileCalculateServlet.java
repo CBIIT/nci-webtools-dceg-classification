@@ -23,12 +23,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "fileCalculateServlet", urlPatterns = {"/calc"})
 @MultipartConfig
 public class FileCalculateServlet extends HttpServlet {
-	private static final long serialVersionUID = 1736940320783327251L;
-	private static final Logger LOGGER = Logger.getLogger(FileCalculateServlet.class.getCanonicalName());
+    private static final long serialVersionUID = 1736940320783327251L;
+    private static final Logger LOGGER = Logger.getLogger(FileCalculateServlet.class.getCanonicalName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Set response type to json        
+        // Set response type to json
         PrintWriter writer = response.getWriter();
 
         // Get parameters.
@@ -46,7 +46,7 @@ public class FileCalculateServlet extends HttpServlet {
         String absoluteInputFileName = repositoryPath + File.separator + inputFileId;
         LOGGER.log(Level.INFO, "AbsoluteInputFileName: {0}, output.dir: {1}", new Object[]{absoluteInputFileName, strOutputDir});
 
-        // Process the file. 
+        // Process the file.
         LOGGER.log(Level.INFO, "Start processing input file <{0}>.", new Object[]{absoluteInputFileName});
         // all good. Prepare the json output.
         ResponseModel rm = new ResponseModel();
@@ -55,7 +55,7 @@ public class FileCalculateServlet extends HttpServlet {
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);
             ssh.ProcessingFile(new File(absoluteInputFileName), new File(absoluteOutputFileName));
-           
+
             SoccerRHelper srh = new SoccerRHelper(repositoryPath);
             if(srh.generatePlotImg(outputFileId)) {
                 // all good. Prepare the json output.
@@ -66,7 +66,6 @@ public class FileCalculateServlet extends HttpServlet {
                 rm.setStatus("fail");
                 LOGGER.log(Level.SEVERE, "R function failed. Error Message: {0}.png does not exist!", absoluteOutputFileName);
             }
-
         } catch (IOException | SOCcerException e) {
             rm.setStatus("fail");
             rm.setErrorMessage(e.getMessage());

@@ -9,9 +9,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ResponseModel implements Serializable {
-	private static final long serialVersionUID = -431743329221980549L;
+    private static final long serialVersionUID = -431743329221980549L;
 
-	private String status;
+    private String status;
     private String estimatedTime;
     private String errorMessage;
     private String fileName;
@@ -19,8 +19,8 @@ public class ResponseModel implements Serializable {
     private String fileSize;
     private String inputFileId;
     private String outputFileId;
-    private String repositoryPath;    
-    private String emailAddress;     
+    private String repositoryPath;
+    private String emailAddress;
     private List<String> details;
 
     public String getStatus() {
@@ -110,7 +110,4 @@ public class ResponseModel implements Serializable {
     public void setDetails(List<String> details) {
         this.details = details;
     }
-
-    
-    
 }

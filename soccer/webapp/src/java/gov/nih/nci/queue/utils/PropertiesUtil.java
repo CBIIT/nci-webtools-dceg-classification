@@ -12,7 +12,6 @@ import java.util.*;
  * Singleton class to access properties files anywhere in project’s classpath.
  */
 public class PropertiesUtil {
-
     private final static String propertiesFileName = "applicationQueue.properties";
     private static Properties props;
 
@@ -42,7 +41,7 @@ public class PropertiesUtil {
     public static Properties getProperties() {
         return props;
     }
-    
+
     /**
      * loads properties file from classpath
      *
@@ -50,13 +49,11 @@ public class PropertiesUtil {
      * @return Properties
      * @throws IOException
      */
-    private Properties getPropertiesFromClasspath(String propFileName)
-            throws IOException {
+    private Properties getPropertiesFromClasspath(String propFileName) throws IOException {
         Properties localProps = new Properties();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(propFileName)) {
             if (inputStream == null) {
-                throw new FileNotFoundException("property file '" + propFileName
-                        + "' not found in the classpath");
+                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
             localProps.load(inputStream);
         }

@@ -24,7 +24,7 @@ public class QueueProducerUtil {
     private Context context;
     private Queue fileQueue;
     private ConnectionFactory connectionFactory;
-    
+
     private final String CONNECTION_FACTORY_JNDI;
     private final String QUEUE_JNDI;
     public QueueProducerUtil() {
