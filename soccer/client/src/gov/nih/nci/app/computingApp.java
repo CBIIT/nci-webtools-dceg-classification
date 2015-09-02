@@ -23,9 +23,8 @@ import org.quartz.impl.StdSchedulerFactory;
  * @author wangy21
  */
 public class computingApp {
-
     private static final Logger LOGGER = Logger.getLogger(computingApp.class.getCanonicalName());
-    
+
     /**
      * @param args the command line arguments
      */
@@ -39,7 +38,7 @@ public class computingApp {
             prop.load(new FileInputStream(propertiesFileName));
             String fullCmd = prop.getProperty("full_cmd");
             String intervalInSec = prop.getProperty("interval_in_sec");
-            
+
             LOGGER.info(new StringBuilder("Request to run <")
                     .append(fullCmd).append("> every <").append(intervalInSec)
                     .append("> seconds.").toString());
@@ -71,5 +70,4 @@ public class computingApp {
             System.exit(-1);
         }
     }
-
 }

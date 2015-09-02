@@ -8,13 +8,14 @@ package gov.nih.nci.queue.model;
 import java.io.Serializable;
 
 /**
- * The unit added in queue. 
- * 
+ * The unit added in queue.
+ *
  * @author wangy21
  */
 public class QueueModel implements Serializable {
+	private static final long serialVersionUID = 8817617253901333702L;
 
-    private String fileName;
+	private String fileName;
     private String path;
     private String email;
     private String timeStamp;
@@ -58,7 +59,7 @@ public class QueueModel implements Serializable {
 
     public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
-    } 
+    }
 
     @Override
     public String toString() {
@@ -70,6 +71,4 @@ public class QueueModel implements Serializable {
                     .append("\r\nTimeStamp: ").append(timeStamp)
                     .toString();
     }
-    
-   
 }

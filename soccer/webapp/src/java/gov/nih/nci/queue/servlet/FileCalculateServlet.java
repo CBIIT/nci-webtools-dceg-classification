@@ -7,15 +7,11 @@ package gov.nih.nci.queue.servlet;
 
 import gov.nih.cit.soccer.input.SOCcerException;
 import gov.nih.nci.queue.model.ResponseModel;
-import gov.nih.nci.queue.utils.PropertiesUtil;
-import gov.nih.nci.soccer.SoccerServiceHelper;
-import gov.nih.nci.queue.utils.UniqueIdUtil;
-import gov.nih.nci.soccer.SoccerRHelper;
+import gov.nih.nci.queue.utils.*;
+import gov.nih.nci.soccer.*;
 import java.io.IOException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.logging.Level;
@@ -27,8 +23,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 @WebServlet(name = "fileCalculateServlet", urlPatterns = {"/calc"})
 @MultipartConfig
 public class FileCalculateServlet extends HttpServlet {
-
-    private final static Logger LOGGER = Logger.getLogger(FileCalculateServlet.class.getCanonicalName());
+	private static final long serialVersionUID = 1736940320783327251L;
+	private static final Logger LOGGER = Logger.getLogger(FileCalculateServlet.class.getCanonicalName());
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,13 +57,12 @@ public class FileCalculateServlet extends HttpServlet {
             ssh.ProcessingFile(new File(absoluteInputFileName), new File(absoluteOutputFileName));
            
             SoccerRHelper srh = new SoccerRHelper(repositoryPath);
-            if(srh.generatePlotImg(outputFileId)) {            
+            if(srh.generatePlotImg(outputFileId)) {
                 // all good. Prepare the json output.
                 LOGGER.log(Level.INFO, "The output file <{0}> has been generated successfully.", absoluteOutputFileName);
                 rm.setStatus("pass");
                 rm.setOutputFileId(outputFileId);
-            }
-            else {
+            } else {
                 rm.setStatus("fail");
                 LOGGER.log(Level.SEVERE, "R function failed. Error Message: {0}.png does not exist!", absoluteOutputFileName);
             }

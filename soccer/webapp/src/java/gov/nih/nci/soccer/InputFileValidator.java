@@ -7,13 +7,9 @@ package gov.nih.nci.soccer;
 
 import gov.nih.cit.soccer.Soccer;
 import gov.nih.cit.soccer.input.InputFormatException;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 
 /**
  * This Class will invoke existing codes to validate File uploaded to make sure
