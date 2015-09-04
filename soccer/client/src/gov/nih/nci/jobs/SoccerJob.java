@@ -6,27 +6,13 @@
 package gov.nih.nci.jobs;
 
 import gov.nih.nci.queue.model.QueueModel;
-import gov.nih.nci.queue.utils.MailUtil;
-import gov.nih.nci.queue.utils.MetadataFileUtil;
-import gov.nih.nci.queue.utils.PropertiesUtil;
-import gov.nih.nci.queue.utils.QueueConsumerUtil;
-import gov.nih.nci.queue.utils.UniqueIdUtil;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import gov.nih.nci.queue.utils.*;
+import java.io.*;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
 
 /**
  *
@@ -41,7 +27,6 @@ public class SoccerJob implements Job {
     @Override
     @SuppressWarnings("empty-statement")
     public void execute(JobExecutionContext context) throws JobExecutionException {
-
         // Get data passed in.
         JobDataMap data = context.getJobDetail().getJobDataMap();
         String cmd = (String) data.getString("cmd");
@@ -153,8 +138,8 @@ public class SoccerJob implements Job {
     /*
      * Get original file name
      * fileName: {fileName: blabla.csv ...}
-     * path:     {...; path: blabal; ...}
-    */
+     * path: {...; path: blabal; ...}
+     */
     private String getOriginalFileName(String fileName, String path) {
         String retString = "";
 
@@ -224,8 +209,7 @@ public class SoccerJob implements Job {
 
     // Get numbers of lines of a file
     @SuppressWarnings("empty-statement")
-    private int getNumberLines(File file) throws IOException
-    {
+    private int getNumberLines(File file) throws IOException {
         int numLines;
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             in.readLine(); // Ignore the first line.
@@ -258,10 +242,10 @@ public class SoccerJob implements Job {
         // construct the http link.
         StringBuilder accessLinkSB = new StringBuilder("http://");
         accessLinkSB.append(hostname)
-        .append(":")
-        .append(port)
-        .append("/soccer/index.html?fileid=")
-        .append(outputFileId);
+                .append(":")
+                .append(port)
+                .append("/soccer/index.html?fileid=")
+                .append(outputFileId);
         return new StringBuilder("\r\nThe file (")
                 .append(originalFileName)
                 .append(") you uploaded on ")

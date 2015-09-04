@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="soccer" default="default" basedir=".">    
+<project name="soccer" default="default" basedir=".">
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
             <not>
@@ -19,13 +19,13 @@
                 <not>
                     <isset property="soccer.dir"/>
                 </not>
-            	<not>
+                <not>
                     <isset property="gov.nih.cit.soccer.wordnet.dir"/>
                 </not>
                 <not>
                     <isset property="gov.nih.cit.soccer.rscript"/>
                 </not>
-            </or>            
+            </or>
         </condition>
     </fail>
     <target name="pre-init">
@@ -33,17 +33,17 @@
             file="src/java/applicationQueue.properties" comment="Application properties">
             <entry  key="gov.nih.nci.queue.repository.dir" value="${soccer.dir}/files"/>
             <entry  key="gov.nih.cit.soccer.output.dir" value="${soccer.dir}/files"/>
-            <entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>   
-            <entry  key="gov.nih.cit.soccer.r.file" value="${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R"/>  
-            <entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/> 
+            <entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>
+            <entry  key="gov.nih.cit.soccer.r.file" value="${tomee.dir}/webapps/soccer/WEB-INF/classes/SoccerResultPlot.R"/>
+            <entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/>
             <entry  key="resource.queue.connectionfactory" value="TomiJmsConnectionFactory"/>
             <entry  key="resource.queue.name" value="soccerqueue"/>
         </propertyfile>
     </target>
     <target name="init" depends="pre-init">
         <mkdir dir="build/classes"/>
-        <mkdir dir="dist" />
-    </target>    
+        <mkdir dir="dist"/>
+    </target>
     <target name="setting" depends="init">
         <echoxml file="dist/tomee.xml">
             <tomee>
@@ -59,48 +59,52 @@
                 <Container id="TomiJmsMdbContainer" ctype="MESSAGE">
                     ResourceAdapter = TomiJmsResourceAdapter
                 </Container>
-                
+
                 <Resource id="soccerqueue" type="javax.jms.Queue"/>
                 <Resource id="jpsurvqueue" type="javax.jms.Queue"/>
                 <Resource id="TomiTopic" type="javax.jms.Topic"/>
             </tomee>
         </echoxml>
-    </target>    
+    </target>
     <path id="compile.classpath">
         <fileset dir="web/WEB-INF/lib">
             <include name="*.jar"/>
         </fileset>
         <fileset dir="lib">
-            <include name="*.jar"/>    
+            <include name="*.jar"/>
             <!--Solve the warning: Supported source version 'RELEASE_6' from annotation processor 'org.apache.openjpa.persistence.meta.AnnotationProcessor6' less than -source '1.7'-->
-            <exclude name="openjpa-2.4.0-nonfinal-1598334.jar"/>        
+            <exclude name="openjpa-2.4.0-nonfinal-1598334.jar"/>
+        </fileset>
+        <fileset dir="../shared">
+            <include name="*.jar"/>
         </fileset>
     </path>
-    <target name="compile" depends="init" >
+    <target name="compile" depends="init">
         <javac srcdir="src/java"
-               destdir="build/classes"  
-               debug="false" 
-               includeantruntime="false" 
-               source="1.7"
-               target="1.7"
-               encoding="utf-8">
+                destdir="build/classes"
+                debug="false"
+                includeantruntime="false"
+                source="1.7"
+                target="1.7"
+                encoding="utf-8">
             <classpath refid="compile.classpath"/>
         </javac>
         <copy file="src/java/applicationQueue.properties" todir="build/classes"/>
-		<copy file="src/SoccerResultPlot.R" todir="build/classes"/>
+        <copy file="src/SoccerResultPlot.R" todir="build/classes"/>
     </target>
-    <target name="war" depends="compile" >
+    <target name="war" depends="compile">
         <war needxmlfile="false"
-             destfile="dist/${ant.project.name}.war">
+                destfile="dist/${ant.project.name}.war">
             <fileset dir="web"/>
             <lib dir="web/WEB-INF/lib"/>
+            <lib dir="../shared"/>
             <classes dir="build/classes"/>
         </war>
     </target>
     <target name="clean">
         <delete includeEmptyDirs="true" quiet="true" dir="build"/>
         <delete includeEmptyDirs="true" quiet="true" dir="dist"/>
-    </target>   
+    </target>
     <target name="deploy" depends="clean, setting, war">
         <copy file="dist/${ant.project.name}.war" todir="${tomee.dir}/webapps"/>
         <copy file="dist/tomee.xml" todir="${tomee.dir}/conf"/>

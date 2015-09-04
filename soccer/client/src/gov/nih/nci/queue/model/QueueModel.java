@@ -13,9 +13,9 @@ import java.io.Serializable;
  * @author wangy21
  */
 public class QueueModel implements Serializable {
-	private static final long serialVersionUID = 8817617253901333702L;
+    private static final long serialVersionUID = 8817617253901333702L;
 
-	private String fileName;
+    private String fileName;
     private String path;
     private String email;
     private String timeStamp;

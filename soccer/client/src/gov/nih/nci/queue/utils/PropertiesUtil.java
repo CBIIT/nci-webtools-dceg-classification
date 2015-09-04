@@ -57,8 +57,7 @@ public class PropertiesUtil {
         Properties localProps = new Properties();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(propFileName)) {
             if (inputStream == null) {
-                throw new FileNotFoundException("property file '" + propFileName
-                        + "' not found in the classpath");
+                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
             localProps.load(inputStream);
         }

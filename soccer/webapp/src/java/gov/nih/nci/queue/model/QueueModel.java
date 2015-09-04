@@ -8,19 +8,19 @@ package gov.nih.nci.queue.model;
 import java.io.Serializable;
 
 /**
- * The unit added in queue. 
- * 
+ * The unit added in queue.
+ *
  * @author wangy21
  */
 public class QueueModel implements Serializable {
-	private static final long serialVersionUID = -4920860875752174246L;
+    private static final long serialVersionUID = -4920860875752174246L;
 
-	// InputFile for Processing
+    // InputFile for Processing
     private String fileName;
     // Path to the inputfile.
-    private String path;    
+    private String path;
     // Where to save the output file.
-    private String outputDir;   
+    private String outputDir;
     private String email;
     private String timeStamp;
 
@@ -62,6 +62,5 @@ public class QueueModel implements Serializable {
 
     public void setOutputDir(String outputDir) {
         this.outputDir = outputDir;
-    } 
-    
+    }
 }
