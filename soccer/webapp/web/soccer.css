@@ -121,31 +121,26 @@ label {
     margin-bottom: 5px; 
     height: 90px;
 }
-
-#portal-footer {
-    line-height: 1.2em;
-    margin: 2em 0em 1em 0em;
-    padding: 1em 0em 1em 0em;
-    text-align: center;
-    background-color: #FFF;
-    color: #333333;
-    font-size: 79%;
+footer {
+  text-align: center;
+  background: #363636;
+  color: #F4F3F3;
+  margin: auto;
+  padding: 80px 30px;
 }
-
-#portal-footer a {
-    text-decoration: none;
-    color: #333333;
-    border: none;
+footer ul {
+  margin: 0;
+  padding: 0;
 }
-
-#portal-footer a:visited {
-    color: #333333;
+footer .sitelinks {
+  margin: 5px;
+  padding: 5px;
 }
-
-#portal-footer a:hover {
-    text-decoration: underline;
+footer li {
+  display: inline-block;
 }
-
-.footerLinks {
-    padding: .5em 0em 0em 0em;
+footer a {
+  text-decoration: none;
+  color: #F4F3F3;
+  margin: 0 7px;
 }
