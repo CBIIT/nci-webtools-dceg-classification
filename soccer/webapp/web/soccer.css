@@ -116,32 +116,10 @@ label {
 }
 
 /*style.css*/
-#logos {
-    height: 43px;
-    background-color: #A90101;
-}
-
-#logos #left {
-    float: left;
-}
-
-#logos #right {
-    height: 43px;
-    float: right;
-}
-
 #banners {
     margin-top: 10px;
     margin-bottom: 5px; 
     height: 90px;
-}
-
-#banners #left {
-    float: left;
-}
-
-#banners #right {      
-    float: right;
 }
 
 #portal-footer {
