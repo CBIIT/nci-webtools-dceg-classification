@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+" codebase="@url@/soccer/" href="soccerassign/SOCAssign.jnlp">
+    <information>
+           <title>SOCAssign</title>
+           <vendor>NCI CBIIT</vendor>
+           <homepage href="@url@/" />
+           <description>SOCAssign Application</description>
+    </information>
+    <security>
+           <all-permissions/>
+    </security>
+    <resources>
+          <j2se version="1.7+" />
+          <jar href="soccerassign/SOCAssign.jar" />
+    </resources>
+    <application-desc main-class="gov.nih.cit.socassign.SOCAssign" />
+</jnlp>
