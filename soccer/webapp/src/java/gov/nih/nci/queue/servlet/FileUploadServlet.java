@@ -66,7 +66,11 @@ public class FileUploadServlet extends HttpServlet {
 
 			//upload file dirctory. If it does not exist, create one.
 			File f = new File(repositoryPath);
+<<<<<<< HEAD
 			if(!f.exists()){
+=======
+			if(! f.exist()){
+>>>>>>> cabe6b0fec8fd7be0bc6fadb5801bbcabf5261a9
 				f.mkdir();
 			}
             // Set factory constraints
