@@ -93,7 +93,7 @@
         <copy file="src/SoccerResultPlot.R" todir="build/classes"/>
         <antcall target="generateJNLP"/>
     </target>
-    <target name="war" depends="url_exist,compile">
+    <target name="war" depends="compile">
         <war needxmlfile="false"
                 destfile="dist/${ant.project.name}.war">
             <fileset dir="web"/>
@@ -111,10 +111,4 @@
         <copy file="dist/tomee.xml" todir="${tomee.dir}/conf"/>
     </target>
     <target name="default" depends="clean, war, setting"/>
-    <target name="url_exist" unless="url">
-          <fail> URL is not set, stop</fail>
-    </target>
-    <target name="generateJNLP">
-    	<replace file="SOCAssign.jnlp" token="@url@" value="${url}"/>
-    </target>
 </project>
