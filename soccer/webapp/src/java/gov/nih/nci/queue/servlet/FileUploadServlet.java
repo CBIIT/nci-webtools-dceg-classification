@@ -64,6 +64,11 @@ public class FileUploadServlet extends HttpServlet {
             // Create a factory for disk-based file items
             DiskFileItemFactory factory = new DiskFileItemFactory();
 
+			//upload file dirctory. If it does not exist, create one.
+			File f = new File(repositoryPath);
+			if(!f.exists()){
+				f.mkdir();
+			}
             // Set factory constraints
             // factory.setSizeThreshold(yourMaxMemorySize);
             // Configure a repository
