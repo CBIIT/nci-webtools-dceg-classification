@@ -91,7 +91,6 @@
         </javac>
         <copy file="src/java/applicationQueue.properties" todir="build/classes"/>
         <copy file="src/SoccerResultPlot.R" todir="build/classes"/>
-        <antcall target="generateJNLP"/>
     </target>
     <target name="war" depends="compile">
         <war needxmlfile="false"
