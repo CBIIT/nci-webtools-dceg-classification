@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Soccer</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -20,13 +20,13 @@
             <div id="banners" class="row">
                     <div class="col-sm-4">
                         <a href="http://cit.nih.gov/" target="_blank">
-                            <img src="CnIiTh_logo_t.png" height="78"
+                            <img src="CnIiTh_logo_t.png" alt="NIH Logo" height="78"
                          alt="NIH - Center for Information Technology"
                          title="NIH - Center for Information Technology"></a>
                     </div>
                     <div class="col-sm-3" align="right">
                         <a href="/" target="_blank">
-                        <img src="SOCcer_logo.png" height="80"
+                        <img src="SOCcer_logo.png" alt="SCOcer Logo" height="80"
                          alt="Standardized Occupation Coding for Computer-assisted Epidemiologic Research"
                          title="Standardized Occupation Coding for Computer-assisted Epidemiologic Research"></a></div>
 
@@ -105,11 +105,11 @@
                                         <select id="socSystem" disabled>
                                             <option value = "model118">model v1.0</option>
                                         </select>
-                                        <span class="input-group-btn"><button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JobTitle, SIC, JobTasks"></button>
+                                        <span class="input-group-btn"><button type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JobTitle, SIC, JobTasks" value=""></button>
                                         </span>
                                     </div>
 
-                                    <button id="fileSubmit" class="btn btn-success" type="submit">Upload</button>
+                                    <button id="fileSubmit" class="btn btn-success" type="submit" value="Upload"/>
 
                                 </form>
 
@@ -125,8 +125,8 @@
 
                                 <!-- Calculate Form -->
                                 <form id="calcForm" action="calc" method="post">
-                                    <button id="calcSubmit" class="btn btn-success" type="submit">Calculate</button>
-                                    <button id="cancelCalc" class="btn btn-success" type="reset">Cancel</button>
+                                    <button id="calcSubmit" class="btn btn-success" type="submit" value="Calculate"/>
+                                    <button id="cancelCalc" class="btn btn-success" type="reset" value="Cancel"/>
                                 </form>
 
                                 <!-- Email Form -->
@@ -136,8 +136,8 @@
                                         <label for="emailAddress">Email</label>
                                         <input type="email" id="emailAddress" name="emailAddress" placeholder="Your email here" required>
                                         <span class="help-block"></span>
-                                        <button id="emailSubmit" class="btn btn-success" type="submit">Submit</button>
-                                        <button id="cancelSubmit" class="btn btn-success" type="reset">Cancel</button>
+                                        <button id="emailSubmit" class="btn btn-success" type="submit" value="Submit"/>
+                                        <button id="cancelSubmit" class="btn btn-success" type="reset" value="Cancel"/>
                                     </fieldset>
                                 </form>
 
@@ -221,8 +221,9 @@
                 <tbody>
                   <tr><td>1</td><td>"Teacher, high school"</td><td> "8211"</td><td> "formulate lesson plans, teach 11th grade match"</td><td>25-2031</td><td>0.979</td><td>25-2032</td><td>0.357</td><td>...</td><td>25-1194</td><td>0.042</td></tr>
                   <tr><td>2</td><td>"Java Developer"</td><td>"7371"</td><td>"Develop use cases, write computer software in java"</td><td>15-1131</td><td>0.959</td><td>15-1132</td><td>0.717</td><td>...</td><td>11-2031</td><td>0.034</td></tr>
-                </tbody>
-                <caption align="bottom"><small>NOTE: SOC3 through SOC9 were omitted and scores were rounded for display purposes.</small></caption>
+
+                <tr><td colspn="11"><small>NOTE: SOC3 through SOC9 were omitted and scores were rounded for display purposes.</small></td></tr>
+				</tbody>
               </table>
               <p>
                   If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCISOCcerWebAdmin@mail.nih.gov</a><br/>
@@ -253,7 +254,7 @@
             </div>
             <div class="alert alert-info">Site is currently under section 508 review. This site is undergoing remediation for compliance with Section 508. In the interim, should you require any accessibility assistance with any content, please contact us at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov?subject=Soccer Tool 508">NCISOCcerWebAdmin@mail.nih.gov</a>. Thank you! </div>
         </div>
-     
+
         <footer class="container footer">
           <div class="center-block">
             <ul class="list-inline">
