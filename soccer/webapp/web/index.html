@@ -105,11 +105,11 @@
                                         <select id="socSystem" disabled>
                                             <option value = "model118">model v1.0</option>
                                         </select>
-
+                                        <span class="input-group-btn"><input type="button" id="btnInfo" data-toggle="popover" data-trigger="focus" title="MODEL: SOCcer Model v1.0" data-content="Features: JobTitle, SIC, JobTasks" value=""/>
                                         </span>
                                     </div>
 
-                                    <button id="fileSubmit" class="btn btn-success" type="submit" value="Upload"/>
+                                    <input type id="fileSubmit" class="btn btn-success" type="submit" value="Upload"/>
 
                                 </form>
 
@@ -125,8 +125,8 @@
 
                                 <!-- Calculate Form -->
                                 <form id="calcForm" action="calc" method="post">
-                                    <button id="calcSubmit" class="btn btn-success" type="submit" value="Calculate"/>
-                                    <button id="cancelCalc" class="btn btn-success" type="reset" value="Cancel"/>
+                                    <input type="button" id="calcSubmit" class="btn btn-success" type="submit" value="Calculate"/>
+                                    <input type="button" id="cancelCalc" class="btn btn-success" type="reset" value="Cancel"/>
                                 </form>
 
                                 <!-- Email Form -->
@@ -136,8 +136,8 @@
                                         <label for="emailAddress">Email</label>
                                         <input type="email" id="emailAddress" name="emailAddress" placeholder="Your email here" required>
                                         <span class="help-block"></span>
-                                        <button id="emailSubmit" class="btn btn-success" type="submit" value="Submit"/>
-                                        <button id="cancelSubmit" class="btn btn-success" type="reset" value="Cancel"/>
+                                        <input type="button" id="emailSubmit" class="btn btn-success" type="submit" value="Submit"/>
+                                        <input type="button" id="cancelSubmit" class="btn btn-success" type="reset" value="Cancel"/>
                                     </fieldset>
                                 </form>
 
