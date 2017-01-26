@@ -7,7 +7,7 @@
             </not>
         </condition>
     </fail>
-    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dsoccer.dir=/local/content/soccer -Dsoccer.remote.web.port=80 -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript -Ddeploy.target.dir=/local/content/soccer deploy">
+    <fail message="[Usage:] ant -Dsoccer.domain.name=soccer-dev.nci.nih.gov -Dtomee.dir=/local/content/tomee -Dsoccer.dir=/local/content/soccer -Dsoccer.remote.web.port=80 -Dgov.nih.cit.soccer.wordnet.dir=/local/content/soccer/dict -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript -Ddeploy.target.dir=/local/content/soccer -DqueuePort=61616 deploy">
         <condition>
             <or>
                 <not>
@@ -31,6 +31,9 @@
                 <not>
                     <isset property="deploy.target.dir"/>
                 </not>
+                <not>
+                    <isset property="queuePort"/>
+                </not>
             </or>
         </condition>
     </fail>
@@ -49,7 +52,7 @@
     </target>
     <target name="pre-init">
         <propertyfile file="src/computingApp.properties" comment="Application properties">
-            <entry key="queue.remote.url" value="tcp://${soccer.domain.name}:61616?trace=false&amp;soTimeout=60000"/>
+            <entry key="queue.remote.url" value="tcp://${soccer.domain.name}:${queuePort}?trace=false&amp;soTimeout=60000"/>
             <entry key="queue.remote.name" value="soccerqueue"/>
             <entry key="soccer.remote.web.host" value="${soccer.domain.name}"/>
             <entry key="soccer.remote.web.port" value="${soccer.remote.web.port}"/>
