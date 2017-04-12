@@ -31,7 +31,7 @@ def upload():
 
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
             return_code = subprocess.call(
-                'java -jar Java_API.jar ' + filePath + ' ' +
+                'java -cp Java_API.jar gov.nih.nci.queue.api.FileUpload ' + filePath + ' ' +
                 originalFileName + ' application/vnd.ms-excel')
 
             with open(filePath + '_response.json', 'r') as resultFile:
