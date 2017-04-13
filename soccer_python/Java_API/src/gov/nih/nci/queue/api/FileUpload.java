@@ -46,27 +46,7 @@ public class FileUpload {
         LOGGER.log(Level.INFO, "repository.dir: {0}, filesize.max: {1}, time.threshhold: {2}",
                 new Object[]{repositoryPath, fileSizeMax, estimatedThreshhold});
 
-        // Create a factory for disk-based file items
-//        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        //upload file directory. If it does not exist, create one.
-//        File f = new File(repositoryPath);
-//        if(!f.exists()){
-//            f.mkdir();
-//        }
-
-        // Set factory constraints
-        // factory.setSizeThreshold(yourMaxMemorySize);
-        // Configure a repository
-//        factory.setRepository(new File(repositoryPath));
-
-
         try {
-            // Parse the request
-            // Process the uploaded items
-//            Iterator<FileItem> iter = fileItemList.iterator();
-
-//            while (iter.hasNext()) {
                 File inputFile = new File(absoluteInputFileName);
                 String fileName = originalFileName;
                 rm.setFileName(fileName);
@@ -100,10 +80,6 @@ public class FileUpload {
                         rm.setStatus("invalid");
                         rm.setDetails(validationErrors);
                     }
-//                } else {
-//                    // TODO: Handle Form Fields such as SOC_SYSTEM.
-//                } // End of isFormField
-//            }
 
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "FileUploadException or FileNotFoundException. Error Message: {0}", new Object[]{e.getMessage()});

@@ -46,6 +46,21 @@ def upload():
         return responseObj
 
 
+@app.route('/calc', methods=["POST"])
+def calc():
+    try:
+        inputFileId = request.form["inputFileId"]
+        return_code = subprocess.call(
+            'java -cp Java_API.jar gov.nih.nci.queue.api.FileCalculate ' + inputFileId)
+        with open(filePath + '_response.json', 'r') as resultFile:
+            responseObj = resultFile.read().replace('\n', '')
+        print('response object: ' + responseObj)
+        os.remove(filePath + '_response.json')
+
+    finally:
+        return responseObj
+
+
 @app.route('/<path:path>')
 def static_files(path):
     if path.endswith('/'):
