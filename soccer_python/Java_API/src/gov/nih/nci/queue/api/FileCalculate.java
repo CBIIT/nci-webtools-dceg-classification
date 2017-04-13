@@ -33,7 +33,7 @@ public class FileCalculate {
     }
 
 
-    public String calculate(final String inputFileId) {
+    private String calculate(final String inputFileId) {
 
         // Get parameters.
         final String repositoryPath = PropertiesUtil.getProperty("gov.nih.nci.queue.repository.dir").trim();

@@ -30,7 +30,7 @@ public class FileUpload {
         fu.upload(path, originalFileName, fileType);
     }
 
-    public String upload(String absoluteInputFileName, String originalFileName, String fileType) {
+    private String upload(String absoluteInputFileName, String originalFileName, String fileType) {
 
         // Create an object for JSON response.
         ResponseModel rm = new ResponseModel();
