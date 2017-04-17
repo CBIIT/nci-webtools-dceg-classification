@@ -5,7 +5,6 @@ import sys
 import time
 from flask import Flask, jsonify, request, Response, send_from_directory
 import uuid
-from subprocess import Popen, PIPE, STDOUT
 
 
 from werkzeug.utils import secure_filename
@@ -25,21 +24,24 @@ def upload():
             # check for correct file extension
             fileName = str(uuid.uuid4())
             filePath = os.path.join(
-                'C:\\content\\soccer\\files', fileName + ".csv")
+                '/local/content/soccer/files', fileName + ".csv")
             saveFile = userFile.save(filePath)
+            print(filePath)
             print("We have a file")
 
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
-            return_code = subprocess.call(
-                'java -cp Java_API.jar gov.nih.nci.queue.api.FileUpload ' + filePath + ' ' +
-                originalFileName + ' application/vnd.ms-excel')
 
+            subprocess.call(['java', '-jar', 'Blender.jar'])
+
+            return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
+            
             with open(filePath + '_response.json', 'r') as resultFile:
                 responseObj = resultFile.read().replace('\n', '')
             print('response object: ' + responseObj)
             os.remove(filePath + '_response.json')
 
         else:
+            print("here")
             flash('No file part')
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
     finally:
@@ -50,8 +52,9 @@ def upload():
 def calc():
     try:
         inputFileId = request.form["inputFileId"]
-        return_code = subprocess.call(
-            'java -cp Java_API.jar gov.nih.nci.queue.api.FileCalculate ' + inputFileId)
+        print(inputFileId)
+        return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+        filePath = os.path.join('/local/content/soccer/files', inputFileId)
         with open(filePath + '_response.json', 'r') as resultFile:
             responseObj = resultFile.read().replace('\n', '')
         print('response object: ' + responseObj)
@@ -68,4 +71,4 @@ def static_files(path):
     return send_from_directory(os.getcwd(), path)
 
 
-app.run(debug=True)
+app.run(debug=False)

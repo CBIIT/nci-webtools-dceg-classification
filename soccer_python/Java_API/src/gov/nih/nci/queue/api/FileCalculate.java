@@ -54,7 +54,8 @@ public class FileCalculate {
         LOGGER.log(Level.INFO, "Start processing input file <{0}>.", new Object[]{absoluteInputFileName});
         // all good. Prepare the json output.
         ResponseModel rm = new ResponseModel();
-        String outputFileId = new UniqueIdUtil(inputFileId).getOutputUniqueID();
+        rm.setInputFileId(inputFileId);
+        String outputFileId = inputFileId; // new UniqueIdUtil(inputFileId).getOutputUniqueID();
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);
