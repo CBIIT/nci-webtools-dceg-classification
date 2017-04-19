@@ -5,12 +5,15 @@ import sys
 import time
 from flask import Flask, jsonify, request, Response, send_from_directory
 import uuid
-
-
+from stompest.config import StompConfig
+from stompest.sync import Stomp
+from PropertyUtil import PropertyUtil
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
-
+app = Flask(__name__, static_folder='', static_url_path='/') 
+QUEUE_NAME = 'queue.name'
+QUEUE_URL = 'queue.url'
+soccerConfig = PropertyUtil(r"config.ini")
 
 @app.route('/upload', methods=["POST"])
 def upload():
@@ -51,6 +54,7 @@ def upload():
 @app.route('/calc', methods=["POST"])
 def calc():
     try:
+        print("INPUTID")
         inputFileId = request.form["inputFileId"]
         print(inputFileId)
         return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
@@ -70,5 +74,39 @@ def static_files(path):
         path += 'index.html'
     return send_from_directory(os.getcwd(), path)
 
+@app.route('/queue', methods=['POST']) 
+def queue():
 
-app.run(debug=False)
+    inputFileId = request.form["inputFileId"]
+    print(request.form["inputFileId"])
+    
+    emailAddress = request.form["emailAddress"]
+    print(request.form["emailAddress"])
+
+    fileName = request.form["fileName"]
+    print(request.form["fileName"])
+
+    url=str(request.form["url"])
+    print(request.form["url"])
+
+    sendqueue(inputFileId,emailAddress,fileName,url);
+
+
+    status = "{\"status\":\"pass\"}"
+    mimetype = 'application/json'
+    out_json = json.dumps(status)
+
+    return out_json
+
+
+def sendqueue(inputFileId,emailAddress,fileName,url):
+    #try:
+    import time
+    now = time.strftime("%a %b %X %Z %Y")
+    QUEUE = soccerConfig.getAsString(QUEUE_NAME)
+    QUEUE_CONFIG=StompConfig(soccerConfig.getAsString(QUEUE_URL)) 
+    filePath = os.path.join('/local/content/soccer/files', inputFileId)
+    client = Stomp(QUEUE_CONFIG)
+    client.connect()
+    client.send(QUEUE,json.dumps({"inputFileId":inputFileId,"emailAddress":emailAddress,"fileName":fileName,"timestamp":now,"url":url}))
+    client.disconnect()

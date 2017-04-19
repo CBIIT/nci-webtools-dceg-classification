@@ -238,7 +238,7 @@ $(function () {
      * Given fileId, show the metadata.
      */
     function showMetadata(fileId) {
-        var fileUrl1 = "files/" + fileId + '.json';
+        var fileUrl1 = "soccerFiles/" + fileId + '.json';
         console.log(fileUrl1);
         var xmlHttpResult1 = new XMLHttpRequest();
         xmlHttpResult1.open("GET", fileUrl1, false);
@@ -247,7 +247,7 @@ $(function () {
             var obj1 = $.parseJSON(xmlHttpResult1.responseText);
 
             if(obj1.fileName) {
-                var fileUrl2 = "files/" + obj1.fileName + '.json';
+                var fileUrl2 = "soccerFiles/" + obj1.fileName + '.json';
                 console.log(fileUrl2);
                 var xmlHttpResult2 = new XMLHttpRequest();
                 xmlHttpResult2.open("GET", fileUrl2, false);
@@ -286,13 +286,16 @@ $(function () {
         var emailFormData = new FormData();
         emailFormData.append("emailAddress", $('#emailAddress').val());
         emailFormData.append("inputFileId", $('#inputFileId').val());
+        emailFormData.append("fileName", $("#fileSelect")[0].files[0].name);
+        emailFormData.append("url",encodeURIComponent(window.location.href.toString()));
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */
             console.log('emailForm load is completed. Response Text: ' + event.target.responseText);
             var responseText = event.target.responseText;
             
-            var obj = $.parseJSON(responseText);
+            var obj=JSON.parse(responseText);
+            obj=JSON.parse(obj)
             console.log(obj.status);            
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {
