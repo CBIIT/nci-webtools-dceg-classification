@@ -288,6 +288,7 @@ $(function () {
         emailFormData.append("inputFileId", $('#inputFileId').val());
         emailFormData.append("fileName", $("#fileSelect")[0].files[0].name);
         emailFormData.append("url",encodeURIComponent(window.location.href.toString()));
+        emailFormData.append("socSystem", $('#socSystem').find(":selected").val());
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */
@@ -348,6 +349,7 @@ $(function () {
         // Prepare formData and submit data.
         var calcFormData = new FormData();       
         calcFormData.append("inputFileId", $('#inputFileId').val());
+        calcFormData.append("socSystem", $('#socSystem').find(":selected").val());
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */

@@ -56,8 +56,13 @@ def calc():
     try:
         print("INPUTID")
         inputFileId = request.form["inputFileId"]
+        socSystem = request.form["socSystem"]
+        print(socSystem)
         print(inputFileId)
-        return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+        if socSystem=="model10":
+            return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+        else:
+            return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
         filePath = os.path.join('/local/content/soccer/files', inputFileId)
         with open(filePath + '_response.json', 'r') as resultFile:
             responseObj = resultFile.read().replace('\n', '')
@@ -65,7 +70,7 @@ def calc():
         os.remove(filePath + '_response.json')
 
     finally:
-        return responseObj
+        return responseObj 
 
 
 @app.route('/<path:path>')
@@ -89,7 +94,10 @@ def queue():
     url=str(request.form["url"])
     print(request.form["url"])
 
-    sendqueue(inputFileId,emailAddress,fileName,url);
+    socSystem = request.form["socSystem"]
+    print(socSystem)
+    print("Sending to queue")
+    sendqueue(inputFileId,emailAddress,fileName,url,socSystem);
 
 
     status = "{\"status\":\"pass\"}"
@@ -99,7 +107,7 @@ def queue():
     return out_json
 
 
-def sendqueue(inputFileId,emailAddress,fileName,url):
+def sendqueue(inputFileId,emailAddress,fileName,url,socSystem):
     #try:
     import time
     now = time.strftime("%a %b %X %Z %Y")
@@ -108,5 +116,5 @@ def sendqueue(inputFileId,emailAddress,fileName,url):
     filePath = os.path.join('/local/content/soccer/files', inputFileId)
     client = Stomp(QUEUE_CONFIG)
     client.connect()
-    client.send(QUEUE,json.dumps({"inputFileId":inputFileId,"emailAddress":emailAddress,"fileName":fileName,"timestamp":now,"url":url}))
+    client.send(QUEUE,json.dumps({"inputFileId":inputFileId,"emailAddress":emailAddress,"fileName":fileName,"timestamp":now,"url":url,"socSystem":socSystem}))
     client.disconnect()

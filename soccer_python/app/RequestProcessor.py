@@ -71,9 +71,13 @@ class RequestProcessor(DisconnectListener):
     timestamp=str(parameters['timestamp'])
     url=str(parameters['url'])
     url=urllib.unquote(url).decode('utf8')
+    socSystem = str(parameters["socSystem"])
     print(inputFileId)
 
-    return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+    if socSystem=="model10":
+      return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+    else:
+      return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
     print("calclulated")
     filePath = os.path.join('/local/content/soccer/files', inputFileId)
     with open(filePath + '_response.json', 'r') as resultFile:
