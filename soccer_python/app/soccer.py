@@ -22,6 +22,7 @@ def upload():
         filename = None
         if len(request.files) > 0 and 'fileSelect' in request.files:
             userFile = request.files['fileSelect']
+            socSystem = request.form["socSystem"]
             originalFileName = userFile.filename
 
             # check for correct file extension
@@ -34,10 +35,11 @@ def upload():
 
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
 
-            subprocess.call(['java', '-jar', 'Blender.jar'])
-
-            return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
-            
+            subprocess.call(['/home/ncianalysis/jdk1.8.0_131/bin/java', '-jar', 'Blender.jar'])
+            if socSystem=="model10":
+                return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
+            else:
+               return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
             with open(filePath + '_response.json', 'r') as resultFile:
                 responseObj = resultFile.read().replace('\n', '')
             print('response object: ' + responseObj)

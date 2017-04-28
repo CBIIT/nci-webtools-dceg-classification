@@ -96,6 +96,7 @@ $(function () {
         // Prepare formData and submit data.
         var formData = new FormData();
         formData.append("fileSelect", document.getElementById("fileSelect").files[0]);
+        formData.append("socSystem", $('#socSystem').find(":selected").val());
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
