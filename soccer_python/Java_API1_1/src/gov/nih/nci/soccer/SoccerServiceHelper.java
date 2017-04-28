@@ -5,10 +5,11 @@
  */
 package gov.nih.nci.soccer;
 
-import gov.nih.cit.soccer.SOCcer;
 import java.io.IOException;
 import java.io.*;
 import java.util.logging.*;
+import gov.nih.cit.soccer.SOCcer;
+
 
 /**
  *
@@ -68,7 +69,7 @@ public class SoccerServiceHelper {
     }
 
     // Get Estimate Processing Time
-    //public double getEstimatedTime(String _absoluteInputFileName) throws IOException {
-      //  return Math.round(soc.getEstimatedTime(_absoluteInputFileName) * 100.0) / 100.0;
-   // }
+    public double getEstimatedTime(String _absoluteInputFileName) throws IOException {
+        return Math.round(soc.getEstimatedTime(_absoluteInputFileName) * 100.0) / 100.0;
+    }
 }

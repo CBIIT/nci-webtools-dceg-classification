@@ -217,8 +217,8 @@ $(function () {
      */
     function showResult(fileId) {
         console.log('showResult ' + fileId);
-        var fileUrl = "/soccerFiles/" + fileId;
-        var imgUrl = "/soccerFiles/" + fileId+".png";
+        var fileUrl = "files/" + fileId;
+        var imgUrl = "files/" + fileId+".png";
         var xmlHttpResult = new XMLHttpRequest();
         xmlHttpResult.open("GET", fileUrl, false);
         xmlHttpResult.send(null);    
@@ -238,7 +238,7 @@ $(function () {
      * Given fileId, show the metadata.
      */
     function showMetadata(fileId) {
-        var fileUrl1 = "soccerFiles/" + fileId + '.json';
+        var fileUrl1 = "files/" + fileId + '.json';
         console.log(fileUrl1);
         var xmlHttpResult1 = new XMLHttpRequest();
         xmlHttpResult1.open("GET", fileUrl1, false);
@@ -247,7 +247,7 @@ $(function () {
             var obj1 = $.parseJSON(xmlHttpResult1.responseText);
 
             if(obj1.fileName) {
-                var fileUrl2 = "soccerFiles/" + obj1.fileName + '.json';
+                var fileUrl2 = "files/" + obj1.fileName + '.json';
                 console.log(fileUrl2);
                 var xmlHttpResult2 = new XMLHttpRequest();
                 xmlHttpResult2.open("GET", fileUrl2, false);

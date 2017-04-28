@@ -3,7 +3,6 @@ package gov.nih.nci.queue.api;
 import gov.nih.nci.queue.model.ResponseModel;
 import gov.nih.nci.queue.utils.MetadataFileUtil;
 import gov.nih.nci.queue.utils.PropertiesUtil;
-import gov.nih.nci.queue.utils.UniqueIdUtil;
 import gov.nih.nci.soccer.SoccerRHelper;
 import gov.nih.nci.soccer.SoccerServiceHelper;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,9 +22,6 @@ public class FileCalculate {
     private static final Logger LOGGER = Logger.getLogger(FileCalculate.class.getCanonicalName());
 
     public static void main(String[] args) {
-        // Set response type to json
-//        PrintWriter writer = response.getWriter();
-
         String inputFileId = args[0];
         FileCalculate fc = new FileCalculate();
         fc.calculate(inputFileId);

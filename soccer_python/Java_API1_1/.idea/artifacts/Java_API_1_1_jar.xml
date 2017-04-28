@@ -2,7 +2,6 @@
   <artifact type="jar" name="Java_API_1_1:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Java_API_1_1_jar</output-path>
     <root id="archive" name="Java_API_1_1.jar">
-      <element id="module-output" name="Java_API_1_1" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/el-api.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jasper.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/ecj-4.4.jar" path-in-jar="/" />
@@ -141,6 +140,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/shared/SOCcer-v1.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/shared/opennlp-tools-1.7.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/shared/opennlp-uima-1.7.2.jar" path-in-jar="/" />
+      <element id="module-output" name="Java_API_1_1" />
     </root>
   </artifact>
 </component>

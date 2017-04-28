@@ -47,42 +47,42 @@ public class FileUpload {
                 new Object[]{repositoryPath, fileSizeMax, estimatedThreshhold});
 
         try {
-                File inputFile = new File(absoluteInputFileName);
-                String fileName = originalFileName;
-                rm.setFileName(fileName);
-                long sizeInBytes = inputFile.length();
-                rm.setFileSize(String.valueOf(sizeInBytes));
-                String inputFileId = inputFile.getName();
-                rm.setInputFileId(inputFileId);
-                rm.setFileType(fileType);
+            File inputFile = new File(absoluteInputFileName);
+            String fileName = originalFileName;
+            rm.setFileName(fileName);
+            long sizeInBytes = inputFile.length();
+            rm.setFileSize(String.valueOf(sizeInBytes));
+            String inputFileId = inputFile.getName();
+            rm.setInputFileId(inputFileId);
+            rm.setFileType(fileType);
 
 
-                    rm.setRepositoryPath(repositoryPath);
+            rm.setRepositoryPath(repositoryPath);
 
-                    // Validation.
-                    InputFileValidator validator = new InputFileValidator();
-                    List<String> validationErrors = validator.validateFile(inputFile);
+            // Validation.
+            InputFileValidator validator = new InputFileValidator();
+            List<String> validationErrors = validator.validateFile(inputFile);
 
-                    if (validationErrors == null) { // Pass validation
-                        // check estimatedProcessingTime.
-                          rm.setStatus("pass");
-//                        SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
-//                        Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
-//                        rm.setEstimatedTime(String.valueOf(estimatedTime));
-//                        if (estimatedTime > estimatedThreshhold) { // STATUS: QUEUE (Ask client for email)
-//                            // Construct Response String in JSON format.
-//                            rm.setStatus("queue");
-//                        } else { // STATUS: PASS (Ask client to confirm calculate)
-//                            // all good. Process the output and Go to result page directly.
-//                            rm.setStatus("pass");
-//                        }
-                    } else {  // STATUS: FAIL // Did not pass validation.
-                        // Construct Response String in JSON format.
-                        rm.setStatus("invalid");
-                        rm.setDetails(validationErrors);
-                    }
+            if (validationErrors == null) { // Pass validation
+                // check estimatedProcessingTime.
+                rm.setStatus("pass");
+                SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
+                Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
+                rm.setEstimatedTime(String.valueOf(estimatedTime));
+                if (estimatedTime > estimatedThreshhold) { // STATUS: QUEUE (Ask client for email)
+                    // Construct Response String in JSON format.
+                    rm.setStatus("queue");
+                } else { // STATUS: PASS (Ask client to confirm calculate)
+                    // all good. Process the output and Go to result page directly.
+                    rm.setStatus("pass");
+                }
+            } else {  // STATUS: FAIL // Did not pass validation.
+                // Construct Response String in JSON format.
+                rm.setStatus("invalid");
+                rm.setDetails(validationErrors);
+            }
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "FileUploadException or FileNotFoundException. Error Message: {0}", new Object[]{e.getMessage()});
             rm.setStatus("fail");
             rm.setErrorMessage("Oops! We met with problems when uploading your file. Error Message: " + e.getMessage());

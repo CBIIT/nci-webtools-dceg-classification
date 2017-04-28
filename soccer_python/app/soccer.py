@@ -27,7 +27,7 @@ def upload():
             # check for correct file extension
             fileName = str(uuid.uuid4())
             filePath = os.path.join(
-                '/local/content/soccer/files', fileName + ".csv")
+                '/local/content/analysistools/public_html/results/soccer/files', fileName + ".csv")
             saveFile = userFile.save(filePath)
             print(filePath)
             print("We have a file")
@@ -63,7 +63,7 @@ def calc():
             return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
         else:
             return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
-        filePath = os.path.join('/local/content/soccer/files', inputFileId)
+        filePath = os.path.join('/local/content/analysistools/public_html/results/soccer/files', inputFileId)
         with open(filePath + '_response.json', 'r') as resultFile:
             responseObj = resultFile.read().replace('\n', '')
         print('response object: ' + responseObj)
@@ -113,7 +113,7 @@ def sendqueue(inputFileId,emailAddress,fileName,url,socSystem):
     now = time.strftime("%a %b %X %Z %Y")
     QUEUE = soccerConfig.getAsString(QUEUE_NAME)
     QUEUE_CONFIG=StompConfig(soccerConfig.getAsString(QUEUE_URL)) 
-    filePath = os.path.join('/local/content/soccer/files', inputFileId)
+    filePath = os.path.join('/local/content/analysistools/public_html/results/soccer/files', inputFileId)
     client = Stomp(QUEUE_CONFIG)
     client.connect()
     client.send(QUEUE,json.dumps({"inputFileId":inputFileId,"emailAddress":emailAddress,"fileName":fileName,"timestamp":now,"url":url,"socSystem":socSystem}))
