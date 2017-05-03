@@ -55,7 +55,7 @@ public class FileCalculate {
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);
-            ssh.ProcessingFile(modelpath,new File(absoluteInputFileName), new File(absoluteOutputFileName),1);
+            ssh.ProcessingFile(modelpath,new File(absoluteInputFileName), new File(absoluteOutputFileName),4);
 
             SoccerRHelper srh = new SoccerRHelper(repositoryPath);
             if(srh.generatePlotImg(outputFileId)) {
