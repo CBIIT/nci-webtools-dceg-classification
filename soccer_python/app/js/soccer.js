@@ -301,6 +301,7 @@ $(function () {
             console.log(obj.status);            
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {
+                console.log(obj)
                 // Change result Div to success status.
                 $('#resultDiv').removeClass();
                 $('#resultDiv').addClass('alert alert-success');
@@ -309,7 +310,7 @@ $(function () {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-success');
                 $('#queueResultDiv').empty().append('Congratulations! Your file has been added into our queue successfully! '
-                    + 'Once the file is processed, you will get an email notification at <b>' + obj.emailAddress 
+                    + 'Once the file is processed, you will get an email notification at <b>' + $('#emailAddress').val() 
                     + '</b>. <br><br>You can close this window or upload other files now.'); 
             } else if (obj.status === 'fail') {
                 $('#queueResultDiv').removeClass();
