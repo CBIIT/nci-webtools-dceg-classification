@@ -6,13 +6,16 @@
 package gov.nih.nci.queue.utils;
 
 import gov.nih.nci.queue.model.QueueModel;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import javax.jms.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.*;
-import javax.jms.*;
-import javax.naming.*;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +42,7 @@ public class QueueProducerUtil {
     /*
      * Add message into Queue.
      */
-    public void sendToQueue(QueueModel qm) throws NamingException, JMSException, JsonGenerationException, JsonMappingException, IOException {
+    public void sendToQueue(QueueModel qm) throws NamingException, JMSException, IOException {
 
         context = new InitialContext();
         connectionFactory = (ConnectionFactory) context.lookup(CONNECTION_FACTORY_JNDI);

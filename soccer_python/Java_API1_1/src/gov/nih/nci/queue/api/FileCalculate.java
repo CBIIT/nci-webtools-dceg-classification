@@ -39,10 +39,8 @@ public class FileCalculate {
         if (System.getProperty("gov.nih.cit.soccer.output.dir", "na").equals("na")
                 || System.getProperty("gov.nih.cit.soccer.wordnet.dir", "na").equals("na")) {
             LOGGER.log(Level.SEVERE, "Internal Error: Cannot find system variables.");
-//            writer.print("Internal Error: Cannot find system variables. Please contact Technical Support.");
         }
         // get input fileId
-//        final String inputFileId = request.getParameter("inputFileId");
         String absoluteInputFileName = repositoryPath + File.separator + inputFileId;
         LOGGER.log(Level.INFO, "AbsoluteInputFileName: {0}, output.dir: {1}", new Object[]{absoluteInputFileName, strOutputDir});
 
@@ -72,13 +70,6 @@ public class FileCalculate {
             rm.setErrorMessage(e.getMessage());
             LOGGER.log(Level.SEVERE, "Failed to generate output file <{0}>. Error Message: {1}", new Object[]{absoluteOutputFileName, e.getMessage()});
         }
-
-        // Set response type to json
-//        response.setContentType("application/json");
-        // Send the response.
-//        ObjectMapper jsonMapper = new ObjectMapper();
-//        LOGGER.log(Level.INFO, "Response: {0}", new Object[]{jsonMapper.writeValueAsString(rm)});
-//        writer.print(jsonMapper.writeValueAsString(rm));
 
         // Send the response.
         String response = "";
