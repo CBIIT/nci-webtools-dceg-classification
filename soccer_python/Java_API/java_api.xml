@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="java_api" default="all">
+  
+  
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.lib.classpath"/>
+  
+  <path id="library.shared.classpath">
+    <fileset dir="${basedir}/shared">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module Java_API -->
+  
+  <dirname property="module.java_api.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.java_api" value="-encoding UTF-8 -source 1.7 -target 1.7 ${compiler.args}"/>
+  
+  <property name="java_api.output.dir" value="${module.java_api.basedir}/out/production/Java_API"/>
+  <property name="java_api.testoutput.dir" value="${module.java_api.basedir}/out/test/Java_API"/>
+  
+  <path id="java_api.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="java_api.module.production.classpath">
+    <path refid="library.lib.classpath"/>
+    <path refid="library.shared.classpath"/>
+  </path>
+  
+  <path id="java_api.runtime.production.module.classpath">
+    <pathelement location="${java_api.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.shared.classpath"/>
+  </path>
+  
+  <path id="java_api.module.classpath">
+    <pathelement location="${java_api.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.shared.classpath"/>
+  </path>
+  
+  <path id="java_api.runtime.module.classpath">
+    <pathelement location="${java_api.testoutput.dir}"/>
+    <pathelement location="${java_api.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+    <path refid="library.shared.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.java_api">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.java_api">
+    <patternset refid="excluded.from.module.java_api"/>
+  </patternset>
+  
+  <path id="java_api.module.sourcepath">
+    <dirset dir="${module.java_api.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.java_api" depends="compile.module.java_api.production,compile.module.java_api.tests" description="Compile module Java_API"/>
+  
+  <target name="compile.module.java_api.production" description="Compile module Java_API; production classes">
+    <mkdir dir="${java_api.output.dir}"/>
+    <javac destdir="${java_api.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.java_api}"/>
+      <bootclasspath refid="java_api.module.bootclasspath"/>
+      <classpath refid="java_api.module.production.classpath"/>
+      <src refid="java_api.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.java_api"/>
+    </javac>
+    
+    <copy todir="${java_api.output.dir}">
+      <fileset dir="${module.java_api.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.java_api.tests" depends="compile.module.java_api.production" description="compile module Java_API; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.java_api" description="cleanup module">
+    <delete dir="${java_api.output.dir}"/>
+    <delete dir="${java_api.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.java_api" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.java_api" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.java_api:jar" value="${basedir}/out/artifacts/Java_API_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.Java_API.jar" value="${artifacts.temp.dir}/Java_API.jar"/>
+  </target>
+  
+  <target name="artifact.java_api:jar" depends="init.artifacts, compile.module.java_api" description="Build &#39;Java_API:jar&#39; artifact">
+    <property name="artifact.temp.output.java_api:jar" value="${artifacts.temp.dir}/Java_API_jar"/>
+    <mkdir dir="${artifact.temp.output.java_api:jar}"/>
+    <jar destfile="${temp.jar.path.Java_API.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${java_api.output.dir}"/>
+      <zipfileset src="${basedir}/shared/jwnl-1.3.3.jar"/>
+      <zipfileset src="${basedir}/shared/opencsv-3.5.jar"/>
+      <zipfileset src="${basedir}/shared/SOCcer-v0.0.3.jar"/>
+      <zipfileset src="${basedir}/shared/lingpipe-4.1.0.jar"/>
+      <zipfileset src="${basedir}/shared/opennlp-uima-1.5.3.jar"/>
+      <zipfileset src="${basedir}/shared/activemq-all-5.10.0.jar"/>
+      <zipfileset src="${basedir}/shared/commons-logging-1.2.jar"/>
+      <zipfileset src="${basedir}/shared/opennlp-tools-1.5.3.jar"/>
+      <zipfileset src="${basedir}/shared/opennlp-maxent-3.0.3.jar"/>
+      <zipfileset src="${basedir}/shared/jackson-core-asl-1.8.5.jar"/>
+      <zipfileset src="${basedir}/shared/jackson-mapper-asl-1.8.5.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.Java_API.jar}" tofile="${artifact.temp.output.java_api:jar}/Java_API.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.java_api:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.java_api:jar}"/>
+    <copy todir="${artifact.output.java_api:jar}">
+      <fileset dir="${artifact.temp.output.java_api:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
