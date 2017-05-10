@@ -1,7 +1,6 @@
 import json
 import math
 import os
-import rpy2.robjects as robjects
 import smtplib
 import time
 import logging
@@ -10,14 +9,14 @@ import subprocess
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from twisted.internet import reactor, defer
 from PropertyUtil import PropertyUtil
+from twisted.internet import reactor, defer
+
 from stompest.async import Stomp
 from stompest.async.listener import SubscriptionListener
 from stompest.async.listener import DisconnectListener
 from stompest.config import StompConfig
 from stompest.protocol import StompSpec
-from rpy2.robjects import r
 import urllib 
 
 class RequestProcessor(DisconnectListener):
