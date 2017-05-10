@@ -154,7 +154,7 @@
   
   	<target name="pre-init">
         <propertyfile
-            file="src/java/applicationQueue.properties" comment="Application properties">
+            file="src/applicationQueue.properties" comment="Application properties">
 			<entry  key="gov.nih.nci.soccer.computing.time.threshhold" value="${gov.nih.nci.soccer.computing.time.threshhold}"/>
 			<entry  key="gov.nih.nci.queue.repository.dir" value="${gov.nih.nci.queue.repository.dir}"/>
 			<entry  key="gov.nih.cit.soccer.output.dir" value="${gov.nih.cit.soccer.output.dir}"/>

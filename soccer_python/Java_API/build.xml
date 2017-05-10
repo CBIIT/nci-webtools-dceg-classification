@@ -38,19 +38,6 @@
         </condition>
     </fail>
 	
-	<target name="pre-init">
-        <propertyfile
-            file="src/java/applicationQueue.properties" comment="Application properties">
-			<entry  key="gov.nih.nci.soccer.computing.time.threshhold" value="${gov.nih.nci.soccer.computing.time.threshhold}"/>
-			<entry  key="gov.nih.nci.queue.repository.dir" value="${gov.nih.nci.queue.repository.dir}"/>
-			<entry  key="gov.nih.cit.soccer.output.dir" value="${gov.nih.cit.soccer.output.dir}"/>
-			<entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>
-			<entry  key="gov.nih.cit.soccer.r.file" value="${gov.nih.cit.soccer.r.file}"/>
-			<entry  key="resource.queue.connectionfactory" value="${resource.queue.connectionfactory}"/>
-			<entry  key="resource.queue.name" value="${resource.queue.name}"/>
-			<entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/>			
-        </propertyfile>
-    </target>
   <!-- Compiler options -->
   
   <property name="compiler.debug" value="on"/>
@@ -166,6 +153,22 @@
       <include name="src"/>
     </dirset>
   </path>
+  
+  
+	<target name="pre-init">
+		<propertyfile
+			file="src/applicationQueue.properties" comment="Application properties">
+			<entry  key="gov.nih.nci.soccer.computing.time.threshhold" value="${gov.nih.nci.soccer.computing.time.threshhold}"/>
+			<entry  key="gov.nih.nci.queue.repository.dir" value="${gov.nih.nci.queue.repository.dir}"/>
+			<entry  key="gov.nih.cit.soccer.output.dir" value="${gov.nih.cit.soccer.output.dir}"/>
+			<entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>
+			<entry  key="gov.nih.cit.soccer.r.file" value="${gov.nih.cit.soccer.r.file}"/>
+			<entry  key="resource.queue.connectionfactory" value="${resource.queue.connectionfactory}"/>
+			<entry  key="resource.queue.name" value="${resource.queue.name}"/>
+			<entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/>			
+		</propertyfile>
+	</target>
+
   
   
   <target name="compile.module.java_api" depends="compile.module.java_api.production,compile.module.java_api.tests" description="Compile module Java_API"/>
