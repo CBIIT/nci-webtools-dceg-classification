@@ -30,24 +30,17 @@ def upload():
             filePath = os.path.join(
                 '/local/content/analysistools/public_html/results/soccer/files', fileName + ".csv")
             saveFile = userFile.save(filePath)
-            print(filePath)
-            print("We have a file")
-
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
 
-            subprocess.call(['/home/ncianalysis/jdk1.8.0_131/bin/java', '-jar', 'Blender.jar'])
             if socSystem=="model10":
                 return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
             else:
                return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
             with open(filePath + '_response.json', 'r') as resultFile:
                 responseObj = resultFile.read().replace('\n', '')
-            print('response object: ' + responseObj)
             os.remove(filePath + '_response.json')
 
         else:
-            print("here")
-            flash('No file part')
             responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
     finally:
         return responseObj
@@ -59,8 +52,6 @@ def calc():
         print("INPUTID")
         inputFileId = request.form["inputFileId"]
         socSystem = request.form["socSystem"]
-        print(socSystem)
-        print(inputFileId)
         if socSystem=="model10":
             return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
         else:
@@ -68,7 +59,6 @@ def calc():
         filePath = os.path.join('/local/content/analysistools/public_html/results/soccer/files', inputFileId)
         with open(filePath + '_response.json', 'r') as resultFile:
             responseObj = resultFile.read().replace('\n', '')
-        print('response object: ' + responseObj)
         os.remove(filePath + '_response.json')
 
     finally:
