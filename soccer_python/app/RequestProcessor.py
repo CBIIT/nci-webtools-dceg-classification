@@ -6,12 +6,12 @@ import time
 import logging
 import urllib
 import subprocess
+
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from PropertyUtil import PropertyUtil
 from twisted.internet import reactor, defer
-
+from PropertyUtil import PropertyUtil
 from stompest.async import Stomp
 from stompest.async.listener import SubscriptionListener
 from stompest.async.listener import DisconnectListener
@@ -78,7 +78,7 @@ class RequestProcessor(DisconnectListener):
     else:
       return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
     print("calclulated")
-    filePath = os.path.join('/local/content/soccer/files', inputFileId)
+    filePath = os.path.join('/local/content/analysistools/public_html/results/soccer/files', inputFileId)
     with open(filePath + '_response.json', 'r') as resultFile:
         responseObj = resultFile.read().replace('\n', '')
     print('response object: ' + responseObj)

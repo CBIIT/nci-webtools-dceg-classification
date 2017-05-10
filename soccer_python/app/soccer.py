@@ -83,7 +83,7 @@ def queue():
     fileName = request.form["fileName"]
     print(request.form["fileName"])
 
-    url=str(request.form["url"])
+    url=str(request.form["url"])+"/index.html?fileid="+inputFileId
     print(request.form["url"])
 
     socSystem = request.form["socSystem"]
