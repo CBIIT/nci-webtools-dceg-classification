@@ -6,6 +6,41 @@
   <!-- 
   <property name="skip.tests" value="true"/>
    -->
+   
+    <fail message="[Usage:] ant -Dgov.nih.nci.soccer.computing.time.threshhold=30 -Dgov.nih.nci.queue.repository.dir=/local/content/analysistools/public_html/results/soccer/files -Dgov.nih.cit.soccer.output.dir=/local/content/analysistools/public_html/results/soccer/files -Dgov.nih.cit.soccer.wordnet.dir=/local/content/analysistools/public_html/results/soccer/dict -Dgov.nih.cit.soccer.modelfile=/local/content/analysistools/public_html/results/soccer/bin/soccer-model1.1.bin -Dgov.nih.cit.soccer.r.file=./SoccerResultPlot.R -Dresource.queue.connectionfactory=TomiJmsConnectionFactory -Dresource.queue.name=soccerqueue -Dgov.nih.cit.soccer.rscript=/usr/bin/Rscript">
+        <condition>
+            <or>
+                <not>
+                    <isset property="gov.nih.nci.soccer.computing.time.threshhold"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.nci.queue.repository.dir"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.output.dir"/>
+                </not>
+                <not>
+                    <isset property="gov.nih.cit.soccer.wordnet.dir"/>
+                </not>
+				<not>
+                    <isset property="gov.nih.cit.soccer.modelfile"/>
+                </not>
+				<not>
+                    <isset property="gov.nih.cit.soccer.r.file"/>
+                </not>
+				<not>
+                    <isset property="resource.queue.connectionfactory"/>
+                </not>
+				<not>
+                    <isset property="resource.queue.name"/>
+                </not>
+				<not>
+                    <isset property="gov.nih.cit.soccer.rscript"/>
+                </not>
+            </or>
+        </condition>
+    </fail>
+	
   
   <!-- Compiler options -->
   
@@ -117,7 +152,22 @@
     </dirset>
   </path>
   
+  	<target name="pre-init">
+        <propertyfile
+            file="src/java/applicationQueue.properties" comment="Application properties">
+			<entry  key="gov.nih.nci.soccer.computing.time.threshhold" value="${gov.nih.nci.soccer.computing.time.threshhold}"/>
+			<entry  key="gov.nih.nci.queue.repository.dir" value="${gov.nih.nci.queue.repository.dir}"/>
+			<entry  key="gov.nih.cit.soccer.output.dir" value="${gov.nih.cit.soccer.output.dir}"/>
+			<entry  key="gov.nih.cit.soccer.wordnet.dir" value="${gov.nih.cit.soccer.wordnet.dir}"/>
+			<entry  key="gov.nih.cit.soccer.modelfile" value="${gov.nih.cit.soccer.modelfile}"/>
+			<entry  key="gov.nih.cit.soccer.r.file" value="${gov.nih.cit.soccer.r.file}"/>
+			<entry  key="resource.queue.connectionfactory" value="${resource.queue.connectionfactory}"/>
+			<entry  key="resource.queue.name" value="${resource.queue.name}"/>
+			<entry  key="gov.nih.cit.soccer.rscript" value="${gov.nih.cit.soccer.rscript}"/>			
+        </propertyfile>
+    </target>
   
+ 
   <target name="compile.module.java_api_1_1" depends="compile.module.java_api_1_1.production,compile.module.java_api_1_1.tests" description="Compile module Java_API_1_1"/>
   
   <target name="compile.module.java_api_1_1.production" description="Compile module Java_API_1_1; production classes">
@@ -190,5 +240,5 @@
     <delete dir="${artifacts.temp.dir}"/>
   </target>
   
-  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+  <target name="all" depends="pre-init, build.modules, build.all.artifacts" description="build all"/>
 </project>
