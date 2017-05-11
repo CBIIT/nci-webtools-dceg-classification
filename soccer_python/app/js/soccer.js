@@ -55,6 +55,10 @@ $(function () {
      * Bind an event handler to the "change" JavaScript event, 
      * or trigger that event on an element.
      */
+    $('#socSystem').change(function () {
+        init_state();
+      });
+
     $('#fileSelect').change(function () {
         console.log("fileSelect.onchange() invoked.");
         init_state();
