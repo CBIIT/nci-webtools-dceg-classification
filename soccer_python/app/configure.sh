@@ -27,7 +27,7 @@ if [ $valid = true ]; then
 		sed -i "s|\@${key}@|${parameters[$key]}|g" config.ini
 	done
 
-	echo -e "\e[92mJPSurv configured successfully\e[39m"
+	echo -e "\e[92mSOCcer configured successfully\e[39m"
 
 # display usage if incorrect
 else
