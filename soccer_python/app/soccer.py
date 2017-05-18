@@ -56,7 +56,7 @@ def calc():
         if socSystem=="model10":
             return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
         else:
-            return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+            return_code = subprocess.call(['/usr/local/jdk1.7/bin/java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
         filePath = os.path.join(RESULTS_PATH, inputFileId)
         with open(filePath + '_response.json', 'r') as resultFile:
             responseObj = resultFile.read().replace('\n', '')
