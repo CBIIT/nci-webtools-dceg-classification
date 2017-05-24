@@ -5,7 +5,8 @@
  */
 package gov.nih.nci.soccer;
 
-import gov.nih.cit.soccer.SOCcer;
+import gov.nih.cit.soccer.Soccer;
+import gov.nih.cit.soccer.input.InputFormatException;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  */
 public class InputFileValidator {
     private final static Logger LOGGER = Logger.getLogger(InputFileValidator.class.getCanonicalName());
-    private final SOCcer soc = new SOCcer();
+    private final Soccer soc = new Soccer();
 
     /*
      * Validate the file uploaded.
@@ -31,13 +32,17 @@ public class InputFileValidator {
      * @return String : null means no validation error.
      *
      */
-    public List<String> validateFile(File _file) {
+    public List<String> validateFile(File _file) throws InputFormatException {
         // Invoke Soccer object to validate file.
         ArrayList<String> validationErrors = null;
 
         try {
             soc.validateFile(_file);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+            String[] strArray = e.getMessage().split("\n");
+            validationErrors = new ArrayList<>(Arrays.asList(strArray));
+        } catch (InputFormatException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             String[] strArray = e.getMessage().split("\n");
             validationErrors = new ArrayList<>(Arrays.asList(strArray));
