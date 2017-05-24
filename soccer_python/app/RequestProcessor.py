@@ -71,10 +71,14 @@ class RequestProcessor(DisconnectListener):
     url=str(parameters['url'])
     url=urllib.unquote(url).decode('utf8')
     socSystem = str(parameters["socSystem"])
+    if(socSystem=="model10"):
+      model="1.0"
+    else:
+      model="1.1"
     print(inputFileId)
 
     if socSystem=="model10":
-      return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
+      return_code = subprocess.call(['/usr/local/jdk1.7/bin/java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
     else:
       return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
     print("calclulated")
@@ -90,7 +94,7 @@ class RequestProcessor(DisconnectListener):
     print "Here is the Link to the past:"
     print Link
     body = """
-            <p>The file ("""+fileName+""") you uploaded on """+timestamp+""" has been processed. </p>
+            <p>The file ("""+fileName+""") you uploaded using model """+model+""" on """+timestamp+""" has been processed. </p>
             <p>You can view the result page at: """+url+""".  This link will expire two weeks from today.</p>
             </br>
             <p> - SOCcer Team</p>
