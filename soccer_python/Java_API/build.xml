@@ -220,7 +220,7 @@
       <zipfileset dir="${java_api.output.dir}"/>
       <zipfileset src="${basedir}/shared/jwnl-1.3.3.jar"/>
       <zipfileset src="${basedir}/shared/opencsv-3.5.jar"/>
-      <zipfileset src="${basedir}/shared/SOCcer-v1.1.jar"/>
+      <zipfileset src="${basedir}/shared/SOCcer-v1.0.jar"/>
       <zipfileset src="${basedir}/shared/lingpipe-4.1.0.jar"/>
       <zipfileset src="${basedir}/shared/opennlp-uima-1.5.3.jar"/>
       <zipfileset src="${basedir}/shared/activemq-all-5.10.0.jar"/>

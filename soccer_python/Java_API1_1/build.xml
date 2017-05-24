@@ -222,7 +222,7 @@
       <zipfileset src="${basedir}/shared/opennlp-maxent-3.0.3.jar"/>
       <zipfileset src="${basedir}/shared/jackson-core-asl-1.8.5.jar"/>
       <zipfileset src="${basedir}/shared/jackson-mapper-asl-1.8.5.jar"/>
-      <zipfileset src="${basedir}/shared/SOCcer-v2.0.jar"/>
+      <zipfileset src="${basedir}/shared/SOCcer-v1.1.jar"/>
       <zipfileset src="${basedir}/shared/opennlp-tools-1.7.2.jar"/>
       <zipfileset src="${basedir}/shared/opennlp-uima-1.7.2.jar"/>
       <zipfileset dir="${java_api_1_1.output.dir}"/>
