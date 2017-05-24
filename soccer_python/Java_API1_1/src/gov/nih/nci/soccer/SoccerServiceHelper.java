@@ -5,11 +5,11 @@
  */
 package gov.nih.nci.soccer;
 
-import java.io.IOException;
+import gov.nih.cit.soccer.Soccer;
+import gov.nih.cit.soccer.input.*;
+import gov.nih.cit.soccer.misc.RunTimer;
 import java.io.*;
 import java.util.logging.*;
-import gov.nih.cit.soccer.SOCcer;
-
 
 /**
  *
@@ -18,7 +18,7 @@ import gov.nih.cit.soccer.SOCcer;
 public class SoccerServiceHelper {
     private final static Logger LOGGER = Logger.getLogger(SoccerServiceHelper.class.getCanonicalName());
 
-    private final SOCcer soc = new SOCcer();
+    private final Soccer soc = new Soccer();
     private final String outputDir;
     private final String outputFilePre = "SoccerResults-";
 
@@ -31,19 +31,12 @@ public class SoccerServiceHelper {
      * OR
      * Invoke shell command(s) to process the input file.
      */
-    public void ProcessingFile(String modelFilePath,File _fileIn, File _fileOut, int numThreads) throws IOException   {
+    public void ProcessingFile(File _fileIn, File _fileOut) throws InputFormatException, IOException, SOCcerException   {
         // Process the input file and generate a new output file.
         // By soccer, the output file name would be: SoccerResults-<input_file_name>
-
-        InputStream modelInputStream = null;
-        File modelFile = new File(modelFilePath);
-        if (modelFile.exists()) {
-            modelInputStream = new FileInputStream(modelFile);
-        } else {
-            modelInputStream = SoccerServiceHelper.class.getClassLoader().getResourceAsStream(modelFilePath);
-        }
-
-        soc.codeFile(modelInputStream,_fileIn, _fileOut, numThreads);
+        RunTimer timer = new RunTimer();
+        soc.codeFile(_fileIn);
+        timer.stop();
 
         // Rename output file (SoccerResults-soccer_dataset0.csv) to _fileOutput.
         // Removing Prefix "SoccerResults-".
