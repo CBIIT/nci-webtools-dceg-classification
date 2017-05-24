@@ -5,8 +5,8 @@
  */
 package gov.nih.nci.soccer;
 
-import gov.nih.cit.soccer.Soccer;
-import gov.nih.cit.soccer.input.InputFormatException;
+import gov.nih.cit.soccer.SOCcer;
+//import gov.nih.cit.soccer.input.InputFormatException;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;
@@ -19,7 +19,7 @@ import java.util.logging.*;
  */
 public class InputFileValidator {
     private final static Logger LOGGER = Logger.getLogger(InputFileValidator.class.getCanonicalName());
-    private final Soccer soc = new Soccer();
+    private final SOCcer soc = new SOCcer();
 
     /*
      * Validate the file uploaded.
@@ -33,14 +33,10 @@ public class InputFileValidator {
 
         try {
             soc.validateFile(_file);
-        } catch (InputFormatException e) {
+        } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             String[] strArray = e.getMessage().split("\n");
             validationErrors = new ArrayList<>(Arrays.asList(strArray));
-            return validationErrors;
-        } catch (IOException e) {
-            validationErrors = new ArrayList<>();
-            validationErrors.add("File is not readable - IOException:\n" + e.getMessage());
         }
 
         return validationErrors;
