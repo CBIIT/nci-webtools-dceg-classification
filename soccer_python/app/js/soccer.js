@@ -292,11 +292,8 @@ $(function () {
         emailFormData.append("emailAddress", $('#emailAddress').val());
         emailFormData.append("inputFileId", $('#inputFileId').val());
         emailFormData.append("fileName", $("#fileSelect")[0].files[0].name);
-        var protocol = window.location.protocol;
-        var host = window.location.host;
-        var port = window.location.port ? ':' + window.location.port : '';
-        emailFormData.append("url",encodeURIComponent(protocol + '//' + host + port));
-        // emailFormData.append("url",encodeURIComponent(window.location.href.toString()));
+        var url = window.location.href.toString().split('#')[0].replace(/\/$/, '');
+        emailFormData.append("url",encodeURIComponent(url));
         emailFormData.append("socSystem", $('#socSystem').find(":selected").val());
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
