@@ -243,37 +243,57 @@ $(function () {
      * Given fileId, show the metadata.
      */
     function showMetadata(fileId) {
-        var fileUrl1 = "files/" + fileId + '.json';
-        console.log(fileUrl1);
-        var xmlHttpResult1 = new XMLHttpRequest();
-        xmlHttpResult1.open("GET", fileUrl1, false);
-        xmlHttpResult1.send(null);    
-        if(xmlHttpResult1.status != 404) {           
-            var obj1 = $.parseJSON(xmlHttpResult1.responseText);
+        var metadataFileUrl = "files/" + fileId + '.json';
+        var result = new XMLHttpRequest();
+        result.open("GET", fileUrl1, false);
+        result.send(null);
+        if (result.status == 404) {
+            ; //do nothing
+        } else {
+            var obj = $.parseJSON(result.responseText);                    
 
-            if(obj1.fileName) {
-                var fileUrl2 = "files/" + obj1.fileName + '.json';
-                console.log(fileUrl2);
-                var xmlHttpResult2 = new XMLHttpRequest();
-                xmlHttpResult2.open("GET", fileUrl2, false);
-                xmlHttpResult2.send(null);    
-                if(xmlHttpResult2.status == 404) {
-                   ; // do nothing.
-                }
-                else {
-                    var obj2 = $.parseJSON(xmlHttpResult2.responseText);                    
-
-                    $('#queueResultDiv').removeClass();
-                    $('#queueResultDiv').addClass('alert alert-success');   
-                    $('#queueResultDiv').empty().append('Your file has been processed successfully.<br>'
-                        + '<br>File Name: ' + obj2.fileName 
-                        + '<br>File Size: ' + obj2.fileSize + ' Bytes'                        
-                        + '<br>Processing Time: ' + obj2.estimatedTime  + ' Seconds'
-                        + '<br>Uploaded on: ' + obj1.timeStamp);
-                    $('#queueResultDiv').show();
-                }      
-            }      
+            $('#queueResultDiv').removeClass();
+            $('#queueResultDiv').addClass('alert alert-success');   
+            $('#queueResultDiv').empty().append('Your file has been processed successfully.<br>'
+                + '<br>File Name: ' + obj.fileName 
+                + '<br>File Size: ' + obj.fileSize + ' Bytes'                        
+                + '<br>Processing Time: ' + obj.estimatedTime  + ' Seconds'
+                + '<br>Uploaded on: ' + obj1.timeStamp);
+            $('#queueResultDiv').show();
         }
+        
+        var fileUrl1 = "files/" + fileId + '.json';
+
+        // console.log(fileUrl1);
+        // var xmlHttpResult1 = new XMLHttpRequest();
+        // xmlHttpResult1.open("GET", fileUrl1, false);
+        // xmlHttpResult1.send(null);    
+        // if(xmlHttpResult1.status != 404) {           
+        //     var obj1 = $.parseJSON(xmlHttpResult1.responseText);
+
+        //     if(obj1.fileName) {
+        //         var fileUrl2 = "files/" + obj1.fileName + '.json';
+        //         console.log(fileUrl2);
+        //         var xmlHttpResult2 = new XMLHttpRequest();
+        //         xmlHttpResult2.open("GET", fileUrl2, false);
+        //         xmlHttpResult2.send(null);    
+        //         if(xmlHttpResult2.status == 404) {
+        //            ; // do nothing.
+        //         }
+        //         else {
+        //             var obj2 = $.parseJSON(xmlHttpResult2.responseText);                    
+
+        //             $('#queueResultDiv').removeClass();
+        //             $('#queueResultDiv').addClass('alert alert-success');   
+        //             $('#queueResultDiv').empty().append('Your file has been processed successfully.<br>'
+        //                 + '<br>File Name: ' + obj2.fileName 
+        //                 + '<br>File Size: ' + obj2.fileSize + ' Bytes'                        
+        //                 + '<br>Processing Time: ' + obj2.estimatedTime  + ' Seconds'
+        //                 + '<br>Uploaded on: ' + obj1.timeStamp);
+        //             $('#queueResultDiv').show();
+        //         }      
+        //     }      
+        // }
     }
 
     /*
