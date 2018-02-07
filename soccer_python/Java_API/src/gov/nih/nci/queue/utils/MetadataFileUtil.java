@@ -49,8 +49,6 @@ public class MetadataFileUtil {
     public String getMetaExistingMetadata() {
         String metadataFilePath = metadataFileDir + File.separator + metadataFileId + METADATA_FILE_EXT;
         File file = new File(metadataFilePath);
-
-     
         BufferedReader br = null; 
         StringBuilder sb = new StringBuilder();
 
