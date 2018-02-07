@@ -49,7 +49,15 @@ public class FileCalculate {
         // all good. Prepare the json output.
         ObjectMapper rmMapper = new ObjectMapper();
         String existingMetaData = new MetadataFileUtil(inputFileId, repositoryPath).getMetaExistingMetadata();
-        ResponseModel rm = rmMapper.readValue(existingMetaData, ResponseModel.class);
+        ResponseModel rm = null;
+        try {
+            rm = rmMapper.readValue(existingMetaData, ResponseModel.class);
+        } catch (IOException ioe) {
+            rm = new ResponseModel();
+            rm.setInputFileId(inputFileId);
+        }
+
+       
 
         // ResponseModel rm = new ResponseModel();
         // rm.setInputFileId(inputFileId);
