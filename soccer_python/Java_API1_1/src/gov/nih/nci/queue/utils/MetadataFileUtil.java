@@ -45,4 +45,37 @@ public class MetadataFileUtil {
             LOGGER.log(Level.SEVERE, "Failed to create metadata file. {0}", e.getMessage());
         }
     }
+
+    public String getMetaExistingMetadata() {
+        String metadataFilePath = metadataFileDir + File.separator + metadataFileId + METADATA_FILE_EXT;
+        File file = new File(metadataFilePath);
+
+        FileReader fr = new FileReader(file.getAbsoluteFile());
+        BufferedReader br = null; 
+        
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+		try {
+
+			br = new BufferedReader(fr);
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return sb.toString();
+
+    }
 }
