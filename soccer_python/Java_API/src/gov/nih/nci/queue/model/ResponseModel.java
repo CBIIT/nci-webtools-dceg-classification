@@ -22,6 +22,7 @@ public class ResponseModel implements Serializable {
     private String repositoryPath;
     private String emailAddress;
     private List<String> details;
+    private String timestamp;
 
     public String getStatus() {
         return status;
@@ -109,5 +110,13 @@ public class ResponseModel implements Serializable {
 
     public void setDetails(List<String> details) {
         this.details = details;
+    }
+
+    public void getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String ts) {
+        this.timestamp = ts;    
     }
 }

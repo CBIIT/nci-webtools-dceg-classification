@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by yankovsr on 4/4/2017.
@@ -55,31 +57,30 @@ public class FileUpload {
                 String inputFileId = inputFile.getName();
                 rm.setInputFileId(inputFileId);
                 rm.setFileType(fileType);
+                rm.setRepositoryPath(repositoryPath);
+                rm.setTimestamp(new SimpleDateFormat("F MM dd H:m:s z y").format(new Date()));
 
+                // Validation.
+                InputFileValidator validator = new InputFileValidator();
+                List<String> validationErrors = validator.validateFile(inputFile);
 
-                    rm.setRepositoryPath(repositoryPath);
-
-                    // Validation.
-                    InputFileValidator validator = new InputFileValidator();
-                    List<String> validationErrors = validator.validateFile(inputFile);
-
-                    if (validationErrors == null) { // Pass validation
-                        // check estimatedProcessingTime.
-                        SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
-                        Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
-                        rm.setEstimatedTime(String.valueOf(estimatedTime));
-                        if (estimatedTime > estimatedThreshhold) { // STATUS: QUEUE (Ask client for email)
-                            // Construct Response String in JSON format.
-                            rm.setStatus("queue");
-                        } else { // STATUS: PASS (Ask client to confirm calculate)
-                            // all good. Process the output and Go to result page directly.
-                            rm.setStatus("pass");
-                        }
-                    } else {  // STATUS: FAIL // Did not pass validation.
+                if (validationErrors == null) { // Pass validation
+                    // check estimatedProcessingTime.
+                    SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
+                    Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
+                    rm.setEstimatedTime(String.valueOf(estimatedTime));
+                    if (estimatedTime > estimatedThreshhold) { // STATUS: QUEUE (Ask client for email)
                         // Construct Response String in JSON format.
-                        rm.setStatus("invalid");
-                        rm.setDetails(validationErrors);
+                        rm.setStatus("queue");
+                    } else { // STATUS: PASS (Ask client to confirm calculate)
+                        // all good. Process the output and Go to result page directly.
+                        rm.setStatus("pass");
                     }
+                } else {  // STATUS: FAIL // Did not pass validation.
+                    // Construct Response String in JSON format.
+                    rm.setStatus("invalid");
+                    rm.setDetails(validationErrors);
+                }
 
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "FileUploadException or FileNotFoundException. Error Message: {0}", new Object[]{e.getMessage()});

@@ -55,9 +55,8 @@ public class FileUpload {
             String inputFileId = inputFile.getName();
             rm.setInputFileId(inputFileId);
             rm.setFileType(fileType);
-
-
             rm.setRepositoryPath(repositoryPath);
+            rm.setTimestamp(new SimpleDateFormat("F MM dd H:m:s z y").format(new Date()));
 
             // Validation.
             InputFileValidator validator = new InputFileValidator();
