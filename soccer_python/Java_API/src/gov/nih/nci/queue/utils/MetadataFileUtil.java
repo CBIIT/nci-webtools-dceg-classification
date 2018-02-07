@@ -64,9 +64,7 @@ public class MetadataFileUtil {
 
 		} catch (IOException e ) {
 			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
+		} finally {
 			if (br != null) {
 				try {
 					br.close();
