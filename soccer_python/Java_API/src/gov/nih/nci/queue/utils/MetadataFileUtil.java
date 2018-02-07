@@ -62,9 +62,9 @@ public class MetadataFileUtil {
 				sb.append(line);
 			}
 
-		} catch (IOException e | FileNotFoundException ) {
+		} catch (IOException e ) {
 			e.printStackTrace();
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
 			if (br != null) {
