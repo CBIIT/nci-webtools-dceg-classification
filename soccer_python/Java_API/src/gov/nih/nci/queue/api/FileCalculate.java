@@ -63,6 +63,7 @@ public class FileCalculate {
         String inputFileId = inputFile.getName();
         rm.setInputFileId(inputFileId);
         rm.setFileType("application/vnd.ms-excel");
+        SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
         Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
         rm.setEstimatedTime(String.valueOf(estimatedTime));
 
