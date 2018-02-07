@@ -56,10 +56,10 @@ public class FileCalculate {
         rm.setFileSize(String.valueOf(sizeInBytes));
         String inputFileId = inputFile.getName();
         rm.setInputFileId(inputFileId);
-        rm.setFileType(fileType);
+        rm.setFileType('application/vnd.ms-excel');
         Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
         rm.setEstimatedTime(String.valueOf(estimatedTime));
-        
+
         String outputFileId = inputFileId; // new UniqueIdUtil(inputFileId).getOutputUniqueID();
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
