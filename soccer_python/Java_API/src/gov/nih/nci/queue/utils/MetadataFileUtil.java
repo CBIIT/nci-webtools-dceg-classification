@@ -50,22 +50,23 @@ public class MetadataFileUtil {
         String metadataFilePath = metadataFileDir + File.separator + metadataFileId + METADATA_FILE_EXT;
         File file = new File(metadataFilePath);
 
-        FileReader fr = new FileReader(file.getAbsoluteFile());
+     
         BufferedReader br = null; 
-        
         StringBuilder sb = new StringBuilder();
 
         String line;
 		try {
-
+            FileReader fr = new FileReader(file.getAbsoluteFile());
 			br = new BufferedReader(fr);
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}
 
-		} catch (IOException e) {
+		} catch (IOException e | FileNotFoundException ) {
 			e.printStackTrace();
-		} finally {
+		}catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
 			if (br != null) {
 				try {
 					br.close();
