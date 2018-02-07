@@ -112,7 +112,7 @@ public class ResponseModel implements Serializable {
         this.details = details;
     }
 
-    public void getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 

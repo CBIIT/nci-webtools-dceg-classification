@@ -113,7 +113,7 @@ public class ResponseModel implements Serializable {
     }
 
     
-    public void getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
