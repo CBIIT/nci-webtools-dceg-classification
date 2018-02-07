@@ -245,7 +245,7 @@ $(function () {
     function showMetadata(fileId) {
         var metadataFileUrl = "files/" + fileId + '.json';
         var result = new XMLHttpRequest();
-        result.open("GET", fileUrl1, false);
+        result.open("GET", metadataFileUrl, false);
         result.send(null);
         if (result.status == 404) {
             ; //do nothing
@@ -258,12 +258,11 @@ $(function () {
                 + '<br>File Name: ' + obj.fileName 
                 + '<br>File Size: ' + obj.fileSize + ' Bytes'                        
                 + '<br>Processing Time: ' + obj.estimatedTime  + ' Seconds'
-                + '<br>Uploaded on: ' + obj1.timeStamp);
+                + '<br>Uploaded on: ' + obj.timeStamp);
             $('#queueResultDiv').show();
         }
         
-        var fileUrl1 = "files/" + fileId + '.json';
-
+        // var fileUrl1 = "files/" + fileId + '.json';
         // console.log(fileUrl1);
         // var xmlHttpResult1 = new XMLHttpRequest();
         // xmlHttpResult1.open("GET", fileUrl1, false);
