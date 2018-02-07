@@ -55,7 +55,18 @@ public class FileCalculate {
         // all good. Prepare the json output.
         ResponseModel rm = new ResponseModel();
         rm.setInputFileId(inputFileId);
-        String outputFileId = inputFileId; // new UniqueIdUtil(inputFileId).getOutputUniqueID();
+        File inputFile = new File(absoluteInputFileName);
+        String fileName = originalFileName;
+        rm.setFileName(fileName);
+        long sizeInBytes = inputFile.length();
+        rm.setFileSize(String.valueOf(sizeInBytes));
+        String inputFileId = inputFile.getName();
+        rm.setInputFileId(inputFileId);
+        rm.setFileType(fileType);
+        Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
+        rm.setEstimatedTime(String.valueOf(estimatedTime));
+
+        String outputFileId = inputFileId;
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);
@@ -76,13 +87,6 @@ public class FileCalculate {
             rm.setErrorMessage(e.getMessage());
             LOGGER.log(Level.SEVERE, "Failed to generate output file <{0}>. Error Message: {1}", new Object[]{absoluteOutputFileName, e.getMessage()});
         }
-
-        // Set response type to json
-//        response.setContentType("application/json");
-        // Send the response.
-//        ObjectMapper jsonMapper = new ObjectMapper();
-//        LOGGER.log(Level.INFO, "Response: {0}", new Object[]{jsonMapper.writeValueAsString(rm)});
-//        writer.print(jsonMapper.writeValueAsString(rm));
 
         // Send the response.
         String response = "";

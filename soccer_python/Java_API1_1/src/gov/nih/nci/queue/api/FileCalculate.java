@@ -49,6 +49,17 @@ public class FileCalculate {
         // all good. Prepare the json output.
         ResponseModel rm = new ResponseModel();
         rm.setInputFileId(inputFileId);
+        File inputFile = new File(absoluteInputFileName);
+        String fileName = originalFileName;
+        rm.setFileName(fileName);
+        long sizeInBytes = inputFile.length();
+        rm.setFileSize(String.valueOf(sizeInBytes));
+        String inputFileId = inputFile.getName();
+        rm.setInputFileId(inputFileId);
+        rm.setFileType(fileType);
+        Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
+        rm.setEstimatedTime(String.valueOf(estimatedTime));
+        
         String outputFileId = inputFileId; // new UniqueIdUtil(inputFileId).getOutputUniqueID();
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
