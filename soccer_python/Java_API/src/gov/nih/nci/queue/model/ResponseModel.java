@@ -17,7 +17,7 @@ public class ResponseModel implements Serializable {
     private String fileName;
     private String fileType;
     private String fileSize;
-    // private String inputFileId;
+    private String inputFileId;
     // private String outputFileId;
     // private String repositoryPath;
     // private String emailAddress;
@@ -72,37 +72,37 @@ public class ResponseModel implements Serializable {
         this.fileSize = fileSize;
     }
 
-//    public String getInputFileId() {
-//        return inputFileId;
-//    }
-//
-//    public void setInputFileId(String inputFileId) {
-//        this.inputFileId = inputFileId;
-//    }
-//
-//    public String getOutputFileId() {
-//        return outputFileId;
-//    }
-//
-//    public void setOutputFileId(String outputFileId) {
-//        this.outputFileId = outputFileId;
-//    }
-//
-//    public String getRepositoryPath() {
-//        return repositoryPath;
-//    }
-//
-//    public void setRepositoryPath(String repositoryPath) {
-//        this.repositoryPath = repositoryPath;
-//    }
-//
-//    public String getEmailAddress() {
-//        return emailAddress;
-//    }
-//
-//    public void setEmailAddress(String emailAddress) {
-//        this.emailAddress = emailAddress;
-//    }
+    public String getInputFileId() {
+        return inputFileId;
+    }
+
+    public void setInputFileId(String inputFileId) {
+        this.inputFileId = inputFileId;
+    }
+    //
+    //    public String getOutputFileId() {
+    //        return outputFileId;
+    //    }
+    //
+    //    public void setOutputFileId(String outputFileId) {
+    //        this.outputFileId = outputFileId;
+    //    }
+    //
+    //    public String getRepositoryPath() {
+    //        return repositoryPath;
+    //    }
+    //
+    //    public void setRepositoryPath(String repositoryPath) {
+    //        this.repositoryPath = repositoryPath;
+    //    }
+    //
+    //    public String getEmailAddress() {
+    //        return emailAddress;
+    //    }
+    //
+    //    public void setEmailAddress(String emailAddress) {
+    //        this.emailAddress = emailAddress;
+    //    }
 
     public List<String> getDetails() {
         return details;
@@ -117,6 +117,6 @@ public class ResponseModel implements Serializable {
     }
 
     public void setTimestamp(String ts) {
-        this.timestamp = ts;    
+        this.timestamp = ts;
     }
 }

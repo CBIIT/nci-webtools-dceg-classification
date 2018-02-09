@@ -59,7 +59,7 @@ class RequestProcessor(DisconnectListener):
     else:
       return 1
 
- # @This is teh consume code which will listen to Queue server.
+ # @This is the consume code which will listen to Queue server.
   def consume(self, client, frame):
     print "In consume"
     files=[]

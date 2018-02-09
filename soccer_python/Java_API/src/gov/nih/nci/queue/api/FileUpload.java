@@ -34,7 +34,7 @@ public class FileUpload {
 
         // Create an object for JSON response.
         ResponseModel rm = new ResponseModel();
-        String inputFileId = null;
+        
         // Get property values.
         // SOCcer related.
         final Double estimatedThreshhold = Double.valueOf(PropertiesUtil.getProperty("gov.nih.nci.soccer.computing.time.threshhold").trim());
@@ -52,8 +52,8 @@ public class FileUpload {
                 rm.setFileName(fileName);
                 long sizeInBytes = inputFile.length();
                 rm.setFileSize(String.valueOf(sizeInBytes));
-                inputFileId = inputFile.getName();
-                // rm.setInputFileId(inputFileId);
+                String inputFileId = inputFile.getName();
+                rm.setInputFileId(inputFileId);
                 rm.setFileType(fileType);
                 // rm.setRepositoryPath(repositoryPath);
                 rm.setTimestamp(new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy").format(new Date()));
@@ -94,7 +94,7 @@ public class FileUpload {
 
             // Generate metadata file
             response = jsonMapper.writeValueAsString(rm);
-//            new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
+            new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
             new MetadataFileUtil(inputFileId, repositoryPath).generateMetadataFile(response);
 
         } catch (IOException ioe) {
