@@ -18,6 +18,7 @@ public class ResponseModel implements Serializable {
     private String fileType;
     private String fileSize;
     private String inputFileId;
+    private String outputFileId;
     private List<String> details;
     private String timestamp;
 
@@ -75,6 +76,14 @@ public class ResponseModel implements Serializable {
 
     public void setInputFileId(String inputFileId) {
         this.inputFileId = inputFileId;
+    }
+
+    public String getOutputFileId() {
+        return outputFileId;
+    }
+
+    public void setOutputFileId(String outputFileId) {
+        this.outputFileId = outputFileId;
     }
 
     public List<String> getDetails() {

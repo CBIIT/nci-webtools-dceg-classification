@@ -62,6 +62,7 @@ public class FileCalculate {
                 // all good. Prepare the json output.
                 LOGGER.log(Level.INFO, "The output file <{0}> has been generated successfully.", absoluteOutputFileName);
                 rm.setStatus("pass");
+                rm.setOutputFileId(outputFileId);
             } else {
                 rm.setStatus("fail");
                 LOGGER.log(Level.SEVERE, "R function failed. Error Message: {0}.png does not exist!", absoluteOutputFileName);
