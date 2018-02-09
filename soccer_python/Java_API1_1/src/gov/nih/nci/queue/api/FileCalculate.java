@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by yankovsr on 4/12/2017.
- */
 public class FileCalculate {
 
     private static final long serialVersionUID = 1736940320783327251L;
@@ -48,7 +45,7 @@ public class FileCalculate {
         LOGGER.log(Level.INFO, "Start processing input file <{0}>.", new Object[]{absoluteInputFileName});
         // all good. Prepare the json output.
         ObjectMapper rmMapper = new ObjectMapper();
-        String existingMetaData = new MetadataFileUtil(inputFileId, repositoryPath).getMetaExistingMetadata();
+        String existingMetaData = new MetadataFileUtil(inputFileId, repositoryPath).getExistingMetadata();
         ResponseModel rm = null;
         try {
             rm = rmMapper.readValue(existingMetaData, ResponseModel.class);
@@ -57,23 +54,7 @@ public class FileCalculate {
             rm.setInputFileId(inputFileId);
         }
 
-       
-
-        // ResponseModel rm = new ResponseModel();
-        // rm.setInputFileId(inputFileId);
-        // File inputFile = new File(absoluteInputFileName);
-        // String fileName = originalFileName;
-        // rm.setFileName(fileName);
-        // long sizeInBytes = inputFile.length();
-        // rm.setFileSize(String.valueOf(sizeInBytes));
-        // String inputFileId = inputFile.getName();
-        // rm.setInputFileId(inputFileId);
-        // rm.setFileType("application/vnd.ms-excel");
-        // SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
-        // Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
-        // rm.setEstimatedTime(String.valueOf(estimatedTime));
-
-        String outputFileId = inputFileId; // new UniqueIdUtil(inputFileId).getOutputUniqueID();
+        String outputFileId = inputFileId;
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;
         try {
             SoccerServiceHelper ssh = new SoccerServiceHelper(strOutputDir);

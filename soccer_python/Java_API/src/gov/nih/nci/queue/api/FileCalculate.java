@@ -14,17 +14,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by yankovsr on 4/12/2017.
- */
 public class FileCalculate {
 
     private static final long serialVersionUID = 1736940320783327251L;
     private static final Logger LOGGER = Logger.getLogger(FileCalculate.class.getCanonicalName());
 
     public static void main(String[] args) {
-        // Set response type to json
-//        PrintWriter writer = response.getWriter();
 
         String inputFileId = args[0];
         FileCalculate fc = new FileCalculate();
@@ -42,19 +37,13 @@ public class FileCalculate {
         if (System.getProperty("gov.nih.cit.soccer.output.dir", "na").equals("na")
                 || System.getProperty("gov.nih.cit.soccer.wordnet.dir", "na").equals("na")) {
             LOGGER.log(Level.SEVERE, "Internal Error: Cannot find system variables.");
-//            writer.print("Internal Error: Cannot find system variables. Please contact Technical Support.");
         }
-        // get input fileId
-//        final String inputFileId = request.getParameter("inputFileId");
         String absoluteInputFileName = repositoryPath + File.separator + inputFileId;
         LOGGER.log(Level.INFO, "AbsoluteInputFileName: {0}, output.dir: {1}", new Object[]{absoluteInputFileName, strOutputDir});
-
-        // Process the file.
         LOGGER.log(Level.INFO, "Start processing input file <{0}>.", new Object[]{absoluteInputFileName});
-        // all good. Prepare the json output.
-        
+
         ObjectMapper rmMapper = new ObjectMapper();
-        String existingMetaData = new MetadataFileUtil(inputFileId, repositoryPath).getMetaExistingMetadata();
+        String existingMetaData = new MetadataFileUtil(inputFileId, repositoryPath).getExistingMetadata();
         ResponseModel rm = null;
         try {
             rm = rmMapper.readValue(existingMetaData, ResponseModel.class);
@@ -62,20 +51,6 @@ public class FileCalculate {
             rm = new ResponseModel();
             rm.setInputFileId(inputFileId);
         }
-
-        // ResponseModel rm = new ResponseModel();
-        // rm.setInputFileId(inputFileId);
-        // File inputFile = new File(absoluteInputFileName);
-        // String fileName = originalFileName;
-        // rm.setFileName(fileName);
-        // long sizeInBytes = inputFile.length();
-        // rm.setFileSize(String.valueOf(sizeInBytes));
-        // String inputFileId = inputFile.getName();
-        // rm.setInputFileId(inputFileId);
-        // rm.setFileType("application/vnd.ms-excel");
-        // SoccerServiceHelper soccerHelper = new SoccerServiceHelper(strOutputDir);
-        // Double estimatedTime = soccerHelper.getEstimatedTime(absoluteInputFileName);
-        // rm.setEstimatedTime(String.valueOf(estimatedTime));
 
         String outputFileId = inputFileId;
         String absoluteOutputFileName = repositoryPath + File.separator + outputFileId;

@@ -8,10 +8,6 @@ package gov.nih.nci.queue.utils;
 import java.io.*;
 import java.util.logging.*;
 
-/**
- *
- * @author wangy21
- */
 public class MetadataFileUtil {
     private final static Logger LOGGER = Logger.getLogger(MetadataFileUtil.class.getCanonicalName());
     private final String METADATA_FILE_EXT = ".json";
@@ -46,7 +42,7 @@ public class MetadataFileUtil {
         }
     }
 
-    public String getMetaExistingMetadata() {
+    public String getExistingMetadata() {
         String metadataFilePath = metadataFileDir + File.separator + metadataFileId + METADATA_FILE_EXT;
         File file = new File(metadataFilePath);
         BufferedReader br = null; 

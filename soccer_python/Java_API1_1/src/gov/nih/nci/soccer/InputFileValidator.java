@@ -6,7 +6,6 @@
 package gov.nih.nci.soccer;
 
 import gov.nih.cit.soccer.SOCcer;
-//import gov.nih.cit.soccer.input.InputFormatException;
 import java.io.*;
 import java.util.*;
 import java.util.logging.*;

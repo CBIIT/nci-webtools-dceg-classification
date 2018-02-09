@@ -16,9 +16,7 @@ import java.util.logging.Logger;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by yankovsr on 4/4/2017.
- */
+
 public class FileUpload {
     private static final long serialVersionUID = 4863936005391033592L;
     private static final Logger LOGGER = Logger.getLogger(FileUpload.class.getCanonicalName());
