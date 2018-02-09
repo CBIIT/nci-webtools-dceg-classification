@@ -95,7 +95,6 @@ public class FileUpload {
             // Generate metadata file
             response = jsonMapper.writeValueAsString(rm);
             new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
-            new MetadataFileUtil(inputFileId, repositoryPath).generateMetadataFile(response);
 
         } catch (IOException ioe) {
             response = "";
