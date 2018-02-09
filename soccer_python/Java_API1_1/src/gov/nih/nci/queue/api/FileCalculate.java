@@ -51,7 +51,6 @@ public class FileCalculate {
             rm = rmMapper.readValue(existingMetaData, ResponseModel.class);
         } catch (IOException ioe) {
             rm = new ResponseModel();
-            rm.setInputFileId(inputFileId);
         }
 
         String outputFileId = inputFileId;
@@ -65,7 +64,6 @@ public class FileCalculate {
                 // all good. Prepare the json output.
                 LOGGER.log(Level.INFO, "The output file <{0}> has been generated successfully.", absoluteOutputFileName);
                 rm.setStatus("pass");
-                rm.setOutputFileId(outputFileId);
             } else {
                 rm.setStatus("fail");
                 LOGGER.log(Level.SEVERE, "R function failed. Error Message: {0}.png does not exist!", absoluteOutputFileName);
@@ -85,7 +83,7 @@ public class FileCalculate {
 
             // Generate metadata file
             response = jsonMapper.writeValueAsString(rm);
-            new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
+            new MetadataFileUtil(inputFileId, repositoryPath).generateMetadataFile(response);
 
         } catch (IOException ioe) {
             response = "";
