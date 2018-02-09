@@ -34,7 +34,7 @@ public class FileUpload {
 
         // Create an object for JSON response.
         ResponseModel rm = new ResponseModel();
-
+        String inputFileId = null;
         // Get property values.
         // SOCcer related.
         final Double estimatedThreshhold = Double.valueOf(PropertiesUtil.getProperty("gov.nih.nci.soccer.computing.time.threshhold").trim());
@@ -52,10 +52,10 @@ public class FileUpload {
                 rm.setFileName(fileName);
                 long sizeInBytes = inputFile.length();
                 rm.setFileSize(String.valueOf(sizeInBytes));
-                String inputFileId = inputFile.getName();
-                rm.setInputFileId(inputFileId);
+                inputFileId = inputFile.getName();
+                // rm.setInputFileId(inputFileId);
                 rm.setFileType(fileType);
-                rm.setRepositoryPath(repositoryPath);
+                // rm.setRepositoryPath(repositoryPath);
                 rm.setTimestamp(new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy").format(new Date()));
 
                 // Validation.
@@ -83,7 +83,7 @@ public class FileUpload {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "FileUploadException or FileNotFoundException. Error Message: {0}", new Object[]{e.getMessage()});
             rm.setStatus("fail");
-            rm.setErrorMessage("Oops! We met with problems when uploading your file. Error Message: " + e.getMessage());
+            rm.setErrorMessage("Oops! We experienced problems when uploading your file. Error Message: " + e.getMessage());
         }
 
         // Send the response.
@@ -94,7 +94,8 @@ public class FileUpload {
 
             // Generate metadata file
             response = jsonMapper.writeValueAsString(rm);
-            new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
+//            new MetadataFileUtil(rm.getInputFileId(), repositoryPath).generateMetadataFile(response);
+            new MetadataFileUtil(inputFileId, repositoryPath).generateMetadataFile(response);
 
         } catch (IOException ioe) {
             response = "";

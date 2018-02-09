@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__, static_folder='', static_url_path='/') 
 QUEUE_NAME = 'queue.name'
 QUEUE_URL = 'queue.url'
-soccerConfig = PropertyUtil(r"config.ini")
+soccerConfig = PropertyUtil("config.ini")
 RESULTS_PATH = soccerConfig.getAsString("soccer.folder.out")
 
 @app.route('/upload', methods=["POST"])

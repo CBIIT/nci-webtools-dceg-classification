@@ -37,7 +37,22 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="629">
               <caret line="51" column="16" lean-forward="false" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="16" />
-              <folding />
+              <folding>
+                <marker date="1495662636000" expanded="false" signature="0:104" ph="/.../" />
+                <marker date="1495662636000" expanded="false" signature="142:586" ph="..." />
+                <marker date="1495662636000" expanded="true" signature="804:1209" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="1231:1441" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="1514:1579" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="1646:1756" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="1845:1899" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="1982:2086" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="2166:2245" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="2319:2382" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="2501:2579" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="2692:3243" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="3306:3562" ph="{...}" />
+                <marker date="1495662636000" expanded="true" signature="3626:5919" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -57,8 +72,8 @@
       <file leaf-file-name="FileCalculate.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileCalculate.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+            <state relative-caret-position="289">
+              <caret line="80" column="13" lean-forward="true" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -69,7 +84,7 @@
       <file leaf-file-name="PropertiesUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/utils/PropertiesUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
+            <state relative-caret-position="136">
               <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
               <folding />
             </state>
@@ -79,10 +94,11 @@
       <file leaf-file-name="ResponseModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/model/ResponseModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+            <state relative-caret-position="850">
+              <caret line="77" column="2" lean-forward="true" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
               <folding>
-                <element signature="e#1277#1278#0" expanded="true" />
+                <element signature="e#1241#1242#0" expanded="true" />
+                <element signature="e#1289#1290#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,8 +107,8 @@
       <file leaf-file-name="FileUpload.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileUpload.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="53" column="60" lean-forward="true" selection-start-line="53" selection-start-column="60" selection-end-line="53" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -101,8 +117,8 @@
       <file leaf-file-name="MetadataFileUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/utils/MetadataFileUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+            <state relative-caret-position="119">
+              <caret line="19" column="37" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -145,14 +161,15 @@
         <option value="$PROJECT_DIR$/src/applicationQueue.properties" />
         <option value="$PROJECT_DIR$/src/gov/nih/nci/soccer/InputFileValidator.java" />
         <option value="$PROJECT_DIR$/src/gov/nih/nci/queue/utils/MetadataFileUtil.java" />
+        <option value="$PROJECT_DIR$/src/gov/nih/nci/queue/model/ResponseModel.java" />
         <option value="$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileUpload.java" />
         <option value="$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileCalculate.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1777" />
-    <option name="y" value="279" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-15" />
+    <option name="y" value="12" />
     <option name="width" value="2578" />
     <option name="height" value="1424" />
   </component>
@@ -171,9 +188,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -264,6 +278,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -465,18 +482,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1777" y="279" width="2578" height="1424" extended-state="0" />
+    <frame x="-8" y="-8" width="2576" height="1426" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980457" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901752" sideWeight="0.4984375" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32951945" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901752" sideWeight="0.5015625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2628524" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980457" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2954723" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2953125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -489,7 +508,6 @@
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3291874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -820,7 +838,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
           <caret line="51" column="16" lean-forward="false" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="16" />
-          <folding />
+          <folding>
+            <marker date="1495662636000" expanded="false" signature="0:104" ph="/.../" />
+            <marker date="1495662636000" expanded="false" signature="142:586" ph="..." />
+            <marker date="1495662636000" expanded="true" signature="804:1209" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="1231:1441" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="1514:1579" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="1646:1756" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="1845:1899" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="1982:2086" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="2166:2245" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="2319:2382" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="2501:2579" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="2692:3243" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="3306:3562" ph="{...}" />
+            <marker date="1495662636000" expanded="true" signature="3626:5919" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -834,46 +867,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileUpload.java">
+    <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/utils/PropertiesUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/model/ResponseModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+        <state relative-caret-position="850">
+          <caret line="77" column="2" lean-forward="true" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
           <folding>
-            <element signature="e#1277#1278#0" expanded="true" />
+            <element signature="e#1241#1242#0" expanded="true" />
+            <element signature="e#1289#1290#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/utils/MetadataFileUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        <state relative-caret-position="119">
+          <caret line="19" column="37" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/utils/PropertiesUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileUpload.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        <state relative-caret-position="17">
+          <caret line="53" column="60" lean-forward="true" selection-start-line="53" selection-start-column="60" selection-end-line="53" selection-end-column="60" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nih/nci/queue/api/FileCalculate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="289">
+          <caret line="80" column="13" lean-forward="true" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

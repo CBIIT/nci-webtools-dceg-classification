@@ -258,7 +258,7 @@ $(function () {
                 + '<br>File Name: ' + obj.fileName 
                 + '<br>File Size: ' + obj.fileSize + ' Bytes'                        
                 + '<br>Processing Time: ' + obj.estimatedTime  + ' Seconds'
-                + '<br>Uploaded on: ' + obj.timeStamp);
+                + '<br>Uploaded on: ' + obj.timestamp);
             $('#queueResultDiv').show();
         }
     }
