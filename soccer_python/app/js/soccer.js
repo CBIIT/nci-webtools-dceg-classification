@@ -13,7 +13,6 @@ $(function () {
     function init()
     {
         var parameters = location.search.substring(1).split("&");
-        console.log(parameters[0]);
         if(parameters[0]) {
             var temp = parameters[0].split("=");
             var fileId = unescape(temp[1]);             
@@ -60,7 +59,6 @@ $(function () {
       });
 
     $('#fileSelect').change(function () {
-        console.log("fileSelect.onchange() invoked.");
         init_state();
 
         // Retrieve metadata of file.
@@ -91,7 +89,6 @@ $(function () {
      * or trigger that event on an element.
      */
     $('#fileForm').submit(function (event) {
-        console.log("fileForm.submit() invoked.");        
         event.preventDefault();
 
         // hide upload button.        
@@ -136,14 +133,12 @@ $(function () {
      */
     function uploadComplete(event) {
         /* This event is raised when the server send back a response */
-        console.log('uploadComplete() invoked. Response Text: ' + event.target.responseText);
         var responseText = event.target.responseText;
 
         // Hide progressDiv
         //$('#progressDiv').hide();
 
         var obj = $.parseJSON(responseText);
-        console.log(obj.status);        
         $('#resultDiv').show();
         if (obj.status === 'pass') {
             $('#resultDiv').removeClass();
@@ -179,7 +174,6 @@ $(function () {
             // refine resultDiv by adding validation errors.
             $('#validationErrorArea').empty().append('<b>Your file has been uploaded successfully but contains the following errors:</b><ul>');
             var arr = obj.details;
-            console.log(arr);
             for (var i = 0; i < arr.length; i++)
                 $('#validationErrorArea').append('<li>' + arr[i] + '</li>');
             $('#validationErrorArea').append('</ul>');
@@ -221,7 +215,6 @@ $(function () {
      * Given fileId, show the content.
      */
     function showResult(fileId) {
-        console.log('showResult ' + fileId);
         var fileUrl = "files/" + fileId;
         var imgUrl = "files/" + fileId+".png";
         var xmlHttpResult = new XMLHttpRequest();
@@ -268,7 +261,6 @@ $(function () {
      * or trigger that event on an element.
      */
     $('#emailForm').submit(function (event) {
-        console.log("emailForm.submit() invoked.");
         event.preventDefault();
        
         // Hide emailForm
@@ -285,15 +277,12 @@ $(function () {
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */
-            console.log('emailForm load is completed. Response Text: ' + event.target.responseText);
             var responseText = event.target.responseText;
             
             var obj=JSON.parse(responseText);
             obj=JSON.parse(obj)
-            console.log(obj.status);            
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {
-                console.log(obj)
                 // Change result Div to success status.
                 $('#resultDiv').removeClass();
                 $('#resultDiv').addClass('alert alert-success');
@@ -331,7 +320,6 @@ $(function () {
      * or trigger that event on an element.
      */
     $('#calcForm').submit(function (event) {
-        console.log("calcForm.submit() invoked.");
         event.preventDefault();
 
         // Hide calcForm
@@ -347,11 +335,9 @@ $(function () {
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */
-            console.log('calcForm load is completed. Response Text: ' + event.target.responseText);
             var responseText = event.target.responseText;
 
             var obj = $.parseJSON(responseText);
-            console.log(obj.status);             
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {              
                 // Set ququeResultDiv to success status.
