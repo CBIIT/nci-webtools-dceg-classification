@@ -17,7 +17,7 @@ from stompest.async.listener import SubscriptionListener
 from stompest.async.listener import DisconnectListener
 from stompest.config import StompConfig
 from stompest.protocol import StompSpec
-import urllib 
+import urllib
 
 class RequestProcessor(DisconnectListener):
   CONFIG = 'queue.config'
@@ -89,7 +89,7 @@ class RequestProcessor(DisconnectListener):
     os.remove(filePath + '_response.json')
     print(url)
     Link='<a href='+url+'></a>'
-    print(Link) 
+    print(Link)
     print parameters['timestamp']
     print "Here is the Link to the past:"
     print Link
@@ -114,7 +114,7 @@ class RequestProcessor(DisconnectListener):
     print "sending"
     self.composeMail(parameters['emailAddress'],message,files)
     print "end"
-  
+
   @defer.inlineCallbacks
   def run(self):
     client = yield Stomp(self.config).connect()
@@ -132,7 +132,7 @@ class RequestProcessor(DisconnectListener):
 
   def onCleanup(self, connect):
     print 'In clean up ...'
-  
+
   def onConnectionLost(self, connect, reason):
     print "in onConnectionLost"
     self.run()
@@ -143,7 +143,7 @@ class RequestProcessor(DisconnectListener):
      # Initialize Connections to ActiveMQ
     self.QUEUE=config.getAsString(RequestProcessor.NAME)
     self.ERROR_QUEUE=config.getAsString('queue.error.name')
-    config = StompConfig(config.getAsString(RequestProcessor.URL)) 
+    config = StompConfig(config.getAsString(RequestProcessor.URL))
     self.config = config
 
 if __name__ == '__main__':
