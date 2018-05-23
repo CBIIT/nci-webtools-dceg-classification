@@ -19,7 +19,7 @@ from stompest.config import StompConfig
 from stompest.protocol import StompSpec
 import urllib
 
-class RequestProcessor(DisconnectListener):
+class soccerProcessor(DisconnectListener):
   CONFIG = 'queue.config'
   NAME = 'queue.name'
   URL = 'queue.url'
@@ -141,12 +141,12 @@ class RequestProcessor(DisconnectListener):
   def __init__(self):
     config = PropertyUtil(r"config.ini")
      # Initialize Connections to ActiveMQ
-    self.QUEUE=config.getAsString(RequestProcessor.NAME)
+    self.QUEUE=config.getAsString(soccerProcessor.NAME)
     self.ERROR_QUEUE=config.getAsString('queue.error.name')
-    config = StompConfig(config.getAsString(RequestProcessor.URL))
+    config = StompConfig(config.getAsString(soccerProcessor.URL))
     self.config = config
 
 if __name__ == '__main__':
   logging.basicConfig(level=logging.INFO)
-  RequestProcessor().run()
+  soccerProcessor().run()
   reactor.run()
