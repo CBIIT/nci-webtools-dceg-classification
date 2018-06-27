@@ -61,7 +61,7 @@ def calc():
         socSystem = request.form["socSystem"]
 
         filename, extension = os.path.splitext(inputFileId)
-        if extension != ".csv" or not valid_uuid(filename)
+        if extension != ".csv" or not valid_uuid(filename):
             return jsonify({'status': 'fail', errorMessage: 'Invalid input file'})
 
         if socSystem=="model10":

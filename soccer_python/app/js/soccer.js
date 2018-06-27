@@ -231,7 +231,7 @@ $(function () {
         else {
             $("#resultArea").show();
             //$("#resultContent").text(xmlHttpResult.responseText);
-            $("#resultContent").html($('<img class="plotImg">', {src: imgUrl}));
+            $("#resultContent").html($('<img>', {class: 'plotImg', src: imgUrl}));
             $("#downloadHref").prop("href", fileUrl);
         }
     }
@@ -283,8 +283,13 @@ $(function () {
             /* This event is raised when the server send back a response */
             var responseText = event.target.responseText;
 
-            var obj=JSON.parse(responseText);
-            obj=JSON.parse(obj)
+            try {
+                var obj=JSON.parse(responseText);
+                obj=JSON.parse(obj)
+            } catch (e) {
+                var obj = {status: null};
+            }
+
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {
                 // Change result Div to success status.
