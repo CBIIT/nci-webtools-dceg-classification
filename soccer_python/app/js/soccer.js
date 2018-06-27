@@ -3,34 +3,34 @@
 $(function () {
 
     // Restriction. // TODO - adjust this file extenstion restriction.
-    $('#fileSelect').attr('accept', '.csv, text/plain');        
+    $('#fileSelect').attr('accept', '.csv, text/plain');
     $('[data-toggle="popover"]').popover({
         placement : 'right'
-    }); 
+    });
 
-    // Initilize  
+    // Initilize
     init();
     function init()
     {
         var parameters = location.search.substring(1).split("&");
         if(parameters[0]) {
             var temp = parameters[0].split("=");
-            var fileId = unescape(temp[1]);             
+            var fileId = unescape(temp[1]);
             activateSoccerTab();
             showMetadata(fileId);
-            showResult(fileId);              
-        }        
+            showResult(fileId);
+        }
         else {
             init_state();
-        } 
+        }
     }
 
-    // Initilize page state. 
+    // Initilize page state.
     function init_state() {
         $('#progressBar').css('width', '0%');
         // Hide email Form.
         $('#emailForm').hide();
-        // Hide calc Form. 
+        // Hide calc Form.
         $('#calcForm').hide();
         // Hide *ResultDiv.
         $('#resultDiv').hide();
@@ -47,11 +47,11 @@ $(function () {
         // Enable calc submit button if disabled.
         $('#calcSubmit').removeAttr('disabled');
         // Hide result portion.
-        $("#resultArea").hide();        
+        $("#resultArea").hide();
     }
 
     /*
-     * Bind an event handler to the "change" JavaScript event, 
+     * Bind an event handler to the "change" JavaScript event,
      * or trigger that event on an element.
      */
     $('#socSystem').change(function () {
@@ -73,7 +73,11 @@ $(function () {
                 fileSize = file.size + ' Bytes';
 
             // Display meta data of the file.
-            $('#fileMetaDiv').html("<i><strong>File Name: " + file.name + ";    File Size: " + fileSize + "</strong></i>");
+            $('#fileMetaDiv').html(
+                $('<i class="strong">').text(
+                    "File Name: " + file.name + ";    File Size: " + fileSize
+                )
+            );
             // Show progress bar div
             $('#progressDiv').show();
             $('#progressBar').text('0%');
@@ -85,13 +89,13 @@ $(function () {
     });
 
     /*
-     * Bind an event handler to the â€œsubmitâ€� JavaScript event, 
+     * Bind an event handler to the â€œsubmitâ€� JavaScript event,
      * or trigger that event on an element.
      */
     $('#fileForm').submit(function (event) {
         event.preventDefault();
 
-        // hide upload button.        
+        // hide upload button.
         $('#fileSubmit').attr('disabled', 'disabled');
 
         // Prepare formData and submit data.
@@ -110,7 +114,7 @@ $(function () {
         return false;
     });
 
-    /* 
+    /*
      * Define callback function uploadProgress
      * @param {type} evt
      * @returns {undefined}
@@ -148,11 +152,11 @@ $(function () {
              // Show the calc Form and enable if disabled.
             $('#calcForm').show();
             $('#calcSubmit').removeAttr('disabled');
-            //$('#resultDiv').empty().append('Your file has been uploaded successfully.<br>Estimated processing time: <b>'+obj.estimatedTime+' seconds</b>');    
-            $('#resultDiv').empty().append('Your file has been uploaded successfully.');             
+            //$('#resultDiv').empty().append('Your file has been uploaded successfully.<br>Estimated processing time: <b>'+obj.estimatedTime+' seconds</b>');
+            $('#resultDiv').empty().append('Your file has been uploaded successfully.');
         }
         else if (obj.status === 'queue') {
-            // Display continue message. 
+            // Display continue message.
             $('#resultDiv').removeClass();
             $('#resultDiv').addClass('alert alert-warning');
             //$('#resultDiv').empty().append('Your file has been uploaded successfully and is ready for processing. <br><br>'
@@ -183,13 +187,13 @@ $(function () {
             $('#resultDiv').removeClass();
             $('#resultDiv').addClass('alert alert-danger');
             // refine resultDiv by adding validation errors.
-            $('#resultDiv').empty().append('<b>' + obj.errorMessage + '</b>');            
+            $('#resultDiv').empty().append('<b>' + obj.errorMessage + '</b>');
         }
         else {
             $('#resultDiv').removeClass();
             $('#resultDiv').addClass('alert alert-danger');
             // refine resultDiv by adding validation errors.
-            $('#resultDiv').empty().append('<b>Oops! Internal error.</b>');   
+            $('#resultDiv').empty().append('<b>Oops! Internal error.</b>');
         }
     }
 
@@ -219,16 +223,16 @@ $(function () {
         var imgUrl = "files/" + fileId+".png";
         var xmlHttpResult = new XMLHttpRequest();
         xmlHttpResult.open("GET", fileUrl, false);
-        xmlHttpResult.send(null);    
+        xmlHttpResult.send(null);
         if(xmlHttpResult.status == 404) {
             $("#resultContent").text('The requested resource is not available.');
-            $("#downloadHref").text('');  
+            $("#downloadHref").text('');
         }
         else {
             $("#resultArea").show();
             //$("#resultContent").text(xmlHttpResult.responseText);
-            $("#resultContent").html("<img class='plotImg' src='"+imgUrl+"'>");
-            $("#downloadHref").prop("href", fileUrl);   
+            $("#resultContent").html($('<img>', {class: 'plotImg', src: imgUrl}));
+            $("#downloadHref").prop("href", fileUrl);
         }
     }
 
@@ -243,13 +247,13 @@ $(function () {
         if (result.status == 404) {
             ; //do nothing
         } else {
-            var obj = $.parseJSON(result.responseText);                    
+            var obj = $.parseJSON(result.responseText);
 
             $('#queueResultDiv').removeClass();
-            $('#queueResultDiv').addClass('alert alert-success');   
+            $('#queueResultDiv').addClass('alert alert-success');
             $('#queueResultDiv').empty().append('Your file has been processed successfully.<br>'
-                + '<br>File Name: ' + obj.fileName 
-                + '<br>File Size: ' + obj.fileSize + ' Bytes'                        
+                + '<br>File Name: ' + obj.fileName
+                + '<br>File Size: ' + obj.fileSize + ' Bytes'
                 + '<br>Processing Time: ' + obj.estimatedTime  + ' Seconds'
                 + '<br>Uploaded on: ' + obj.timestamp);
             $('#queueResultDiv').show();
@@ -257,12 +261,12 @@ $(function () {
     }
 
     /*
-     * Bind an event handler to the â€œemailSubmitâ€� JavaScript event, 
+     * Bind an event handler to the â€œemailSubmitâ€� JavaScript event,
      * or trigger that event on an element.
      */
     $('#emailForm').submit(function (event) {
         event.preventDefault();
-       
+
         // Hide emailForm
         $('#emailForm').hide();
 
@@ -278,9 +282,14 @@ $(function () {
         xhr.addEventListener("load", function (event) {
             /* This event is raised when the server send back a response */
             var responseText = event.target.responseText;
-            
-            var obj=JSON.parse(responseText);
-            obj=JSON.parse(obj)
+
+            try {
+                var obj=JSON.parse(responseText);
+                obj=JSON.parse(obj)
+            } catch (e) {
+                var obj = {status: null};
+            }
+
             $('#queueResultDiv').show();
             if (obj.status === 'pass') {
                 // Change result Div to success status.
@@ -291,19 +300,19 @@ $(function () {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-success');
                 $('#queueResultDiv').empty().append('Congratulations! Your file has been added into our queue successfully! '
-                    + 'Once the file is processed, you will get an email notification at <b>' + $('#emailAddress').val() 
-                    + '</b>. <br><br>You can close this window or upload other files now.'); 
+                    + 'Once the file is processed, you will get an email notification at <b>' + $('#emailAddress').val()
+                    + '</b>. <br><br>You can close this window or upload other files now.');
             } else if (obj.status === 'fail') {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-danger');
                 // refine queueResultDiv by adding validation errors.
-                $('#queueResultDiv').empty().append('<b>' + obj.errorMessage + '</b>');            
+                $('#queueResultDiv').empty().append($('<b>').text(obj.errorMessage));
             }
             else {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-danger');
                 // refine resultDiv by adding validation errors.
-                $('#queueResultDiv').empty().append('<b>Oops! Internal error.</b>');   
+                $('#queueResultDiv').empty().append('<b>Oops! Internal error.</b>');
             }
         }, false);
         xhr.addEventListener("error", uploadFailed, false);
@@ -316,20 +325,20 @@ $(function () {
     });
 
     /*
-     * Bind an event handler to the â€œcalcSubmitâ€� JavaScript event, 
+     * Bind an event handler to the â€œcalcSubmitâ€� JavaScript event,
      * or trigger that event on an element.
      */
     $('#calcForm').submit(function (event) {
         event.preventDefault();
 
         // Hide calcForm
-        $('#calcForm').hide(); 
+        $('#calcForm').hide();
 
         $('#queueResultDiv').show();
-        $('#queueResultDiv').html('<img width="28px" src="./img/processing.gif">processing...');  
+        $('#queueResultDiv').html('<img width="28px" src="./img/processing.gif">processing...');
 
         // Prepare formData and submit data.
-        var calcFormData = new FormData();       
+        var calcFormData = new FormData();
         calcFormData.append("inputFileId", $('#inputFileId').val());
         calcFormData.append("socSystem", $('#socSystem').find(":selected").val());
         var xhr = new XMLHttpRequest();
@@ -339,24 +348,24 @@ $(function () {
 
             var obj = $.parseJSON(responseText);
             $('#queueResultDiv').show();
-            if (obj.status === 'pass') {              
+            if (obj.status === 'pass') {
                 // Set ququeResultDiv to success status.
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-success');
-                $('#queueResultDiv').empty().append('Your file has been processed successfully.');  
+                $('#queueResultDiv').empty().append('Your file has been processed successfully.');
                 // show result
                 showResult(obj.outputFileId);
             } else if (obj.status === 'fail') {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-danger');
                 // refine queueResultDiv by adding validation errors.
-                $('#queueResultDiv').empty().append('<b>' + obj.errorMessage + '</b>');            
+                $('#queueResultDiv').empty().append($('<b>').text(obj.errorMessage));
             }
             else {
                 $('#queueResultDiv').removeClass();
                 $('#queueResultDiv').addClass('alert alert-danger');
                 // refine resultDiv by adding validation errors.
-                $('#queueResultDiv').empty().append('<b>Oops! Internal error.</b>');   
+                $('#queueResultDiv').empty().append('<b>Oops! Internal error.</b>');
             }
 
         }, false);
@@ -370,35 +379,35 @@ $(function () {
     });
 
     // Cancel actions.
-    $('#cancelCalc').click(function (event) {        
-        init_state(); 
+    $('#cancelCalc').click(function (event) {
+        init_state();
     });
-    $('#cancelSubmit').click(function (event) {        
-        init_state(); 
+    $('#cancelSubmit').click(function (event) {
+        init_state();
     });
 
     // tab handling.
     $('#myTab a').click(function(e){
-        e.preventDefault();        
+        e.preventDefault();
         $(this).tab('show');
     });
 
-    // change the content. 
-    $("#btnInfo").hover(function() {       
+    // change the content.
+    $("#btnInfo").hover(function() {
         var socSystem = $('#socSystem').val();
-        //$(this).attr('data-original-title', $('#socSystem option:selected').text());         
-        //$(this).attr('data-content', 'value: ' + socSystem);           
-        $(this).attr('data-original-title', "MODEL: SOCcer");         
-        $(this).attr('data-content', "Features: JOB Title, SIC, Job Tasks");         
-    }, function() {         
+        //$(this).attr('data-original-title', $('#socSystem option:selected').text());
+        //$(this).attr('data-content', 'value: ' + socSystem);
+        $(this).attr('data-original-title', "MODEL: SOCcer");
+        $(this).attr('data-content', "Features: JOB Title, SIC, Job Tasks");
+    }, function() {
         $('[data-toggle="popover"]').popover('hide');
     });
     $("#btnInfo").click(function(){
-        $('[data-toggle="popover"]').popover('show'); 
+        $('[data-toggle="popover"]').popover('show');
     });
 
 });
 
-function activateSoccerTab() {  
+function activateSoccerTab() {
     $('#myTab a[href="#soccerTab"]').tab('show');
 }
