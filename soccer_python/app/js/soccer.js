@@ -284,8 +284,7 @@ $(function () {
             var responseText = event.target.responseText;
 
             try {
-                var obj=JSON.parse(responseText);
-                obj=JSON.parse(obj)
+                var obj = JSON.parse(responseText);
             } catch (e) {
                 var obj = {status: null};
             }
