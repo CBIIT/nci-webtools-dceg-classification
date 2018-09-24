@@ -42,7 +42,7 @@ def upload():
             if socSystem=="model10":
                 return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
             else:
-               return_code = subprocess.call(['java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
+               return_code = subprocess.call(['/etc/alternatives/jre_1.8.0/bin/java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
             with open(filePath + '_response.json', 'r') as resultFile:
                 responseObj = resultFile.read().replace('\n', '')
             os.remove(filePath + '_response.json')
