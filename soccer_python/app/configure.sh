@@ -6,7 +6,7 @@
 #		--url tcp://queue:9999 --name /queue --error /error
 
 # create hash for parameters
-declare -A parameters=( [host]= [admin]= [root]= [out]= [url]= [name]= [error]= )
+declare -A parameters=( [host]= [admin]= [url]= [name]= [error]= )
 valid=true
 
 # assign arguments to parameters
@@ -32,15 +32,13 @@ if [ $valid = true ]; then
 # display usage if incorrect
 else
 	echo
-	
+
 	echo -e "\e[32mUsage:"
 	echo -e "\e[95m	sh\e[39m configure.sh \e[92m[options]"
-	
+
 	echo -e "\e[32mOptions:"
 	echo -e "\e[39m	--host\e[92m server.name"
 	echo -e "\e[39m	--admin\e[92m admin@server.name"
-	echo -e "\e[39m	--port\e[92m 0-65535"
-	echo -e "\e[39m	--root\e[92m /folder/root"
 	echo -e "\e[39m	--out\e[92m /folder/out"
 	echo -e "\e[39m	--url\e[92m tcp://queue/url"
 	echo -e "\e[39m	--name\e[92m /queue/name"
