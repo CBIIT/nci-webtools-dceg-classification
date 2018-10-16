@@ -1,0 +1,24 @@
+a {
+    color:#3a539b;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+  /** Adds a spin animation to the element */
+.spinner {
+    animation: spin 1s infinite linear;
+}
+
+  /** Spin animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
