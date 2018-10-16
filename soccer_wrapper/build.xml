@@ -1,26 +1,17 @@
 <project name="SoccerWrapper" default="jar">
-    <property name="src.dir" value="src"/>
-    <property name="lib.dir" value="lib"/>
-    <property name="build.dir" value="build"/>
-    <property name="jar.name" value="soccer-wrapper.jar"/>
-    <property name="main.class" value="SoccerWrapper"/>
-
     <path id="classpath">
-        <fileset dir="${lib.dir}" includes="*.jar"/>
+        <fileset dir="lib" includes="*.jar"/>
     </path>
 
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-    </target>
-
-    <target name="jar" depends="clean">
-        <mkdir dir="${build.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" includeantruntime="false"/>
-        <jar destfile="${build.dir}/${jar.name}" basedir="${build.dir}">
+    <target name="jar">
+        <delete dir="build"/>
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build" classpathref="classpath" includeantruntime="false"/>
+        <jar destfile="build/soccer-wrapper.jar" basedir="build">
             <manifest>
-                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Main-Class" value="SoccerWrapper"/>
             </manifest>
-            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+            <zipgroupfileset dir="lib" includes="*.jar"/>
         </jar>
     </target>
 </project>
