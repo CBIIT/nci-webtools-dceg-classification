@@ -16,16 +16,20 @@
     <header class="container mb-4">
         <div class="row mt-2">
             <div class="col text-left pt-2 d-none d-md-block">
-                <a href="#">
+                <a href="https://cit.nih.gov/">
                     <img src="static/img/logos/nih-cit-logo.png" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="60">
                 </a>
             </div>
             <div class="col text-center">
-                <img src="static/img/logos/soccer-logo.png" alt="soccer logo" height="100">
-                <h1 class="sr-only">SOCcer</h1>
+                <a href=".">
+                    <img src="static/img/logos/soccer-logo.png" alt="soccer logo" height="100">
+                    <h1 class="sr-only">SOCcer</h1>
+                </a>
             </div>
             <div class="col text-right d-none d-lg-block">
-                <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="60">
+                <a href="https://dceg.cancer.gov/">
+                    <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="60">
+                </a>
             </div>
         </div>
     </header>
@@ -79,14 +83,14 @@
                                         <a href="static/files/example2.csv">Example 2</a>
                                     </span>
                                 </label>
-                                <input class="small d-block mb-1" type="file" id="input-file" name="input-file" required>
+                                <input class="small d-block mb-1" type="file" id="input-file" name="input-file" accept=".csv" required>
                                 <div class="small text-secondary font-italic" id="input-file-description"></div>
                             </div>
 
                             <div class="form-group form-inline">
 
                                 <label class="mr-1" for="model-version">SOCcer Model:</label>
-                                <select id="model-version" name="model-version" class="mr-1 form-control form-control-sm">
+                                <select id="model-version" name="model-version" class="mr-1 form-control">
                                     <option value="1">model v1.0</option>
                                     <option value="2">model v2.0</option>
                                 </select>
@@ -96,32 +100,27 @@
                                 </span>
                             </div>
 
-                            <button id="upload" class="btn btn-success">Upload</button>
-
-                            <div class="progress my-4">
-                                <div id="upload-progress" class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            <div class="progress mb-4">
+                                <div id="upload-progress" class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                             </div>
 
-                            <div id="alerts" class="my-4"></div>
+                            <div id="alerts" class="mb-4"></div>
 
-                            <div id="email-container" class="form-group" style="display: none">
-                                <label class="sr-only" for="email">Enter your email</label>
-                                <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="Email address">
-                            </div>
+                            <label class="sr-only" for="email">Enter your email</label>
+                            <input type="email" class="form-control mb-4" id="email" name="email" placeholder="Email address">
 
                             <input type="hidden" name="file-id" id="file-id">
 
-                            <div id="submit-container" style="display: none">
-                                <button type="submit" id="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" id="cancel" class="btn btn-danger">Cancel</button>
-                            </div>
-
-                            <button type="button" id="loading" class="btn btn-primary" disabled>
+                            <button id="upload" class="btn btn-primary">Upload</button>
+                            <button type="submit" id="submit" class="btn btn-primary" style="display: none">Submit</button>
+                            <button type="button" id="loading" class="btn btn-primary" style="display: none" disabled>
                                 <span class=" d-flex align-items-center">
                                     <img class="spinner mr-2" src="static/img/icons/spinner-third.svg" alt="loading" height="20" />
                                     Processing
                                 </span>
                             </button>
+                            <button type="reset" id="reset" class="btn btn-danger" style="display: none">Reset</button>
+
                         </form>
 
                     </div>
@@ -153,7 +152,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>model 1.0</td>
+                            <td>model v1.0</td>
                             <td>This model codes job descriptions to the SOC 2010 classification system as described in Computer-Based Coding of Free-Text Job Descriptions to Efficiently and Reliably Incorporate Occupational Risk Factors into Large-Scale Epidemiological Studies. This model uses the variables JobTitle, SIC, and JobTask. This model can be used even if parts of the Job Description are not available (e.g. SIC or JobTask is missing). The classifiers will assign a '0' for the missing information in the calculation of the overall SOCcer score.</td>
                         </tr>
                     </tbody>
@@ -163,7 +162,7 @@
                 <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
                 <table class="mb-3">
                     <tr>
-                        <td class="pr-3"><a href="static/files/socassign.jnlp">SOCAssign</a></td>
+                        <td class="pr-3"><a href="static/files/SOCAssign.jnlp">SOCAssign</a></td>
                         <td>Run as Web Start</td>
                     </tr>
                     <tr>
@@ -285,61 +284,61 @@
     <footer class="container text-left text-md-center py-4">
         <ul class="list-inline">
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">Home</a>
+                <a href="https://www.cancer.gov/" class="text-dark">Home</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">Support</a>
+                <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov" class="text-dark">Support</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">Policies</a>
+                <a href="https://www.cancer.gov/global/web/policies" class="text-dark">Policies</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">Accessibility</a>
+                <a href="https://www.cancer.gov/global/web/policies/accessibility" class="text-dark">Accessibility</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">Viewing Files</a>
+                <a href="https://cancer.gov/global/viewing-files" class="text-dark">Viewing Files</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">FOIA</a>
+                <a href="https://www.cancer.gov/global/web/policies/foia" class="text-dark">FOIA</a>
             </li>
         </ul>
 
         <ul class="list-inline">
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">U.S. Department of Health and Human Services</a>
+                <a href="https://www.hhs.gov/" class="text-dark">U.S. Department of Health and Human Services</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">National Institutes of Health</a>
+                <a href="https://www.nih.gov/" class="text-dark">National Institutes of Health</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">National Cancer Institute</a>
+                <a href="https://www.cancer.gov/" class="text-dark">National Cancer Institute</a>
             </li>
 
             <li class="d-none d-md-inline list-inline-item">|</li>
 
             <li class="d-block d-md-inline list-inline-item">
-                <a href="#" class="text-dark">USA.gov</a>
+                <a href="https://usa.gov/" class="text-dark">USA.gov</a>
             </li>
         </ul>
 
