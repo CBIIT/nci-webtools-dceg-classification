@@ -6,7 +6,7 @@
 #		--url tcp://queue:9999 --name /queue --error /error
 
 # create hash for parameters
-declare -A parameters=( [host]= [admin]= [url]= [name]= [error]= )
+declare -A parameters=( [mail_host]= [mail_admin]= [queue_url]= [queue_name]= [error_queue_name]= [input_dir]= [output_dir]= [wordnet_dir]= [model_file]= )
 valid=true
 
 # assign arguments to parameters
@@ -37,10 +37,13 @@ else
 	echo -e "\e[95m	sh\e[39m configure.sh \e[92m[options]"
 
 	echo -e "\e[32mOptions:"
-	echo -e "\e[39m	--host\e[92m server.name"
-	echo -e "\e[39m	--admin\e[92m admin@server.name"
-	echo -e "\e[39m	--out\e[92m /folder/out"
-	echo -e "\e[39m	--url\e[92m tcp://queue/url"
-	echo -e "\e[39m	--name\e[92m /queue/name"
-	echo -e "\e[39m	--error\e[92m /queue/error/name \e[39m"
+	echo -e "\e[39m	--input_dir\e[92m /path/to/input/directory"
+	echo -e "\e[39m	--output_dir\e[92m /path/to/output/directory"
+	echo -e "\e[39m	--wordnet_dir\e[92m /path/to/wordnet/directory"
+	echo -e "\e[39m	--model_file\e[92m /path/to/model/file"
+	echo -e "\e[39m	--mail_host\e[92m mail.server.name"
+	echo -e "\e[39m	--mail_admin\e[92m admin@server.name"
+	echo -e "\e[39m	--queue_url\e[92m tcp://queue/url"
+	echo -e "\e[39m	--queue_name\e[92m /queue/name"
+	echo -e "\e[39m	--error_queue_name\e[92m /errors/queue/name \e[39m"
 fi

@@ -1,180 +1,200 @@
-
 from ConfigParser import SafeConfigParser
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from flask import Flask, jsonify, render_template, request, send_file
+from os import makedirs, linesep, path
+# from stompest.config import StompConfig
+# from stompest.sync import Stomp
+from smtplib import SMTP
+from subprocess import STDOUT, CalledProcessError, check_call, check_output
+from threading import Thread
+from time import strftime
+from traceback import format_exc
+from urllib import pathname2url
 from uuid import uuid4
-from os import makedirs, path
-from flask import Flask, jsonify, send_file
-import subprocess
-from flask import Flask, jsonify, request, Response, send_from_directory
-import uuid
-from stompest.config import StompConfig
-from stompest.sync import Stomp
-from werkzeug.utils import secure_filename
+from werkzeug.security import safe_join
 
-app = Flask(__name__, static_folder='', static_url_path='')
+
+SOCCER_WRAPPER_PATH = path.join('jars', 'soccer-wrapper.jar')
+SOCCER_V1_PATH = path.join('jars', 'SOCcer-v1.0.jar')
+SOCCER_V2_PATH = path.join('jars', 'SOCcer-v2.0.jar')
+
+
+if __name__ == '__main__':
+    '''Serve static files using Flask for local development'''
+    app = Flask(__name__, static_folder='', static_url_path='')
+else:
+    '''Otherwise, use mod_wsgi/apache to serve files'''
+    app = Flask(__name__)
+
 
 def get_config(filepath='config.ini'):
-    '''Returns a config file's contents as a dictionary'''
+    '''Reads a config file as a dictionary'''
     config = SafeConfigParser()
     config.read(filepath)
     return config._sections
 
-def init():
-    app.config.update(get_config())
-    output_dir = app.config['folders']['output']
 
-    if not path.isdir(output_dir):
-        makedirs(output_dir)
+def init():
+    '''Loads configuration and creates output directories'''
+    app.config.update(get_config())
+    input_dir = app.config['soccer']['input_dir']
+    output_dir = app.config['soccer']['output_dir']
+
+    for dir in [input_dir, output_dir]:
+        if not path.isdir(dir):
+            makedirs(dir)
+
+def send_mail(sender, recipient, subject, contents):
+    msg = MIMEMultipart()
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = recipient
+    msg.attach(MIMEText(contents, 'html'))
+
+    smtp = SMTP(app.config['mail']['host'])
+    smtp.sendmail(sender, recipient, msg.as_string())
+
 
 init()
 
+
 @app.errorhandler(Exception)
 def error_handler(e):
-    '''Ensures that uncaught errors are logged and returned as json'''
+    '''Ensures errors are logged and returned as json'''
     app.logger.error(format_exc())
-    return jsonify(str(e)), 500
+    return jsonify(getattr(e, 'output', str(e))), 500
 
-@app.route('/upload', methods=['POST'])
-def upload():
-    output_dir = app.config['folders']['output']
+
+@app.route('/validate', methods=['POST'], strict_slashes=False)
+def validate():
+    '''Validates input files against the specified version of the model'''
+    input_dir = app.config['soccer']['input_dir']
     input_file = request.files['input-file']
-    model = request.form['model']
-    token = str(uuid4())
+    model_version = request.form['model-version']
+    file_id = str(uuid4())
 
-    input_filepath = path.join(output_dir, '%s.csv' % token)
-    output_filepath = path.join(output_dir, '%s.validated.json' % token)
+    input_filepath = path.join(input_dir, file_id)
     input_file.save(input_filepath)
 
-    subprocess.call([
-        'java', '-jar', 'soccer.jar',
-        '--validate',
-        '--model', model,
+    if model_version == '1':
+        jar_filepath = SOCCER_V1_PATH
+    elif model_version == '2':
+        jar_filepath = SOCCER_V2_PATH
+    else:
+        raise ValueError('Invalid model version selected')
+
+    # common arguments for soccer-wrapper.jar
+    common_args = [
+        '--input-file', input_filepath,
+        '--jar-file', jar_filepath,
+        '--model-version', model_version,
+    ]
+
+    # validate file
+    check_output([
+        'java', '-jar', SOCCER_WRAPPER_PATH,
+        '--method', 'validate-file',
+    ] + common_args, stderr=STDOUT)
+
+    # get estimated runtime
+    estimated_runtime = check_output([
+        'java', '-jar', SOCCER_WRAPPER_PATH,
+        '--method', 'estimate-runtime',
+    ] + common_args, stderr=STDOUT)
+
+    return jsonify({
+        'estimated_runtime': float(estimated_runtime),
+        'file_id': file_id,
+    })
+
+
+@app.route('/code-file', methods=['POST'], strict_slashes=False)
+def code_file():
+    '''Codes the input file to different SOC categories'''
+
+    input_dir = app.config['soccer']['input_dir']
+    output_dir = app.config['soccer']['output_dir']
+    model_version = request.form['model-version']
+    file_id = request.form['file-id']
+
+    input_filepath = safe_join(input_dir, file_id)
+    output_filepath = safe_join(output_dir, file_id + '.csv')
+    plot_filepath = safe_join(output_dir, file_id + '.png')
+
+    if model_version == '1':
+        jar_filepath = SOCCER_V1_PATH
+    elif model_version == '2':
+        jar_filepath = SOCCER_V2_PATH
+    else:
+        raise ValueError('Invalid model version selected')
+
+    # code file
+    check_call([
+        'java', '-jar', SOCCER_WRAPPER_PATH,
         '--input-file', input_filepath,
         '--output-file', output_filepath,
+        '--model-version', model_version,
+        '--method', 'code-file',
+        '--jar-file', jar_filepath,
+        '--model-file', app.config['soccer']['model_file'],
+    ], stderr=STDOUT)
+
+    # create plot
+    check_call([
+        'Rscript', 'soccerResultPlot.R',
+        output_filepath, plot_filepath
     ])
 
-    return send_file(output_path)
+    return jsonify(file_id)
 
 
-@app.route('/calculate', methods=['POST'])
-def calculate():
+@app.route('/results/<file_id>', methods=['GET'], strict_slashes=False)
+def get_results(file_id):
+    '''Retrieves paths to the results files based on the file token'''
 
-    output_dir = app.config['folders']['output']
-    model = request.form['model']
-    token = request.form['token']
+    output_dir = app.config['soccer']['output_dir']
+    output_filepath = safe_join(output_dir, file_id + '.csv')
+    plot_filepath = safe_join(output_dir, file_id + '.png')
 
-    input_filepath = path.join(output_dir, '%s.csv' % token)
-    output_filepath = path.join(output_dir, '%s.json' % token)
+    if not all(path.isfile(i) for i in [output_filepath, plot_filepath]):
+        raise ValueError('Invalid file id')
 
-    subprocess.call([
-        'java', '-jar', 'soccer.jar',
-        '--calculate',
-        '--model', model,
-        '--input-file', input_filepath,
-        '--output-file', output_filepath,
-    ])
+    return jsonify({
+        'output_url': pathname2url(output_filepath),
+        'plot_url': pathname2url(plot_filepath),
+    })
 
-    return send_file(output_filepath)
 
-@app.route('/enqueue', methods=['POST']):
+@app.route('/enqueue', methods=['POST'], strict_slashes=False)
 def enqueue():
-    queue = app.config['queue']
-    client = Stomp(StompConfig(queue['url']))
-    client.connect()
-    client.send(queue['name'], json.dumps(request.form))
-    client.disconnect()
+    '''Processes files in a separate thread and sends an email once complete'''
+    context = request.environ
+    def execute():
+        with app.request_context(context):
+            parameters = {
+                'email': request.form['email'],
+                'filename': request.files['input-file'].filename,
+                'model_version': request.form['model-version'],
+                'timestamp': strftime('%a %b %X %Z %Y'),
+                'results_url': request.url_root + '?id=' + request.form['file-id'],
+            }
+            code_file()
+            send_mail(
+                app.config['mail']['admin'],
+                parameters['email'],
+                'SOCcer - Your request has been processed',
+                render_template('email.html', **parameters)
+            )
 
-@app.route('/', methods=['GET'])
-def index(path):
+    Thread(target=execute).start()
+    return jsonify(True)
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def index():
     return send_file('index.html')
 
 
-
-    # try:
-    #     filename = None
-    #     if len(request.files) > 0 and 'fileSelect' in request.files:
-    #         userFile = request.files['fileSelect']
-    #         socSystem = request.form["socSystem"]
-    #         originalFileName = userFile.filename
-
-    #         # check for correct file extension
-    #         fileName = str(uuid.uuid4())
-    #         filePath = os.path.join(
-    #             RESULTS_PATH, fileName + ".csv")
-    #         saveFile = userFile.save(filePath)
-    #         responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
-
-    #         if socSystem=="model10":
-    #             return_code = subprocess.call(['java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
-    #         else:
-    #            return_code = subprocess.call(['/etc/alternatives/jre_1.8.0/bin/java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileUpload', filePath, originalFileName, 'application/vnd.ms-excel'])
-    #         with open(filePath + '_response.json', 'r') as resultFile:
-    #             responseObj = resultFile.read().replace('\n', '')
-    #         os.remove(filePath + '_response.json')
-
-    #     else:
-    #         responseObj = jsonify({'status': 'invalid', 'details': ['No file part']})
-    # finally:
-    #     return responseObj
-
-
-# @app.route('/calc', methods=["POST"])
-# def calc():
-#     try:
-#         print("INPUTID")
-#         inputFileId = os.path.basename(request.form["inputFileId"])
-#         socSystem = request.form["socSystem"]
-#         if socSystem=="model10":
-#             return_code = subprocess.call(['/usr/local/jdk1.7/bin/java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
-#         else:
-#             return_code = subprocess.call(['/etc/alternatives/jre_1.8.0/bin/java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
-#         filePath = os.path.join(RESULTS_PATH, inputFileId)
-#         with open(filePath + '_response.json', 'r') as resultFile:
-#             response = json.load(resultFile)
-#         os.remove(filePath + '_response.json')
-#     finally:
-#         filename, extension = os.path.splitext(inputFileId)
-#         if extension != ".csv" or not valid_uuid(filename):
-#             response['status'] = 'fail'
-#             response['errorMessage'] = 'Invalid input file'
-
-#         return jsonify(response)
-
-
-# @app.route('/queue', methods=['POST'])
-# def queue():
-
-#     inputFileId = request.form["inputFileId"]
-#     print(request.form["inputFileId"])
-
-#     emailAddress = request.form["emailAddress"]
-#     print(request.form["emailAddress"])
-
-#     fileName = request.form["fileName"]
-#     print(request.form["fileName"])
-
-#     url=str(request.form["url"])+"/index.html?fileid="+inputFileId
-#     print(request.form["url"])
-
-#     socSystem = request.form["socSystem"]
-#     print(socSystem)
-#     print("Sending to queue")
-#     sendqueue(inputFileId,emailAddress,fileName,url,socSystem)
-
-#     return jsonify({'status': 'pass'})
-
-
-# def sendqueue(inputFileId,emailAddress,fileName,url,socSystem):
-#     #try:
-#     import time
-#     now = time.strftime("%a %b %X %Z %Y")
-#     QUEUE = soccerConfig.getAsString(QUEUE_NAME)
-#     QUEUE_CONFIG=StompConfig(soccerConfig.getAsString(QUEUE_URL))
-#     filePath = os.path.join(RESULTS_PATH, inputFileId)
-#     client = Stomp(QUEUE_CONFIG)
-#     client.connect()
-#     client.send(QUEUE,json.dumps({"inputFileId":inputFileId,"emailAddress":emailAddress,"fileName":fileName,"timestamp":now,"url":url,"socSystem":socSystem}))
-#     client.disconnect()
-# def valid_uuid(uuid):
-#     regex = re.compile('^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}\Z', re.I)
-#     match = regex.match(uuid)
-#     return bool(match)
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=10000, debug=True)
