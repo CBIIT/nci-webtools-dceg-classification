@@ -1,0 +1,5 @@
+@input_dir@
+@output_dir@
+@model_file@
+@wordnet_dir@
+Dockerfile
