@@ -10,6 +10,7 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.util.logging.LogManager;
 
 public class SoccerWrapper {
 
@@ -74,10 +75,13 @@ public class SoccerWrapper {
             System.setProperty("gov.nih.cit.soccer.wordnet.dir", "wordnet");
 
         // set the output directory to the one specified in the output file
-        String outputDirectory = outputFile.getAbsoluteFile().getParentFile().getAbsolutePath();
-        System.setProperty("gov.nih.cit.soccer.output.dir", outputDirectory);
+        if (outputFile != null)
+            System.setProperty("gov.nih.cit.soccer.output.dir",
+                outputFile.getAbsoluteFile().getParentFile().getAbsolutePath()
+            );
 
-        // create an instance of SOCcer
+        // create an instance of SOCcer while suppressing output
+        LogManager.getLogManager().reset();
         Object soccerInstance = getInstance(jarFile, soccerClassName);
 
         try {
