@@ -23,7 +23,7 @@ public class SoccerWrapper {
 
         int modelVersion = 2;
         File inputFile = null, outputFile = null, modelFile = null, jarFile = null;
-        String method = "estimate";
+        String method = null;
 
         // parse arguments
         try {
@@ -65,11 +65,6 @@ public class SoccerWrapper {
             System.exit(-1);
         }
 
-        // determine the SOCcer class name from the model version
-        String soccerClassName = modelVersion == 1
-                ? "gov.nih.cit.soccer.Soccer"
-                : "gov.nih.cit.soccer.SOCcer";
-
         // by default, use the "wordnet" folder in our current directory
         if (System.getProperty("gov.nih.cit.soccer.wordnet.dir") == null)
             System.setProperty("gov.nih.cit.soccer.wordnet.dir", "wordnet");
@@ -80,6 +75,11 @@ public class SoccerWrapper {
                 ? outputFile.getAbsoluteFile().getParentFile().getAbsolutePath()
                 : System.getProperty("user.dir")
         );
+
+        // determine the SOCcer class name from the model version
+        String soccerClassName = modelVersion == 1
+                ? "gov.nih.cit.soccer.Soccer"
+                : "gov.nih.cit.soccer.SOCcer";
 
         // create an instance of SOCcer while suppressing output
         LogManager.getLogManager().reset();
