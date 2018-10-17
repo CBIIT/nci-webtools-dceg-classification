@@ -75,10 +75,11 @@ public class SoccerWrapper {
             System.setProperty("gov.nih.cit.soccer.wordnet.dir", "wordnet");
 
         // set the output directory to the one specified in the output file
-        if (outputFile != null)
-            System.setProperty("gov.nih.cit.soccer.output.dir",
-                outputFile.getAbsoluteFile().getParentFile().getAbsolutePath()
-            );
+        System.setProperty("gov.nih.cit.soccer.output.dir",
+            outputFile != null
+                ? outputFile.getAbsoluteFile().getParentFile().getAbsolutePath()
+                : System.getProperty("user.dir")
+        );
 
         // create an instance of SOCcer while suppressing output
         LogManager.getLogManager().reset();
