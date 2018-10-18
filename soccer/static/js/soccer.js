@@ -193,6 +193,7 @@ $(function () {
                 $('#alerts').showAlert('alert-success', 'Your file has been processed successfully.');
                 showResults(response);
             } else {
+                $('#email').disable();
                 $('#alerts').showAlert('alert-success', 'Your file has been enqueued successfully.');
             }
         }).fail(function(error) {
