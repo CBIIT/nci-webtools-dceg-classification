@@ -67,7 +67,7 @@ $(function () {
         $('#secondary-alerts').html('');
 
         $('#file-id').val('');
-        $('#email').hide().val('').prop('required', false);
+        $('#email').hide().val('').enable().prop('required', false);
 
         $('#results-container').hide();
         $('#upload-progress').setProgress(0).parent().hide();
