@@ -1,152 +1,151 @@
 import json
-import math
-import os
-import smtplib
-import time
 import logging
-import urllib
-import subprocess
-
-from email.mime.application import MIMEApplication
+from ConfigParser import SafeConfigParser
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from twisted.internet import reactor, defer
-from PropertyUtil import PropertyUtil
-from stompest.async import Stomp
-from stompest.async.listener import SubscriptionListener
-from stompest.async.listener import DisconnectListener
+from jinja2 import Template
+from twisted.internet import defer, reactor
+from smtplib import SMTP
+from soccer import get_config, call_soccer
+from subprocess import CalledProcessError, check_call
 from stompest.config import StompConfig
 from stompest.protocol import StompSpec
-import urllib
+from stompest.async import Stomp
+from stompest.async.listener import Listener, SubscriptionListener
+from stompest.error import StompConnectionError
+from traceback import format_exc
+from werkzeug.security import safe_join
 
-class soccerProcessor(DisconnectListener):
-  CONFIG = 'queue.config'
-  NAME = 'queue.name'
-  URL = 'queue.url'
 
-  def composeMail(self,recipients,message,files=[]):
-    config = PropertyUtil(r"config.ini")
-    print "sending message"
-    if not isinstance(recipients,list):
-      recipients = [recipients]
-    packet = MIMEMultipart()
-    packet['Subject'] = "Your request has been processed"
-    packet['From'] = "SOCcer<do.not.reply@nih.gov>"
-    packet['To'] = ", ".join(recipients)
-    print recipients
-    print message
-    packet.attach(MIMEText(message,'html'))
-    for file in files:
-      with open(file,"rb") as openfile:
-        packet.attach(MIMEApplication(
-          openfile.read(),
-          Content_Disposition='attachment; filename="%s"' % os.path.basename(file),
-          Name=os.path.basename(file)
-        ))
-    MAIL_HOST=config.getAsString('mail.host')
-    print MAIL_HOST
-    smtp = smtplib.SMTP(MAIL_HOST)
-    smtp.sendmail("do.not.reply@nih.gov",recipients,packet.as_string())
+class SOCcerProcessor(Listener):
 
-  def testQueue(self):
-    print("tested")
+    def __init__(self, config):
+        self.config = config
+        self.logger = logging.getLogger(__name__)
 
-  def rLength(self, tested):
-    if tested is None:
-      return 0
-    if isinstance(tested,list) or isinstance(tested,set):
-      return len(tested)
-    else:
-      return 1
+    def process_file(self, file_id, model_version):
+        ''' Codes an input file and generates the output plot '''
+        input_dir = self.config['soccer']['input_dir']
+        output_dir = self.config['soccer']['output_dir']
+        model_filepath = self.config['soccer']['model_file']
 
- # @This is the consume code which will listen to Queue server.
-  def consume(self, client, frame):
-    print "In consume"
-    files=[]
-    parameters = json.loads(frame.body)
-    print parameters
-    inputFileId=str(parameters['inputFileId'])
-    fileName=str(parameters['fileName'])
-    timestamp=str(parameters['timestamp'])
-    url=str(parameters['url'])
-    url=urllib.unquote(url).decode('utf8')
-    socSystem = str(parameters["socSystem"])
-    if(socSystem=="model10"):
-      model="1.0"
-    else:
-      model="1.1"
-    print(inputFileId)
+        input_filepath = safe_join(input_dir, file_id)
+        output_filepath = safe_join(output_dir, file_id + '.csv')
+        plot_filepath = safe_join(output_dir, file_id + '.png')
 
-    if socSystem=="model10":
-      return_code = subprocess.call(['/usr/local/jdk1.7/bin/java', '-cp', 'Java_API.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
-    else:
-      return_code = subprocess.call(['/etc/alternatives/jre_1.8.0/bin/java', '-cp', 'Java_API_1_1.jar', 'gov.nih.nci.queue.api.FileCalculate', inputFileId])
-    print("calclulated")
-    filePath = os.path.join('/local/content/analysistools/public_html/results/soccer/files', inputFileId)
-    with open(filePath + '_response.json', 'r') as resultFile:
-        responseObj = resultFile.read().replace('\n', '')
-    print('response object: ' + responseObj)
-    os.remove(filePath + '_response.json')
-    print(url)
-    Link='<a href='+url+'></a>'
-    print(Link)
-    print parameters['timestamp']
-    print "Here is the Link to the past:"
-    print Link
-    body = """
-            <p>The file ("""+fileName+""") you uploaded using model """+model+""" on """+timestamp+""" has been processed. </p>
-            <p>You can view the result page at: """+url+""".  This link will expire two weeks from today.</p>
-            </br>
-            <p> - SOCcer Team</p>
-            <p>(Note:  Please do not reply to this email. If you need assistance, please contact NCISOCcerWebAdmin@mail.nih.gov)</p>
-          </div>
-          """
+        # code file
+        call_soccer(
+            'code-file',
+            input_filepath=input_filepath,
+            output_filepath=output_filepath,
+            model_version=model_version,
+            model_filepath=model_filepath
+        )
 
-    message = """
-      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>html title</title>
-      </head>
-      <body>"""+body+"""</body>"""
+        # generate plot
+        check_call([
+            'Rscript', 'soccerResultPlot.R',
+            output_filepath, plot_filepath
+        ])
 
-          #    "\r\n\r\n - JPSurv Team\r\n(Note:  Please do not reply to this email. If you need assistance, please contact xxxx@mail.nih.gov)"+
-          #    "\n\n")
-    print "sending"
-    self.composeMail(parameters['emailAddress'],message,files)
-    print "end"
+    def send_mail(self, sender, recipient, subject, contents):
+        ''' Sends an email '''
+        msg = MIMEMultipart()
+        msg['Subject'] = subject
+        msg['From'] = sender
+        msg['To'] = recipient
+        msg.attach(MIMEText(contents, 'html'))
 
-  @defer.inlineCallbacks
-  def run(self):
-    client = yield Stomp(self.config).connect()
-    headers = {
-        # client-individual mode is necessary for concurrent processing
-        # (requires ActiveMQ >= 5.2)
-        StompSpec.ACK_HEADER: StompSpec.ACK_CLIENT_INDIVIDUAL,
-        # the maximal number of messages the broker will let you work on at the same time
-        'activemq.prefetchSize': '100',
-    }
-    client.subscribe(self.QUEUE, headers, listener=SubscriptionListener(self.consume, errorDestination=self.ERROR_QUEUE))
-    client.add(listener=self)
+        smtp = SMTP(self.config['mail']['host'])
+        smtp.sendmail(sender, recipient, msg.as_string())
 
-  # Consumer for Jobs in Queue, needs to be rewrite by the individual projects
+    @staticmethod
+    def render_template(filepath, data):
+        ''' Renders a template given a filepath and environment '''
+        with open(filepath) as template_file:
+            template = Template(template_file.read())
+            return template.render(data)
 
-  def onCleanup(self, connect):
-    print 'In clean up ...'
+    @defer.inlineCallbacks
+    def run(self):
+        ''' Initializes the stompest async client '''
+        queue_url = self.config['queue']['url']
+        queue_name = self.config['queue']['name']
+        error_queue_name = self.config['queue']['error_name']
 
-  def onConnectionLost(self, connect, reason):
-    print "in onConnectionLost"
-    self.run()
+        client = Stomp(StompConfig(queue_url))
+        yield client.connect()
 
- # @read from property file to set up parameters for the queue.
-  def __init__(self):
-    config = PropertyUtil(r"config.ini")
-     # Initialize Connections to ActiveMQ
-    self.QUEUE=config.getAsString(soccerProcessor.NAME)
-    self.ERROR_QUEUE=config.getAsString('queue.error.name')
-    config = StompConfig(config.getAsString(soccerProcessor.URL))
-    self.config = config
+        client.subscribe(
+            queue_name,  # must begin with /queue/
+            headers={StompSpec.ACK_HEADER: StompSpec.ACK_CLIENT_INDIVIDUAL},
+            listener=SubscriptionListener(
+                self.consume,
+                errorDestination=error_queue_name
+            )
+        )
+
+        client.add(self)
+
+    def consume(self, client, frame):
+        ''' Consumes a frame from the queue '''
+        try:
+            data = json.loads(frame.body.decode())
+            self.logger.debug(data)
+
+            # code file and generate plot
+            self.process_file(
+                data['file_id'],
+                data['model_version'],
+            )
+            self.logger.debug('processed input file: ' + data['file_id'])
+
+            # send user results
+            self.send_mail(
+                'SOCcer<do.not.reply@nih.gov>',
+                data['email'],
+                'SOCcer - Your file has been processed',
+                self.render_template('templates/user_email.html', data)
+            )
+            self.logger.debug('sent results email to user')
+
+        except Exception as e:
+            # capture error information
+            error_info = {
+                'file_id': data['file_id'],
+                'data': json.dumps(data, indent=4),
+                'exception_info': format_exc(),
+                'process_output': getattr(e, 'output', 'None')
+            }
+
+            self.logger.exception(error_info)
+
+            # send user error email
+            self.send_mail(
+                'SOCcer<do.not.reply@nih.gov>',
+                data['email'],
+                'SOCcer - An error occurred while processing your file',
+                self.render_template('templates/user_error_email.html', data)
+            )
+            self.logger.debug('sent error email to user')
+
+            # send admin error email
+            self.send_mail(
+                'SOCcer<do.not.reply@nih.gov>',
+                self.config['mail']['admin'],
+                'SOCcer - Exception occurred',
+                self.render_template('templates/admin_error_email.html', error_info)
+            )
+            self.logger.debug('sent error email to administrator')
+
+    def onConnectionLost(self, connection, reason):
+        ''' Restart the client if we lost the connection '''
+        self.run()
+
 
 if __name__ == '__main__':
-  logging.basicConfig(level=logging.INFO)
-  soccerProcessor().run()
-  reactor.run()
+    import argparse
+    logging.basicConfig(level=logging.DEBUG)
+    config = get_config('config.ini')
+    SOCcerProcessor(config).run()
+    reactor.run()
