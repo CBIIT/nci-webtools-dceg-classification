@@ -82,6 +82,9 @@ $(function () {
     if (query.id) {
         showResults(query.id);
         $('#soccer-tab').tab('show');
+        $('#upload').disable();
+        $('#model-version').disable();
+        $('#input-file').disable();
     }
 
     // update the input file's description when a new file is selected
@@ -217,6 +220,7 @@ $(function () {
             $('#results-container').show();
         }).fail(function(error) {
             console.log(error);
+            $('#soccer-form').trigger('reset');
             $('#secondary-alerts').showAlert('alert-warning', 'We were unable to retrieve results for the specified file id.');
         });
     }
