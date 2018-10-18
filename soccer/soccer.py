@@ -1,18 +1,17 @@
 from ConfigParser import SafeConfigParser
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from flask import Flask, jsonify, render_template, request, send_file
+from flask import Flask, json, jsonify, render_template, request, send_file
 from os import makedirs, linesep, path
-# from stompest.config import StompConfig
-# from stompest.sync import Stomp
-from smtplib import SMTP
+from stompest.config import StompConfig
+from stompest.sync import Stomp
 from subprocess import STDOUT, CalledProcessError, check_call, check_output
 from threading import Thread
 from time import strftime
 from traceback import format_exc
 from urllib import pathname2url
 from uuid import uuid4
+from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
+from werkzeug.urls import Href
 
 
 SOCCER_WRAPPER_PATH = path.join('jars', 'soccer-wrapper.jar')
@@ -45,15 +44,30 @@ def init():
         if not path.isdir(dir):
             makedirs(dir)
 
-def send_mail(sender, recipient, subject, contents):
-    msg = MIMEMultipart()
-    msg['Subject'] = subject
-    msg['From'] = sender
-    msg['To'] = recipient
-    msg.attach(MIMEText(contents, 'html'))
 
-    smtp = SMTP(app.config['mail']['host'])
-    smtp.sendmail(sender, recipient, msg.as_string())
+def call_soccer(method='',
+                input_filepath='',
+                output_filepath='',
+                model_version='2',
+                model_filepath=''):
+    '''Calls methods from the SOCcer wrapper'''
+
+    if model_version == '1':
+        jar_filepath = SOCCER_V1_PATH
+    elif model_version == '2':
+        jar_filepath = SOCCER_V2_PATH
+    else:
+        raise ValueError('Invalid model version selected')
+
+    return check_output([
+        'java', '-jar', SOCCER_WRAPPER_PATH,
+        '--input-file', input_filepath,
+        '--output-file', output_filepath,
+        '--model-version', model_version,
+        '--method', method,
+        '--jar-file', jar_filepath,
+        '--model-file', model_filepath,
+    ], stderr=STDOUT)
 
 
 init()
@@ -77,31 +91,19 @@ def validate():
     input_filepath = path.join(input_dir, file_id)
     input_file.save(input_filepath)
 
-    if model_version == '1':
-        jar_filepath = SOCCER_V1_PATH
-    elif model_version == '2':
-        jar_filepath = SOCCER_V2_PATH
-    else:
-        raise ValueError('Invalid model version selected')
-
-    # common arguments for soccer-wrapper.jar
-    common_args = [
-        '--input-file', input_filepath,
-        '--jar-file', jar_filepath,
-        '--model-version', model_version,
-    ]
-
     # validate file
-    check_output([
-        'java', '-jar', SOCCER_WRAPPER_PATH,
-        '--method', 'validate-file',
-    ] + common_args, stderr=STDOUT)
+    call_soccer(
+        'validate-file',
+        input_filepath=input_filepath,
+        model_version=model_version
+    )
 
     # get estimated runtime
-    estimated_runtime = check_output([
-        'java', '-jar', SOCCER_WRAPPER_PATH,
-        '--method', 'estimate-runtime',
-    ] + common_args, stderr=STDOUT)
+    estimated_runtime = call_soccer(
+        'estimate-runtime',
+        input_filepath=input_filepath,
+        model_version=model_version
+    )
 
     return jsonify({
         'estimated_runtime': float(estimated_runtime),
@@ -122,25 +124,16 @@ def code_file():
     output_filepath = safe_join(output_dir, file_id + '.csv')
     plot_filepath = safe_join(output_dir, file_id + '.png')
 
-    if model_version == '1':
-        jar_filepath = SOCCER_V1_PATH
-    elif model_version == '2':
-        jar_filepath = SOCCER_V2_PATH
-    else:
-        raise ValueError('Invalid model version selected')
-
     # code file
-    check_call([
-        'java', '-jar', SOCCER_WRAPPER_PATH,
-        '--input-file', input_filepath,
-        '--output-file', output_filepath,
-        '--model-version', model_version,
-        '--method', 'code-file',
-        '--jar-file', jar_filepath,
-        '--model-file', app.config['soccer']['model_file'],
-    ], stderr=STDOUT)
+    call_soccer(
+        method='code-file',
+        input_filepath=input_filepath,
+        output_filepath=output_filepath,
+        model_version=model_version,
+        model_filepath=app.config['soccer']['model_file']
+    )
 
-    # create plot
+    # generate plot
     check_call([
         'Rscript', 'soccerResultPlot.R',
         output_filepath, plot_filepath
@@ -151,7 +144,7 @@ def code_file():
 
 @app.route('/results/<file_id>', methods=['GET'], strict_slashes=False)
 def get_results(file_id):
-    '''Retrieves paths to the results files based on the file token'''
+    '''Retrieves paths to the results files based on the file id'''
 
     output_dir = app.config['soccer']['output_dir']
     output_filepath = safe_join(output_dir, file_id + '.csv')
@@ -168,26 +161,22 @@ def get_results(file_id):
 
 @app.route('/enqueue', methods=['POST'], strict_slashes=False)
 def enqueue():
-    '''Processes files in a separate thread and sends an email once complete'''
-    context = request.environ
-    def execute():
-        with app.request_context(context):
-            parameters = {
-                'email': request.form['email'],
-                'filename': request.files['input-file'].filename,
-                'model_version': request.form['model-version'],
-                'timestamp': strftime('%a %b %X %Z %Y'),
-                'results_url': request.url_root + '?id=' + request.form['file-id'],
-            }
-            code_file()
-            send_mail(
-                app.config['mail']['admin'],
-                parameters['email'],
-                'SOCcer - Your request has been processed',
-                render_template('email.html', **parameters)
-            )
+    '''Sends parameters to the queue for processing'''
 
-    Thread(target=execute).start()
+    client = Stomp(StompConfig(app.config['queue']['url']))
+    client.connect()
+    client.send(
+        app.config['queue']['name'],  # must begin with /queue/
+        json.dumps({
+            'email': request.form['email'],
+            'file_id': request.form['file-id'],
+            'file_name': request.files['input-file'].filename,
+            'model_version': request.form['model-version'][0],
+            'results_url': Href(request.url_root)(id=request.form['file-id']),
+            'timestamp': strftime('%a %b %X %Z %Y'),
+        })
+    )
+    client.disconnect()
     return jsonify(True)
 
 
