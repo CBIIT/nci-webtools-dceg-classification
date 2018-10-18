@@ -1,9 +1,6 @@
 #!/bin/bash
 #
-# Description:	This script will replace tokens in the config.ini file with their corresponding actual values
-# Usage:	./configure.sh	--host sample.server.com --admin admin@email.com \
-#		--port 0000 --root /local/content/ --out /tmp \
-#		--url tcp://queue:9999 --name /queue --error /error
+# This script will replace tokens in the config.ini file with their corresponding actual values
 
 # create hash for parameters
 declare -A parameters=( [mail_host]= [mail_admin]= [queue_url]= [queue_name]= [error_queue_name]= [input_dir]= [output_dir]= [wordnet_dir]= [model_file]= )
