@@ -135,8 +135,8 @@ public class SoccerWrapper {
      * Calls SOCcer's getEsimatedTime method
      *
      * @param soccerInstance The SOCcer object that has been loaded from the jar file
-     * @param inputFile The file that should have its runtime estimated
-     * @return Output from the SOCcer jar's getEstimatedTime method
+     * @param inputFile The file we should estimate the runtime for
+     * @return Output from SOCcer's getEstimatedTime method
      * @throws Exception
      */
     public static double getEstimatedTime(Object soccerInstance, File inputFile) throws Exception {
@@ -200,7 +200,7 @@ public class SoccerWrapper {
             soccerInstance
                 .getClass()
                 .getMethod("codeFile", File.class, File.class, File.class, int.class)
-                .invoke(soccerInstance, modelFile, inputFile, outputFile, 1);
+                .invoke(soccerInstance, modelFile, inputFile, outputFile, 4);
         }
     }
 
