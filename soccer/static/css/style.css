@@ -1,0 +1,51 @@
+/** Override default colors to achieve AAA contrast ratios */
+a {
+    color:#3a539b;
+}
+
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle,
+.btn-primary:hover {
+    color: #fff;
+    background-color: #532F61;
+    border-color: #532F61;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #5A4585;
+    border-color: #5A4586;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #0F4880;
+    border-color: #0F4880;
+}
+
+/** Utility classes */
+[disabled], [readonly] {
+    cursor: not-allowed;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/** Adds a spin animation to the element */
+.spinner {
+    animation: spin 1s infinite linear;
+}
+
+  /** Spin animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}

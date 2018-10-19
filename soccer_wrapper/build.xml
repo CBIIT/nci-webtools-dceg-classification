@@ -1,0 +1,17 @@
+<project name="SoccerWrapper" default="jar">
+    <path id="classpath">
+        <fileset dir="lib" includes="*.jar"/>
+    </path>
+
+    <target name="jar">
+        <delete dir="build"/>
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build" classpathref="classpath" includeantruntime="false"/>
+        <jar destfile="build/soccer-wrapper.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="SoccerWrapper"/>
+            </manifest>
+            <zipgroupfileset dir="lib" includes="*.jar"/>
+        </jar>
+    </target>
+</project>

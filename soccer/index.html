@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://assets.adobedtm.com/f1bfa9f7170c81b1a9a9ecdcc6c5215ee0b03c84/satelliteLib-4b219b82c4737db0e1797b6c511cf10c802c95cb.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62346354-5"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="icon" href="favicon.ico">
+    <title>SOCcer - Standardized Occupation Coding for Computer-assisted Epidemiological Research</title>
+</head>
+
+<body>
+    <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
+    <header class="container mb-4">
+        <div class="row mt-2">
+            <div class="col text-left pt-2 d-none d-md-block">
+                <a href="https://cit.nih.gov/">
+                    <img src="static/img/logos/cit-dcb-logo.svg" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="50">
+                </a>
+            </div>
+            <div class="col text-left text-md-right text-xl-center">
+                <a href=".">
+                    <img src="static/img/logos/soccer-logo.png" alt="soccer logo" height="100">
+                    <h1 class="sr-only">SOCcer</h1>
+                </a>
+            </div>
+            <div class="col text-right d-none d-xl-block">
+                <a href="https://dceg.cancer.gov/">
+                    <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="60">
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="container mb-4" id="main">
+        <ul class="nav nav-tabs" role="tablist">
+
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="soccer-tab" data-toggle="tab" href="#soccer" role="tab" aria-controls="soccer" aria-selected="false">SOCcer</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="models-tab" data-toggle="tab" href="#models" role="tab" aria-controls="models" aria-selected="false">Models</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="socassign-tab" data-toggle="tab" href="#socassign" role="tab" aria-controls="socassign" aria-selected="false">SOCAssign</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
+            </li>
+        </ul>
+        <div class="tab-content border border-top-0 p-3">
+            <section class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <p>SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational risk into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an <a href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble classifier</a>, which combines the results of multiple classifiers to produce a single classifier that performs better than any single classifier in the ensemble.</p>
+                <p>If you publish results that use SOCcer, please reference: Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, Computer-based coding of free-text job descriptions to efficiently identify occupations in epidemiological studies. Occup Environ Med 2016;73(6):417-24.</p> <a href="#soccer" data-tab="#soccer-tab">Run SOCcer</a>
+            </section>
+            <section class="tab-pane" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <form id="soccer-form">
+
+                            <div class="form-group">
+                                <label for="input-file">
+                                    Select a file to upload:
+                                    <span class="small font-italic text-nowrap">
+                                        <a href="static/files/example1.csv">Example 1</a>
+                                        <a href="static/files/example2.csv">Example 2</a>
+                                    </span>
+                                </label>
+                                <input class="small d-block mb-1" type="file" id="input-file" name="input-file" accept=".csv" required>
+                                <div class="small text-secondary font-italic" id="input-file-description"></div>
+                            </div>
+
+                            <div class="form-group form-inline">
+
+                                <label class="mr-1" for="model-version">SOCcer Model:</label>
+                                <select id="model-version" name="model-version" class="mr-1 form-control form-control-sm">
+                                    <option value="1">model v1.0</option>
+                                    <option value="2">model v2.0</option>
+                                </select>
+
+                                <span tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="d-flex align-items-center cursor-pointer">
+                                    <img src="static/img/icons/info-circle.svg" height="20" alt="info circle" />
+                                </span>
+                            </div>
+
+                            <div class="progress mb-4">
+                                <div id="upload-progress" class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            </div>
+
+                            <div id="alerts" class="mb-4"></div>
+
+                            <label class="sr-only" for="email">Enter your email</label>
+                            <input type="email" class="form-control mb-4" id="email" name="email" placeholder="Email address">
+
+                            <input type="hidden" name="file-id" id="file-id">
+
+                            <button id="upload" class="btn btn-primary">Upload</button>
+                            <button type="submit" id="submit" class="btn btn-primary" style="display: none">Submit</button>
+                            <button type="button" id="loading" class="btn btn-primary" style="display: none" disabled>
+                                <span class=" d-flex align-items-center">
+                                    <img class="spinner mr-2" src="static/img/icons/spinner-third.svg" alt="loading" height="20" />
+                                    Processing
+                                </span>
+                            </button>
+                            <button type="reset" id="reset" class="btn btn-danger" style="display: none">Reset</button>
+
+                        </form>
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div id="secondary-alerts" class="mb-4"></div>
+
+                        <div id="results-container" style="display: none">
+                            <div class="border mb-2 p-4 text-center">
+                                <img class="img-fluid" id="plot" alt="output plot">
+                            </div>
+
+                            <a href="#" class="btn btn-sm btn-primary" id="download-link" target="_BLANK" download>Download Output</a>
+                            <em class="small">* Directly opening the CSV file into Excel will render numbers as dates incorrectly</em>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <section class="tab-pane" id="models" role="tabpanel" aria-labelledby="models-tab">
+                <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
+                <table class="table table-sm">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="border-top-0" scope="col" style="min-width: 100px;">Model</th>
+                            <th class="border-top-0" scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>model v1.0</td>
+                            <td>This model codes job descriptions to the SOC 2010 classification system as described in Computer-Based Coding of Free-Text Job Descriptions to Efficiently and Reliably Incorporate Occupational Risk Factors into Large-Scale Epidemiological Studies. This model uses the variables JobTitle, SIC, and JobTask. This model can be used even if parts of the Job Description are not available (e.g. SIC or JobTask is missing). The classifiers will assign a '0' for the missing information in the calculation of the overall SOCcer score.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section class="tab-pane" id="socassign" role="tabpanel" aria-labelledby="socassign-tab">
+                <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
+                <table class="mb-3">
+                    <tr>
+                        <td class="pr-3"><a href="static/files/SOCAssign.jnlp">SOCAssign</a></td>
+                        <td>Run as Web Start</td>
+                    </tr>
+                    <tr>
+                        <td class="pr-3"><a href="static/files/SOCAssign.jar">Download</a></td>
+                        <td>Run as Java Application</td>
+                    </tr>
+                </table>
+                <p>To run SOCAssign as a Java application, double click on the downloaded SOCAssign.jar file (make sure the java executable file is in the path)</p>
+            </section>
+            <section class="tab-pane" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+                <h2 class="h3">Resources</h2>
+                <h3 class="h4">Links</h3>
+                <ul>
+                    <li><a href="https://www.bls.gov/soc/2010/">SOC 2010 System</a></li>
+                    <li><a href="https://www.osha.gov/pls/imis/sic_manual.html">SIC 1987 System</a></li>
+                    <li><a href="https://www.onetonline.org/">O*NET online</a></li>
+                    <li><a href="https://wwwn.cdc.gov/nioccs3/">NIOCCS</a></li>
+                </ul>
+            </section>
+            <section class="tab-pane" id="help" role="tabpanel" aria-labelledby="help-tab">
+                <h2 class="h4">Input Data Format</h2>
+
+                <p>Currently, the input for SOCcer is a comma-separated file with three columns: job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also):</p>
+                <blockquote class="py-2 px-4 border-left">
+                    JobTitle,SIC,JobTask
+                </blockquote>
+
+                <p>After the header line this is a separate row for each job description. There MUST be three comma-separated values on each line. If the job title or task contains a comma, the value must be in quotes or else there will be an error. An example of a valid job description is:</p>
+
+                <blockquote class="py-2 px-4 border-left">
+                    "Teacher, high school", 8211, "formulate lesson plans, teach 11th grade match"
+                </blockquote>
+
+                <p>Leaving out the quotation marks would cause the line to appear to have five values and will return an error. SOCcer will list all line numbers with errors and require you to fix the input before proceeding. A value may be blank (missing information), but must be included. Valid examples with missing information are:</p>
+
+                <blockquote class="py-2 px-4 border-left">
+                    "Teacher, high school", , "formulate lesson plans, teach 11th grade match"<br>
+                    ,8211, "formulate lesson plans, teach 11th grade match"<br>
+                    "Teacher, high school",,
+                </blockquote>
+
+                <div class="alert alert-danger" role="alert"><strong>Warning:</strong> Microsoft Word and other word processesors often use smart quotes (&ldquo; &rdquo;) instead of standard quotation marks (", ASCII character 34). This will cause problems with the word count and require fixing before SOCcer can proceed.</div>
+
+                <p>The SOCcer results are provided in a comma-separated file that contains the row number, job title, SIC, job tasks, and the ten highest ranked SOC codes, with corresponding SOCcer scores.</p>
+
+                <div class="table-responsive mb-4">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr class="bg-light">
+                                <th scope="col">Id</th>
+                                <th scope="col">JobTitle</th>
+                                <th scope="col">SIC</th>
+                                <th scope="col">JobTask</th>
+                                <th scope="col">SOC2010_1</th>
+                                <th scope="col">Score_1</th>
+                                <th scope="col">SOC2010_2</th>
+                                <th scope="col">Score_2</th>
+                                <th scope="col">...</th>
+                                <th scope="col">SOC2010_10</th>
+                                <th scope="col">Score_10</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>"Teacher, high school"</td>
+                                <td>"8211"</td>
+                                <td>"formulate lesson plans, teach 11th grade match"</td>
+                                <td>25-2031</td>
+                                <td>0.979</td>
+                                <td>25-2032</td>
+                                <td>0.357</td>
+                                <td>...</td>
+                                <td>25-1194</td>
+                                <td>0.042</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>"Java Developer"</td>
+                                <td>"7371"</td>
+                                <td>"Develop use cases, write computer software in java"</td>
+                                <td>15-1131</td>
+                                <td>0.959</td>
+                                <td>15-1132</td>
+                                <td>0.717</td>
+                                <td>...</td>
+                                <td>11-2031</td>
+                                <td>0.034</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="small" colspan="11"><strong>Note:</strong> SOC3 through SOC9 were omitted and scores were rounded for display purposes.</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <p>If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a>.</p>
+                <h2 class="h4">References</h2>
+                <ol>
+                    <li>Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Occup Environ Med 2016;73(6):417-24.</li>
+                    <li>Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", Proc IEEE Int Symp Comput Based Med Syst 2014 , 2014, pp. 347-350.</li>
+                </ol>
+            </section>
+            <section class="tab-pane" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+                <dl>
+                    <dt>What can I do to improve the results of SOCcer?</dt>
+                    <dd>To improve SOCcer’s performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
+
+                    <dt>What about HIPAA concerns?</dt>
+                    <dd>The data input file does not accept identifiers in order to help prevent you from uploading PII; however, we do not screen your data for PII. Please check your input file for PII before you upload you data onto our server.</dd>
+
+                    <dt>What are SOCcer scores?</dt>
+                    <dd>Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details on the relationship between SOCcer score and probability of matching an expert coder's SOC assignment. Some dataset are more difficult to classify than others and depend on the quality of the data. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.</dd>
+                </dl>
+            </section>
+        </div>
+    </main>
+    <footer class="container text-left text-md-center py-4">
+        <ul class="list-inline">
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.cancer.gov/" class="text-dark">Home</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov" class="text-dark">Support</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.cancer.gov/global/web/policies" class="text-dark">Policies</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.cancer.gov/global/web/policies/accessibility" class="text-dark">Accessibility</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://cancer.gov/global/viewing-files" class="text-dark">Viewing Files</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.cancer.gov/global/web/policies/foia" class="text-dark">FOIA</a>
+            </li>
+        </ul>
+
+        <ul class="list-inline">
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.hhs.gov/" class="text-dark">U.S. Department of Health and Human Services</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.nih.gov/" class="text-dark">National Institutes of Health</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://www.cancer.gov/" class="text-dark">National Cancer Institute</a>
+            </li>
+
+            <li class="d-none d-md-inline list-inline-item">|</li>
+
+            <li class="d-block d-md-inline list-inline-item">
+                <a href="https://usa.gov/" class="text-dark">USA.gov</a>
+            </li>
+        </ul>
+
+        <div>NIH ... Turning Discovery Into Health &reg;</div>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
+    <script src="static/js/soccer.js"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-62346354-5');
+    </script>
+    <script>_satellite.pageBottom();</script>
+
+</body>
+
+</html>
