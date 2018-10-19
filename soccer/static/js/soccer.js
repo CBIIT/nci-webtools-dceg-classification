@@ -23,7 +23,7 @@ $.fn.enable = function() {
 $.fn.setProgress = function(value) {
     return $(this)
         .text(value + '%')
-        .attr('aria-value-now', value)
+        .attr('aria-valuenow', value)
         .css('width', value + '%');
 }
 
@@ -54,25 +54,45 @@ $.fn.formData = function() {
 
 $(function () {
 
-    // reset the soccer form
+    // handle form reset events (triggered by clicking [type="reset"])
     $('#soccer-form').on('reset', function() {
+        // file input (accept only csv)
         $('#input-file').val('').enable().change();
-        $('#model-version').val('1').enable();
-        $('#upload').enable().show();
-        $('#submit').enable().hide();
-        $('#reset').enable().show();
-        $('#loading').hide();
 
-        $('#alerts').html('');
-        $('#secondary-alerts').html('');
+        // model version selector (default: model version 2)
+        $('#model-version').val('2').enable();
 
-        $('#file-id').val('');
+        // email input (only visible when queueing)
         $('#email').hide().val('').enable().prop('required', false);
 
-        $('#results-container').hide();
+        // input file id (internal, hidden)
+        $('#file-id').val('');
+
+        // upload button
+        $('#upload').enable().show();
+
+        // upload progress indicator (bootstrap)
         $('#upload-progress').setProgress(0).parent().hide();
+
+        // submit button
+        $('#submit').enable().hide();
+
+        // reset button
+        $('#reset').enable().show();
+
+        // loading indicator (replaces submit/upload when processing)
+        $('#loading').hide();
+
+        // results container in right panel
+        $('#results-container').hide();
+
+        // primary alerts container (left panel)
+        $('#alerts').html('');
+
+        // secondary alerts container (right panel)
+        $('#secondary-alerts').html('');
         return false;
-    }).trigger('reset');
+    }).trigger('reset'); // reset form on startup
 
     // disable default form submission
     $('#soccer-form').submit(function (e) { return false });
@@ -115,8 +135,12 @@ $(function () {
         // do not proceed if there are no input files
         if (!$('#input-file').val()) return;
 
+        // clear all alerts and results when starting file upload
         $('#alerts').html('');
         $('#secondary-alerts').html('');
+        $('#results-container').hide();
+
+        // disable upload button and show upload progress animation
         $('#upload').disable();
         $('#upload-progress')
             .addClass('progress-bar-animated')
@@ -137,10 +161,14 @@ $(function () {
                 return xhr;
             }
         }).done(function (response) {
+            // disable modifying input parameters after the file is validated
             $('#input-file').disable();
             $('#model-version').disable();
 
+            // update the file id
             $('#file-id').val(response.file_id);
+
+            // replace the upload button with the submit button
             $('#upload').hide();
             $('#submit').show();
 
@@ -155,7 +183,7 @@ $(function () {
 
             console.log(error);
 
-            // parse the list of validation errors
+            // map the error lines to an unordered list of validation errors
             var errorList = $('<ul>').append(
                 error.responseJSON.trim().split(/\r?\n/).map(function(line) {
                     return $('<li>').text(line);
@@ -170,6 +198,7 @@ $(function () {
                     .append('<p><b>Please modify your data file and re-upload.</b></p>')
             );
         }).always(function() {
+            // only animate progress bar while uploading
             $('#upload-progress').removeClass('progress-bar-animated');
         });
     });
@@ -242,8 +271,10 @@ $(function () {
      * @param {string} query A query string (eg: the value of `location.search`)
      */
     function parseQueryString(query) {
+        // strip leading question mark
         if (query[0] === '?') query = query.substr(1);
         return query.split('&').reduce(function(parsed, current) {
+            // iterate over each key-value pair in the query string
             var pair = current.split('=').map(decodeURIComponent);
             parsed[pair[0]] = pair[1];
             return parsed;
