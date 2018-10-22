@@ -63,7 +63,8 @@ $(function () {
         $('#model-version').val('2').enable();
 
         // email input (only visible when queueing)
-        $('#email').hide().val('').enable().prop('required', false);
+        $('#email-container').hide();
+        $('#email').val('').enable().prop('required', false);
 
         // input file id (internal, hidden)
         $('#file-id').val('');
@@ -175,7 +176,8 @@ $(function () {
             $('#alerts').showAlert('alert-success', 'Your file has been uploaded successfully.');
             if (response.estimated_runtime > 30) {
                 // if the calculation is estimated to take more than 30 seconds, then we should ask the user to enter their email
-                $('#email').show().prop('required', true);
+                $('#email-container').show();
+                $('#email').prop('required', true);
                 $('#alerts').showAlert('alert-success', 'Since it will likely take longer than 30 seconds to process your data, please provide your email address, and you will get an email notification once the processing is complete.');
             }
         }).fail(function (error) {
