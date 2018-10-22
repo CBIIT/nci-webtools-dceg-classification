@@ -1,28 +1,44 @@
-/** Override default colors to achieve AAA contrast ratios */
+
+body {
+    min-height: 100vh;
+}
+
+/** AAA contrast overrides */
 a {
     color:#3a539b;
 }
-
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
 .show>.btn-primary.dropdown-toggle,
 .btn-primary:hover {
     color: #fff;
-    background-color: #532F61;
-    border-color: #532F61;
+    background-color: #52297c;
+    border-color: #52297c;
+}
+
+.bg-primary {
+    background-color: #5A4585 !important;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #5A4585;
-    border-color: #5A4586;
+    background-color: #663399;
+    border-color: #663399;
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
     color: #fff;
-    background-color: #0F4880;
-    border-color: #0F4880;
+    background-color: #7a3db6;
+    border-color: #7a3db6;
+}
+
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+    color: rgba(255,255,255,.9);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255,.8);
 }
 
 /** Utility classes */
@@ -32,6 +48,10 @@ a {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.flex-auto {
+    flex: 1 0 auto;
 }
 
 /** Adds a spin animation to the element */

@@ -290,4 +290,10 @@ $(function () {
         var tabSelector = $(this).attr('data-tab');
         $(tabSelector).tab('show');
     });
+
+    // adds focus for tab-based internal links
+    $('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        var selector = $(this).attr('href');
+        $(selector)[0].focus();
+    });
 })
