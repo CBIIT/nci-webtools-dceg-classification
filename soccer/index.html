@@ -84,6 +84,7 @@
 
     <main class="bg-light py-sm-4 flex-auto" id="main">
         <div class="tab-content container py-4">
+            <!-- Welcome Tab -->
             <section class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
@@ -95,18 +96,20 @@
                     </div>
                 </div>
             </section>
-            <section class="tab-pane" id="soccer" role="tabpanel" aria-labelledby="soccer-tab" tabindex="0">
+            <!-- End Welcome Tab -->
 
+            <!-- SOCcer Tab -->
+            <section class="tab-pane" id="soccer" role="tabpanel" aria-labelledby="soccer-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">SOCcer</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <div class="row">
+                            <!-- Left Panel -->
                             <div class="col-md-4">
-
                                 <form id="soccer-form">
-
                                     <div class="form-group">
                                         <label for="input-file">
                                             Select a file to upload:
@@ -152,15 +155,13 @@
                                         </span>
                                     </button>
                                     <button type="reset" id="reset" class="btn btn-danger" style="display: none">Reset</button>
-
                                 </form>
-
                             </div>
+                            <!-- End Left Panel -->
 
+                            <!-- Right Panel -->
                             <div class="col-md-8">
-
                                 <div id="secondary-alerts" class="mb-4"></div>
-
                                 <div id="results-container" style="display: none">
                                     <div class="border mb-2 p-4 text-center">
                                         <img class="img-fluid" id="plot" alt="output plot">
@@ -169,19 +170,22 @@
                                     <a href="#" class="btn btn-sm btn-primary" id="download-link" target="_BLANK" download>Download Output</a>
                                     <em class="small">* Directly opening the CSV file into Excel will render numbers as dates incorrectly</em>
                                 </div>
-
                             </div>
+                            <!-- End Right Panel -->
                         </div>
-
                     </div>
+                    <!-- End Card Body -->
                 </div>
-
             </section>
+            <!-- End SOCcer Tab -->
+
+            <!-- Models Tab -->
             <section class="tab-pane" id="models" role="tabpanel" aria-labelledby="models-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">Models</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
                         <table class="table border">
@@ -199,13 +203,18 @@
                             </tbody>
                         </table>
                     </div>
+                    <!-- End Card Body -->
                 </div>
             </section>
+            <!-- End Models Tab -->
+
+            <!-- Begin SOCAssign Tab -->
             <section class="tab-pane" id="socassign" role="tabpanel" aria-labelledby="socassign-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">SOCAssign</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
                         <table class="mb-3">
@@ -220,14 +229,18 @@
                         </table>
                         <p>To run SOCAssign as a Java application, double click on the downloaded SOCAssign.jar file (make sure the java executable file is in the path)</p>
                     </div>
+                    <!-- End Card Body -->
                 </div>
             </section>
-            <section class="tab-pane" id="resources" role="tabpanel" aria-labelledby="resources-tab" tabindex="0">
+            <!-- End SOCAssign Tab -->
 
+            <!-- Begin Resources Tab -->
+            <section class="tab-pane" id="resources" role="tabpanel" aria-labelledby="resources-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">Resources</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <h2 class="h5">Links</h2>
                         <ul>
@@ -237,15 +250,18 @@
                             <li><a href="https://wwwn.cdc.gov/nioccs3/">NIOCCS</a></li>
                         </ul>
                     </div>
+                    <!-- End Card Body -->
                 </div>
-
             </section>
-            <section class="tab-pane" id="help" role="tabpanel" aria-labelledby="help-tab" tabindex="0">
+            <!-- End Resources Tab -->
 
+            <!-- Begin Help Tab -->
+            <section class="tab-pane" id="help" role="tabpanel" aria-labelledby="help-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">Help</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <h2 class="h5">Input Data Format</h2>
 
@@ -331,14 +347,18 @@
                             <li>Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", Proc IEEE Int Symp Comput Based Med Syst 2014 , 2014, pp. 347-350.</li>
                         </ol>
                     </div>
+                    <!-- End Card Body -->
                 </div>
-
             </section>
+            <!-- End Resources Tab -->
+
+            <!-- FAQ Tab -->
             <section class="tab-pane" id="faq" role="tabpanel" aria-labelledby="faq-tab" tabindex="0">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-light">
                         <h1 class="h5 m-0">Frequently Asked Questions</h1>
                     </div>
+                    <!-- Begin Card Body -->
                     <div class="card-body">
                         <dl>
                             <dt class="h5">What can I do to improve the results of SOCcer?</dt>
@@ -351,9 +371,10 @@
                             <dd class="mb-4">Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details on the relationship between SOCcer score and probability of matching an expert coder's SOC assignment. Some dataset are more difficult to classify than others and depend on the quality of the data. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.</dd>
                         </dl>
                     </div>
+                    <!-- End Card Body -->
                 </div>
-
             </section>
+            <!-- End FAQ Tab -->
         </div>
     </main>
     <footer class="text-left text-md-center py-4 bg-primary-dark text-light">
