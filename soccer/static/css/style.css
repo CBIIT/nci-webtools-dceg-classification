@@ -1,7 +1,38 @@
 
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i");
+
+/**
+ * Font overrides
+ */
+@font-face{
+    font-family: Montserrat;
+    src: url("fonts/Montserrat-regular.eot") format("eot");
+    src: url("fonts/Montserrat-regular.woff") format("woff");
+    src: url("fonts/Montserrat-regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face{
+    font-family: Montserrat;
+    src: url("fonts/Montserrat-700.eot") format("eot");
+    src: url("fonts/Montserrat-700.woff") format("woff");
+    src: url("fonts/Montserrat-700.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+}
+
 body {
     min-height: 100vh;
+    font-family: "Noto Sans", "Century Gothic", Arial, sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+nav {
+    font-family: Montserrat, "Avant Garde", Arial, sans-serif;
+}
+
 
 /** AAA contrast overrides */
 a {
@@ -10,7 +41,7 @@ a {
 
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
-.show>.btn-primary.dropdown-toggle,
+.show > .btn-primary.dropdown-toggle,
 .btn-primary:hover {
     color: #fff;
     background-color: #52297c;
@@ -18,7 +49,11 @@ a {
 }
 
 .bg-primary {
-    background-color: #5A4585 !important;
+    background-color: #2a71a5 !important;
+}
+
+.bg-primary-dark {
+    background-color: #123e57;
 }
 
 .btn-primary {
@@ -33,12 +68,42 @@ a {
     border-color: #7a3db6;
 }
 
-.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+.navbar-dark {
+    background-color: #363636;
+}
+
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:hover {
     color: rgba(255,255,255,.9);
 }
 
 .navbar-dark .navbar-nav .nav-link {
     color: rgba(255,255,255,.8);
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: white;
+    padding: 10px 20px;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    font-size: 14px;
+    transition: background-color .15s linear;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #2f2f2f !important;
+    background-color: #fff;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #2f2f2f;
+    background-color: #fff;
+    border-bottom-color: #14819b;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #dee2e6;
 }
 
 /** Utility classes */
