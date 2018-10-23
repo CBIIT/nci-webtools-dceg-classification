@@ -1,4 +1,4 @@
-
+/* @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700'); */
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i");
 
 /**
@@ -23,21 +23,33 @@
 }
 
 body {
-    min-height: 100vh;
     font-family: "Noto Sans", "Century Gothic", Arial, sans-serif;
+    min-height: 100vh;
+    height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #606060;
+    font-family: Montserrat, "Avant Garde", Arial, sans-serif;
+    font-weight: 700;
+}
+
 nav {
     font-family: Montserrat, "Avant Garde", Arial, sans-serif;
 }
-
 
 /** AAA contrast overrides */
 a {
     color:#3a539b;
 }
+
+blockquote {
+    margin: 0 0 1rem;
+    padding: 0.5rem 1.2rem;
+    border-left: 4px solid #2a71a5;
+}
+
 .bg-primary {
     background-color: #2a71a5 !important;
 }
@@ -71,19 +83,19 @@ a {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-    color: rgba(255,255,255,.8);
+    color: #eee;
 }
 
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-dark .navbar-nav .nav-link:hover {
-    color: rgba(255,255,255,.9);
+    color: #fafafa;
 }
 
 .navbar-nav .nav-item .nav-link {
     color: white;
     padding: 10px 20px;
-    border-top: 7px solid transparent;
     border-bottom: 7px solid transparent;
+    border-top: 7px solid transparent;
     font-size: 14px;
     transition: background-color .15s linear;
 }
@@ -122,7 +134,7 @@ a {
     animation: spin 1s infinite linear;
 }
 
-  /** Spin animation */
+/** Spin animation */
 @keyframes spin {
     from {
         transform: rotate(0deg);
