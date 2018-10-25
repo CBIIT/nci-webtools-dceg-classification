@@ -30,7 +30,7 @@ body {
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-    color: #606060;
+    color: #2a71a5;
     font-family: Montserrat, "Avant Garde", Arial, sans-serif;
     font-weight: 700;
 }
@@ -60,22 +60,24 @@ blockquote {
 
 .btn-primary {
     color: #fff;
-    background-color: #663399;
-    border-color: #663399;
+    background-color: #2a71a5;
+    border-color: #2a71a5;
+    /* background-color: #663399;
+    border-color: #663399; */
 }
 
 .btn-primary:not(:disabled):not(.disabled):active,
 .show > .btn-primary.dropdown-toggle,
 .btn-primary:hover {
     color: #fff;
-    background-color: #52297c;
-    border-color: #52297c;
+    background-color: #20557c;
+    border-color: #20557c;
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
     color: #fff;
-    background-color: #7a3db6;
-    border-color: #7a3db6;
+    background-color: #2a7ba5;
+    border-color: #2a7ba5;
 }
 
 .navbar-dark {
@@ -93,14 +95,14 @@ blockquote {
 
 .navbar-nav .nav-item .nav-link {
     color: white;
-    padding: 10px 20px;
     border-bottom: 7px solid transparent;
     border-top: 7px solid transparent;
     font-size: 14px;
     transition: background-color .15s linear;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
+.navbar-nav .nav-item .nav-link:hover,
+.navbar-nav .nav-item .nav-link:focus {
     color: #2f2f2f !important;
     background-color: #fff;
 }

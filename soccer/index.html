@@ -15,67 +15,70 @@
 
 <body class="d-flex flex-column bg-light">
     <header>
-        <a href="#main" class="sr-only sr-only-focusable">Skip to main content</a>
-        <div class="container-fluid">
+        <a href="#main" class="sr-only sr-only-focusable text-white bg-primary-dark text-center py-2 d-block">Skip to main content</a>
+        <div class="container px-0">
             <div class="row d-flex align-items-center">
-                <div class="col text-left d-none d-lg-block">
-                    <a href="https://cit.nih.gov/">
-                        <img src="static/img/logos/cit-dcb-logo.svg" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="70">
-                    </a>
-                </div>
-                <div class="col text-right text-xl-center d-none d-lg-block">
-                    <a href=".">
-                        <img src="static/img/logos/soccer-logo.png" alt="soccer logo" height="100">
+                <div class="col text-left d-none d-md-block">
+                    <a href="https://dceg.cancer.gov/">
+                        <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="100">
                     </a>
                 </div>
                 <div class="col text-right d-none d-xl-block">
-                    <a href="https://dceg.cancer.gov/">
-                        <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="70">
+                    <a href="https://cit.nih.gov/">
+                        <img src="static/img/logos/cit-dcb-logo.svg" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="70">
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="bg-primary text-light d-none d-lg-block">
-            <div class="container py-1 my-0">
-                <b>SOC</b>cer (<b>S</b>tandardized <b>O</b>ccupation <b>C</b>oding for <b>C</b>omputer-assisted <b>E</b>pidemiological <b>R</b>esearch)
+        <div class="bg-primary text-light d-none d-lg-block ">
+            <div class="container py-1 my-0 px-0 d-flex align-items-center">
+                <!-- <img src="static/img/logos/soccer-logo-inline-outlined.png" alt="soccer logo" height="18"  style="margin-bottom: 3px"> -->
+                <span class="m-0">
+                    <b style="color:#600">S</b>tandardized
+                    <b style="color:#900">O</b>ccupation
+                    <b style="color:#A00">C</b>oding for
+                    <b style="color:#B00">C</b>omputer-assisted
+                    <b style="color:#D00">E</b>pidemiological
+                    <b style="color: #F00">R</b>esearch
+                </span>
             </div>
         </div>
-        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-0">
-            <div class="container">
-                <a class="navbar-brand d-inline-block d-lg-none" href="#">SOCcer</a>
-                <button class="navbar-toggler my-1" type="button" data-toggle="collapse" data-target="#soccer-navigation" aria-controls="soccer-navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm p-0">
+            <div class="container px-0">
+                <a class="navbar-brand d-inline-block d-lg-none ml-4 ml-sm-0" href="#">SOCcer</a>
+                <button class="navbar-toggler my-1 mr-4 mr-sm-0" type="button" data-toggle="collapse" data-target="#soccer-navigation" aria-controls="soccer-navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="soccer-navigation">
                     <ul class="nav navbar-nav mr-auto" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active text-uppercase" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                            <a class=" active nav-link text-uppercase px-4 py-2" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="soccer-tab" data-toggle="tab" href="#soccer" role="tab" aria-controls="soccer" aria-selected="false">SOCcer</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="soccer-tab" data-toggle="tab" href="#soccer" role="tab" aria-controls="soccer" aria-selected="false">SOCcer</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="models-tab" data-toggle="tab" href="#models" role="tab" aria-controls="models" aria-selected="false">Models</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="models-tab" data-toggle="tab" href="#models" role="tab" aria-controls="models" aria-selected="false">Models</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="socassign-tab" data-toggle="tab" href="#socassign" role="tab" aria-controls="socassign" aria-selected="false">SOCAssign</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="socassign-tab" data-toggle="tab" href="#socassign" role="tab" aria-controls="socassign" aria-selected="false">SOCAssign</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
+                            <a class="nav-link text-uppercase px-4 py-2" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
                         </li>
                     </ul>
                 </div>
@@ -83,10 +86,20 @@
         </nav>
     </header>
 
-    <main class="container tab-content flex-auto d-flex align-items-stretch" id="main">
+    <main class="tab-content flex-auto d-flex align-items-stretch" id="main">
         <!-- Welcome Tab -->
-        <section class="tab-pane active shadow-lg p-4 w-100" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h1 class="h4 mb-3">Welcome to SOCcer</h1>
+        <section class="active tab-pane container shadow-lg p-4 w-100 bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <!-- <div class="text-center mb-3">
+                <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="60">
+                <div class="text-dark small font-weight-bold">
+                    <em>Standardized Occupation Coding for <br>
+                        Computer-assisted Epidemiological Research</em>
+                </div>
+            </div> -->
+            <h1 class="h4 my-3 text-center">
+                    Welcome to <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="24" style="margin-bottom: 8px">
+            </h1>
+            <!-- <hr> -->
             <p>SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational risk into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an <a href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble classifier</a>, which combines the results of multiple classifiers to produce a single classifier that performs better than any single classifier in the ensemble.</p>
             <p>If you publish results that use SOCcer, please reference: Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, Computer-based coding of free-text job descriptions to efficiently identify occupations in epidemiological studies. Occup Environ Med 2016;73(6):417-24.</p>
             <a class="font-weight-bold" href="#soccer" data-tab="#soccer-tab">Run SOCcer</a>
@@ -94,8 +107,9 @@
         <!-- End Welcome Tab -->
 
         <!-- SOCcer Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
-            <h1 class="h4 mb-3">SOCcer</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
+            <h1 class="h4 my-3">SOCcer</h1>
+            <hr>
             <div class="row">
                 <!-- Left Panel -->
                 <div class="col-md-4">
@@ -146,7 +160,7 @@
                                 Processing
                             </span>
                         </button>
-                        <button type="reset" id="reset" class="btn btn-danger" style="display: none">Reset</button>
+                        <button type="reset" id="reset" class="btn btn-outline-dark" style="display: none">Reset</button>
                     </form>
                 </div>
                 <!-- End Left Panel -->
@@ -169,8 +183,9 @@
         <!-- End SOCcer Tab -->
 
         <!-- Models Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="models" role="tabpanel" aria-labelledby="models-tab">
-            <h1 class="h4 mb-3">Models</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="models" role="tabpanel" aria-labelledby="models-tab">
+            <h1 class="h4 my-3">Models</h1>
+            <hr>
             <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
             <table class="table border">
                 <thead>
@@ -190,8 +205,9 @@
         <!-- End Models Tab -->
 
         <!-- Begin SOCAssign Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="socassign" role="tabpanel" aria-labelledby="socassign-tab">
-            <h1 class="h4 mb-3">SOCAssign</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="socassign" role="tabpanel" aria-labelledby="socassign-tab">
+            <h1 class="h4 my-3">SOCAssign</h1>
+            <hr>
             <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
             <table class="mb-3">
                 <tr>
@@ -208,8 +224,9 @@
         <!-- End SOCAssign Tab -->
 
         <!-- Begin Resources Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="resources" role="tabpanel" aria-labelledby="resources-tab">
-            <h1 class="h4 mb-3">Resources</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="resources" role="tabpanel" aria-labelledby="resources-tab">
+            <h1 class="h4 my-3">Resources</h1>
+            <hr>
             <h2 class="h5">Links</h2>
             <ul>
                 <li><a href="https://www.bls.gov/soc/2010/">SOC 2010 System</a></li>
@@ -221,8 +238,9 @@
         <!-- End Resources Tab -->
 
         <!-- Begin Help Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <h1 class="h4 mb-3">Help</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="help" role="tabpanel" aria-labelledby="help-tab">
+            <h1 class="h4 my-3">Help</h1>
+            <hr>
             <h2 class="h5">Input Data Format</h2>
 
             <p>Currently, the input for SOCcer is a comma-separated file with three columns: job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also):</p>
@@ -310,8 +328,9 @@
         <!-- End Resources Tab -->
 
         <!-- FAQ Tab -->
-        <section class="tab-pane shadow-lg p-4 w-100" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-            <h1 class="h4 mb-3">Frequently Asked Questions</h1>
+        <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+            <h1 class="h4 my-3">Frequently Asked Questions</h1>
+            <hr>
             <dl>
                 <dt class="h5">What can I do to improve the results of SOCcer?</dt>
                 <dd class="mb-4">To improve SOCcer’s performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
@@ -326,7 +345,7 @@
         <!-- End FAQ Tab -->
     </main>
     <footer class="text-left text-md-center py-4 bg-primary-dark text-light">
-        <div class="container">
+        <div class="container px-4">
             <ul class="list-inline">
                 <li class="d-block d-md-inline list-inline-item">
                     <a href="https://www.cancer.gov/" class="text-light">Home</a>
