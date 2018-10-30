@@ -131,6 +131,10 @@ blockquote {
     flex: 1 0 auto;
 }
 
+.vh-100 {
+    height: 100vh;
+}
+
 /** Adds a spin animation to the element */
 .spinner {
     animation: spin 1s infinite linear;
