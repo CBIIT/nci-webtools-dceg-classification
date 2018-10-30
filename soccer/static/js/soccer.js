@@ -182,12 +182,23 @@ $(function () {
             }
         }).fail(function (error) {
             $('#upload').enable();
-
             console.log(error);
 
-            // map the error lines to an unordered list of validation errors
+            if (!error.status) {
+                $('#alerts').showAlert('alert-warning', 'An error occurred while uploading your file. Please ensure the file is not currently in use.');
+                return;
+            }
+
+            // determine error text
+            var errorText = error.responseJSON.trim();
+
+            // handle error codes
+            if (errorText.length <= 4)
+                errorText = 'Invalid file header';
+
+            // map errors to an unordered list
             var errorList = $('<ul>').append(
-                error.responseJSON.trim().split(/\r?\n/).map(function(line) {
+                errorText.split(/\r?\n/).map(function(line) {
                     return $('<li>').text(line);
                 })
             );
