@@ -1,7 +1,7 @@
 /**
  * Disables an element and updates its aria-disabled attribute
  */
-$.fn.disable = function() {
+$.fn.disable = function () {
     return $(this)
         .prop('disabled', true)
         .attr('aria-disabled', true);
@@ -10,7 +10,7 @@ $.fn.disable = function() {
 /**
  * Enables an element and updates its aria-disabled attribute
  */
-$.fn.enable = function() {
+$.fn.enable = function () {
     return $(this)
         .prop('disabled', false)
         .attr('aria-disabled', false);
@@ -20,7 +20,7 @@ $.fn.enable = function() {
  * Sets a progress indicator's text, aria-value, and width
  * @param {number} value The numeric value of the indicator (0-100)
  */
-$.fn.setProgress = function(value) {
+$.fn.setProgress = function (value) {
     return $(this)
         .text(value + '%')
         .attr('aria-valuenow', value)
@@ -32,7 +32,7 @@ $.fn.setProgress = function(value) {
  * @param {string} type The type of alert (bootstrap class name)
  * @param {string} message The message to display within the alert
  */
-$.fn.showAlert = function(type, message) {
+$.fn.showAlert = function (type, message) {
     return $(this).append(
         $('<div class="alert" role="alert"/>')
             .addClass(type)
@@ -43,9 +43,9 @@ $.fn.showAlert = function(type, message) {
 /**
  * Creates a FormData object from a form (which includes disabled elements)
  */
-$.fn.formData = function() {
+$.fn.formData = function () {
     var formData = new FormData();
-    $(this).find('input, textarea, select').each(function(index, el) {
+    $(this).find('input, textarea, select').each(function (index, el) {
         if (el.files) formData.append(el.name, el.files[0]);
         else formData.append(el.name, el.value);
     });
@@ -55,7 +55,7 @@ $.fn.formData = function() {
 $(function () {
 
     // handle form reset events (triggered by clicking [type="reset"])
-    $('#soccer-form').on('reset', function() {
+    $('#soccer-form').on('reset', function () {
         // file input (accept only csv)
         $('#input-file').val('').enable().change();
 
@@ -152,9 +152,9 @@ $(function () {
             data: $('#soccer-form').formData(),
             processData: false,
             contentType: false,
-            xhr: function() {
+            xhr: function () {
                 var xhr = $.ajaxSettings.xhr();
-                xhr.upload.addEventListener('progress', function(e) {
+                xhr.upload.addEventListener('progress', function (e) {
                     $('#upload-progress').setProgress(
                         Math.floor(100 * e.loaded / e.total)
                     );
@@ -198,7 +198,7 @@ $(function () {
 
             // map errors to an unordered list
             var errorList = $('<ul>').append(
-                errorText.split(/\r?\n/).map(function(line) {
+                errorText.split(/\r?\n/).map(function (line) {
                     return $('<li>').text(line);
                 })
             );
@@ -210,13 +210,13 @@ $(function () {
                     .append(errorList)
                     .append('<p><b>Please modify your data file and re-upload.</b></p>')
             );
-        }).always(function() {
+        }).always(function () {
             // only animate progress bar while uploading
             $('#upload-progress').removeClass('progress-bar-animated');
         });
     });
 
-    $('#submit').click(function(e) {
+    $('#submit').click(function (e) {
 
         // do not proceed if the form is invalid
         if (!$('#soccer-form')[0].checkValidity()) return;
@@ -233,7 +233,7 @@ $(function () {
             data: $('#soccer-form').formData(),
             processData: false,
             contentType: false,
-        }).done(function(response) {
+        }).done(function (response) {
             if (action === 'code-file') {
                 $('#alerts').showAlert('alert-success', 'Your file has been processed successfully.');
                 showResults(response);
@@ -241,10 +241,10 @@ $(function () {
                 $('#email').disable();
                 $('#alerts').showAlert('alert-success', 'Your file has been enqueued successfully.');
             }
-        }).fail(function(error) {
+        }).fail(function (error) {
             console.log(error);
             $('#alerts').showAlert('alert-warning', 'Processing has failed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
-        }).always(function() {
+        }).always(function () {
             $('#reset').enable();
             $('#loading').hide();
         });
@@ -260,7 +260,7 @@ $(function () {
             $('#plot').attr('src', results.plot_url);
             $('#download-link').attr('href', results.output_url);
             $('#results-container').show();
-        }).fail(function(error) {
+        }).fail(function (error) {
             console.log(error);
             $('#soccer-form').trigger('reset');
             $('#secondary-alerts').showAlert('alert-warning', 'We were unable to retrieve results for the specified file id.');
@@ -286,7 +286,7 @@ $(function () {
     function parseQueryString(query) {
         // strip leading question mark
         if (query[0] === '?') query = query.substr(1);
-        return query.split('&').reduce(function(parsed, current) {
+        return query.split('&').reduce(function (parsed, current) {
             // iterate over each key-value pair in the query string
             var pair = current.split('=').map(decodeURIComponent);
             parsed[pair[0]] = pair[1];
