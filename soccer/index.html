@@ -14,7 +14,7 @@
 </head>
 
 <body class="d-flex flex-column bg-light vh-100">
-    <header>
+    <header class="flex-none-auto">
         <a href="#main" class="sr-only sr-only-focusable text-white bg-primary-dark text-center py-2 d-block">Skip to main content</a>
         <div class="container px-0">
             <div class="row d-flex align-items-center">
@@ -46,7 +46,7 @@
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark shadow-sm p-0">
             <div class="container px-0">
-                <a class="navbar-brand d-inline-block d-lg-none ml-4 ml-sm-0" href="#">SOCcer</a>
+                <a class="navbar-brand d-inline-block d-lg-none ml-4 ml-sm-0 font-weight-semibold" href="#">SOCcer</a>
                 <button class="navbar-toggler my-1 mr-4 mr-sm-0" type="button" data-toggle="collapse" data-target="#soccer-navigation" aria-controls="soccer-navigation" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -86,7 +86,7 @@
         </nav>
     </header>
 
-    <main class="tab-content flex-auto d-flex align-items-stretch" id="main">
+    <main class="tab-content flex-grow-auto d-flex align-items-stretch" id="main">
         <!-- Welcome Tab -->
         <section class="active tab-pane container shadow-lg p-4 w-100 bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
             <!-- <div class="text-center mb-3">
@@ -96,7 +96,7 @@
                         Computer-assisted Epidemiological Research</em>
                 </div>
             </div> -->
-            <h1 class="h4 my-3 text-center">
+            <h1 class="h4 my-2 text-primary text-center">
                     Welcome to <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="24" style="margin-bottom: 8px">
             </h1>
             <!-- <hr> -->
@@ -108,7 +108,7 @@
 
         <!-- SOCcer Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
-            <h1 class="h4 my-3">SOCcer</h1>
+            <h1 class="h4 my-2 text-primary">SOCcer</h1>
             <hr>
             <div class="row">
                 <!-- Left Panel -->
@@ -184,7 +184,7 @@
 
         <!-- Models Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="models" role="tabpanel" aria-labelledby="models-tab">
-            <h1 class="h4 my-3">Models</h1>
+            <h1 class="h4 my-2 text-primary">Models</h1>
             <hr>
             <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
             <table class="table border">
@@ -206,7 +206,7 @@
 
         <!-- Begin SOCAssign Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="socassign" role="tabpanel" aria-labelledby="socassign-tab">
-            <h1 class="h4 my-3">SOCAssign</h1>
+            <h1 class="h4 my-2 text-primary">SOCAssign</h1>
             <hr>
             <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
             <table class="mb-3">
@@ -225,7 +225,7 @@
 
         <!-- Begin Resources Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="resources" role="tabpanel" aria-labelledby="resources-tab">
-            <h1 class="h4 my-3">Resources</h1>
+            <h1 class="h4 my-2 text-primary">Resources</h1>
             <hr>
             <h2 class="h5">Links</h2>
             <ul>
@@ -239,7 +239,7 @@
 
         <!-- Begin Help Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <h1 class="h4 my-3">Help</h1>
+            <h1 class="h4 my-2 text-primary">Help</h1>
             <hr>
             <h2 class="h5">Input Data Format</h2>
 
@@ -319,7 +319,7 @@
                 </table>
             </div>
             <p>If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a>.</p>
-            <h2 class="h4">References</h2>
+            <h2 class="h5">References</h2>
             <ol>
                 <li>Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, "Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiologic studies", Occup Environ Med 2016;73(6):417-24.</li>
                 <li>Russ DE, Ho K-Y, Johnson CA, Friesen MC, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses", Proc IEEE Int Symp Comput Based Med Syst 2014 , 2014, pp. 347-350.</li>
@@ -329,22 +329,22 @@
 
         <!-- FAQ Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-            <h1 class="h4 my-3">Frequently Asked Questions</h1>
+            <h1 class="h4 my-2 text-primary">Frequently Asked Questions</h1>
             <hr>
             <dl>
-                <dt class="h5">What can I do to improve the results of SOCcer?</dt>
-                <dd class="mb-4">To improve SOCcer’s performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
+                <dt class="h5 text-dark">What can I do to improve the results of SOCcer?</dt>
+                <dd class="mb-4">To improve SOCcer's performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
 
-                <dt class="h5">What about HIPAA concerns?</dt>
+                <dt class="h5 text-dark">What about HIPAA concerns?</dt>
                 <dd class="mb-4">The data input file does not accept identifiers in order to help prevent you from uploading PII; however, we do not screen your data for PII. Please check your input file for PII before you upload you data onto our server.</dd>
 
-                <dt class="h5">What are SOCcer scores?</dt>
+                <dt class="h5 text-dark">What are SOCcer scores?</dt>
                 <dd class="mb-4">Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details on the relationship between SOCcer score and probability of matching an expert coder's SOC assignment. Some dataset are more difficult to classify than others and depend on the quality of the data. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.</dd>
             </dl>
         </section>
         <!-- End FAQ Tab -->
     </main>
-    <footer class="text-left text-md-center py-4 bg-primary-dark text-light">
+    <footer class="flex-none-auto text-left text-md-center py-4 bg-primary-dark text-light">
         <div class="container px-4">
             <ul class="list-inline">
                 <li class="d-block d-md-inline list-inline-item">

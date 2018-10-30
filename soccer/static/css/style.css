@@ -1,53 +1,69 @@
-/* @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700'); */
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i");
-
-/**
- * Font overrides
- */
-@font-face{
-    font-family: Montserrat;
-    src: url("fonts/Montserrat-regular.eot") format("eot");
-    src: url("fonts/Montserrat-regular.woff") format("woff");
-    src: url("fonts/Montserrat-regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face{
-    font-family: Montserrat;
-    src: url("fonts/Montserrat-700.eot") format("eot");
-    src: url("fonts/Montserrat-700.woff") format("woff");
-    src: url("fonts/Montserrat-700.ttf") format("truetype");
+h1, h2, h3, h4,
+.h1, .h2, .h3, .h4 {
     font-weight: 700;
-    font-style: normal;
 }
 
-body {
-    font-family: "Noto Sans", "Century Gothic", Arial, sans-serif;
-    min-height: 100vh;
-    height: 100%;
-}
-
-h1, h2, h3, h4, h5, h6,
-.h1, .h2, .h3, .h4, .h5, .h6 {
-    color: #2a71a5;
-    font-family: Montserrat, "Avant Garde", Arial, sans-serif;
-    font-weight: 700;
+h5, h6,
+.h5, .h6 {
+    font-weight: 600;
 }
 
 nav {
-    font-family: Montserrat, "Avant Garde", Arial, sans-serif;
+    font-weight: 600;
 }
 
-/** AAA contrast overrides */
 a {
-    color:#3a539b;
+    color: #2a71a5;
+    font-weight: 600;
+}
+
+.alert {
+    border-radius: 0;
+    border-top: none;
+    border-bottom: none;
+    border-left-width: 4px;
+}
+
+.alert-primary {
+    border-left-color: #2a71a5;
+}
+
+.alert-secondary {
+    border-left-color: #666;
+}
+
+.alert-success {
+    border-left-color: #43784f;
+}
+
+.alert-danger {
+    border-left-color: #f22613;
+}
+
+.alert-warning {
+    border-left-color: #9d8336;
+}
+
+.alert-info {
+    border-left-color: #3c767f;
+}
+
+.alert-light {
+    border-left-color: #ddd;
+}
+
+.alert-dark {
+    border-left-color: #555;
 }
 
 blockquote {
     margin: 0 0 1rem;
     padding: 0.5rem 1.2rem;
-    border-left: 4px solid #2a71a5;
+    border-left: 4px solid #ccc;
+}
+
+.text-primary {
+    color: #2a71a5 !important;
 }
 
 .bg-primary {
@@ -81,7 +97,7 @@ blockquote {
 }
 
 .navbar-dark {
-    background-color: #363636;
+    background-color: #444;
 }
 
 .navbar-dark .navbar-nav .nav-link {
@@ -127,8 +143,16 @@ blockquote {
     cursor: pointer;
 }
 
-.flex-auto {
+.flex-none-auto {
+    flex: 0 0 auto;
+}
+
+.flex-grow-auto {
     flex: 1 0 auto;
+}
+
+.font-weight-semibold {
+    font-weight: 600;
 }
 
 .vh-100 {
