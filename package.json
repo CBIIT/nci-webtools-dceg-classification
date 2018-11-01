@@ -1,0 +1,21 @@
+{
+  "name": "comets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:e2e": "mocha -R xunit -O output=tests/e2e.xml tests/end-to-end/*test.js",
+    "test:integration": "echo TODO: Implement integration tests",
+    "test:unit": "echo TODO: Implement integration tests"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "request": "^2.88.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  },
+  "dependencies": {}
+}
