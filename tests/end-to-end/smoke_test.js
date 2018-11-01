@@ -11,7 +11,7 @@ describe('SOCcer Smoke Test', function() {
     before(async function() {
         this.driver = await new Builder()
             .forBrowser('firefox')
-            // .setFirefoxOptions(new firefox.Options().headless())
+            .setFirefoxOptions(new firefox.Options().headless())
             .build();
         this.website = process.env.TEST_WEBSITE.replace(/\/$/, '');
     });
@@ -66,6 +66,6 @@ describe('SOCcer Smoke Test', function() {
     });
 
     after(async function() {
-        // this.driver.quit();
+        this.driver.quit();
     })
 });
