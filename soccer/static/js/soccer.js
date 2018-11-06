@@ -63,35 +63,32 @@ $(function () {
         $('#model-version').val('2').enable();
 
         // email input (only visible when queueing)
-        $('#email-container').hide();
+        $('#submit-queue').prop('checked', false).enable();
         $('#email').val('').enable().prop('required', false);
 
         // input file id (internal, hidden)
         $('#file-id').val('');
 
-        // upload button
-        $('#upload').enable().show();
-
         // upload progress indicator (bootstrap)
         $('#upload-progress').setProgress(0).parent().hide();
 
         // submit button
-        $('#submit').enable().hide();
+        $('#submit').show().disable();
 
         // reset button
-        $('#reset').enable().show();
+        $('#reset').enable();
 
-        // loading indicator (replaces submit/upload when processing)
+        // loading indicator (replaces submit when processing)
         $('#loading').hide();
 
         // results container in right panel
         $('#results-container').hide();
 
-        // primary alerts container (left panel)
+        // alerts container
         $('#alerts').html('');
 
-        // secondary alerts container (right panel)
-        $('#secondary-alerts').html('');
+        $('#queue-description').text('Note: If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
+
         return false;
     }).trigger('reset'); // reset form on startup
 
@@ -110,6 +107,22 @@ $(function () {
 
     // update the input file's description when a new file is selected
     $('#input-file').change(function (e) {
+        updateDescription();
+        uploadFile();
+    });
+
+    $('#submit-queue').change(function(e) {
+        var emailRequired = $(this).prop('checked');
+        $('#email')
+            .prop('required', emailRequired)
+            .prop('readonly', !emailRequired);
+    }).change();
+
+    $('#submit').click(function (e) {
+        submitFile();
+    });
+
+    function updateDescription() {
         $('#input-file-description').text('');
         $('#upload-progress').setProgress(0);
         if (!this.files || !this.files.length) return;
@@ -121,7 +134,7 @@ $(function () {
         ].join('; ');
 
         $('#input-file-description').text(description);
-    });
+    }
 
     /**
      * When the user uploads an input file, attempt to validate it on the server.
@@ -132,13 +145,12 @@ $(function () {
      * Otherwise, we obtain a list of validation errors which are displayed
      * in '#secondary-alerts'
      */
-    $('#upload').click(function (e) {
+    function uploadFile (e) {
         // do not proceed if there are no input files
         if (!$('#input-file').val()) return;
 
         // clear all alerts and results when starting file upload
         $('#alerts').html('');
-        $('#secondary-alerts').html('');
         $('#results-container').hide();
 
         // disable upload button and show upload progress animation
@@ -169,16 +181,13 @@ $(function () {
             // update the file id
             $('#file-id').val(response.file_id);
 
-            // replace the upload button with the submit button
-            $('#upload').hide();
-            $('#submit').show();
+            $('#submit').enable();
 
-            $('#alerts').showAlert('alert-success', 'Your file has been uploaded successfully.');
             if (response.estimated_runtime > 30) {
-                // if the calculation is estimated to take more than 30 seconds, then we should ask the user to enter their email
-                $('#email-container').show();
+                // if the calculation is estimated to take more than 30 seconds, then we should enqueue the file when submitted
                 $('#email').prop('required', true);
-                $('#alerts').showAlert('alert-success', 'Since it will likely take longer than 30 seconds to process your data, please provide your email address, and you will get an email notification once the processing is complete.');
+                $('#submit-queue').prop('checked', true).change().disable();
+                $('#queue-description').text('Note: Since it will likely take longer than 30 seconds to process your data, please provide your email address and you will get an email notification once processing is complete.');
             }
         }).fail(function (error) {
             $('#upload').enable();
@@ -204,7 +213,7 @@ $(function () {
             );
 
             // display validation errors
-            $('#secondary-alerts').showAlert('alert-warning',
+            $('#alerts').showAlert('alert-warning',
                 $('<div/>')
                     .append('<p><b>Your file has been uploaded successfully but contains the following errors:</b></p>')
                     .append(errorList)
@@ -214,15 +223,17 @@ $(function () {
             // only animate progress bar while uploading
             $('#upload-progress').removeClass('progress-bar-animated');
         });
-    });
+    }
 
-    $('#submit').click(function (e) {
+    function submitFile() {
 
         // do not proceed if the form is invalid
         if (!$('#soccer-form')[0].checkValidity()) return;
 
         // determine if we should use 'enqueue' or 'code-file'
-        var action = $('#email').val() ? 'enqueue' : 'code-file';
+        var action = $('#submit-queue').prop('checked')
+            ? 'enqueue'
+            : 'code-file';
 
         $('#submit').hide();
         $('#loading').show();
@@ -235,7 +246,6 @@ $(function () {
             contentType: false,
         }).done(function (response) {
             if (action === 'code-file') {
-                $('#alerts').showAlert('alert-success', 'Your file has been processed successfully.');
                 showResults(response);
             } else {
                 $('#email').disable();
@@ -243,12 +253,12 @@ $(function () {
             }
         }).fail(function (error) {
             console.log(error);
-            $('#alerts').showAlert('alert-warning', 'Processing has failed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
+            $('#alerts').showAlert('alert-warning', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
         }).always(function () {
             $('#reset').enable();
             $('#loading').hide();
         });
-    })
+    }
 
     /**
      * Shows calculation results (sets attributes for plot/download link)
@@ -263,7 +273,7 @@ $(function () {
         }).fail(function (error) {
             console.log(error);
             $('#soccer-form').trigger('reset');
-            $('#secondary-alerts').showAlert('alert-warning', 'We were unable to retrieve results for the specified file id.');
+            $('#alerts').showAlert('alert-warning', 'We were unable to retrieve results for the specified file id.');
         });
     }
 

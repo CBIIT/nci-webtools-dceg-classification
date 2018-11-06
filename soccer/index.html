@@ -35,7 +35,7 @@
         <div class="bg-primary text-light d-none d-lg-block ">
             <div class="container py-1 my-0 px-0 d-flex align-items-center">
                 <!-- <img src="static/img/logos/soccer-logo-inline-outlined.png" alt="soccer logo" height="18"  style="margin-bottom: 3px"> -->
-                <span class="m-0">
+                <span class="m-0 h5 font-weight-normal">
                     <b style="color:#600">S</b>tandardized
                     <b style="color:#900">O</b>ccupation
                     <b style="color:#A00">C</b>oding for
@@ -91,7 +91,7 @@
         <!-- Welcome Tab -->
         <section class="active tab-pane container shadow-lg p-4 w-100 bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h1 class="h4 my-2 text-primary text-center">
-                    Welcome to <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="24" style="margin-bottom: 8px">
+                Welcome to <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="24" style="margin-bottom: 8px">
             </h1>
             <p>SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational risk into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an <a href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble classifier</a>, which combines the results of multiple classifiers to produce a single classifier that performs better than any single classifier in the ensemble.</p>
             <p>If you publish results that use SOCcer, please reference: Russ DE, Ho K-Y, Colt JS, Armenti KR, Baris D, Wong-Ho C, Davis F, Johnson A, Purdue MP, Karagas MR, Schwarz K, Schwenn M, Silverman DT, Stewart PA, Johnson, CA, Friesen MC, Computer-based coding of free-text job descriptions to efficiently identify occupations in epidemiological studies. Occup Environ Med 2016;73(6):417-24.</p>
@@ -101,73 +101,83 @@
 
         <!-- SOCcer Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
-            <h1 class="h4 my-2 text-primary">SOCcer</h1>
-            <hr>
-            <div class="row">
+            <h1 class="h4 mb-3 my-2 text-primary">SOCcer</h1>
+            <!-- <hr> -->
+            <div class="row p-0">
                 <!-- Left Panel -->
                 <div class="col-md-4">
-                    <form id="soccer-form">
-                        <div class="form-group">
-                            <label for="input-file">
-                                Select a file to upload:
-                                <span class="small font-italic text-nowrap">
-                                    <a href="static/files/example1.csv" download>Example 1</a>
-                                    <a href="static/files/example2.csv" download>Example 2</a>
+                    <form id="soccer-form" class="h-100 border p-3">
+                        <div class="border p-2 mb-3">
+                            <div class="form-group form-inline">
+                                <label class="mr-1" for="model-version">SOCcer Model:</label>
+                                <select id="model-version" name="model-version" class="mr-1 form-control form-control-sm">
+                                    <option value="1">model v1.0</option>
+                                    <option value="2">model v2.0</option>
+                                </select>
+
+                                <span tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="d-flex align-items-center cursor-pointer">
+                                    <img src="static/img/icons/info-circle.svg" height="20" width="20" alt="info circle" />
                                 </span>
-                            </label>
-                            <input class="small d-block mb-1" type="file" id="input-file" name="input-file" accept=".csv" required>
-                            <div class="small text-dark font-italic" id="input-file-description"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="input-file">
+                                    Input File:
+                                    <span class="small font-italic text-nowrap">
+                                        <a href="static/files/example1.csv" download>Example 1</a>
+                                        <a href="static/files/example2.csv" download>Example 2</a>
+                                    </span>
+                                </label>
+                                <input class="small d-block mb-1" type="file" id="input-file" name="input-file" accept=".csv" required>
+                                <div class="small text-dark font-italic" id="input-file-description"></div>
+                            </div>
+
+                            <div class="progress mb-2">
+                                <div id="upload-progress" class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                            </div>
+
                         </div>
 
-                        <div class="form-group form-inline">
+                        <div class="form-group border p-2">
+                            <div class="custom-control custom-checkbox mb-2">
+                                <input type="checkbox" class="custom-control-input" id="submit-queue">
+                                <label class="custom-control-label" for="submit-queue">Submit this job to a queue</label>
+                            </div>
 
-                            <label class="mr-1" for="model-version">SOCcer Model:</label>
-                            <select id="model-version" name="model-version" class="mr-1 form-control form-control-sm">
-                                <option value="1">model v1.0</option>
-                                <option value="2">model v2.0</option>
-                            </select>
-
-                            <span tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="d-flex align-items-center cursor-pointer">
-                                <img src="static/img/icons/info-circle.svg" height="20" width="20" alt="info circle" />
-                            </span>
-                        </div>
-
-                        <div class="progress mb-4">
-                            <div id="upload-progress" class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                        </div>
-
-                        <div id="alerts" class="mb-4"></div>
-
-                        <div id="email-container" class="form-group" style="display: none">
                             <label class="mb-1 font-weight-bold" for="email">Email address</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+                            <p class="my-2 font-italic text-muted" id="queue-description"></p>
                         </div>
 
                         <input type="hidden" name="file-id" id="file-id">
 
-                        <button id="upload" class="btn btn-primary">Upload</button>
-                        <button type="submit" id="submit" class="btn btn-primary" style="display: none">Submit</button>
-                        <button type="button" id="loading" class="btn btn-primary" style="display: none" disabled>
-                            <span class=" d-flex align-items-center">
-                                <img class="spinner mr-2" src="static/img/icons/spinner-third.svg" alt="loading" height="20" width="20" />
-                                Processing
-                            </span>
-                        </button>
-                        <button type="reset" id="reset" class="btn btn-outline-dark" style="display: none">Reset</button>
+                        <div class="text-right">
+                            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" id="loading" class="btn btn-primary" style="display: none" disabled>
+                                <span class=" d-flex align-items-center">
+                                    <img class="spinner mr-2" src="static/img/icons/spinner-third.svg" alt="loading" height="20" width="20" />
+                                    Processing
+                                </span>
+                            </button>
+                            <button type="reset" id="reset" class="btn btn-outline-dark">Reset</button>
+                        </div>
                     </form>
                 </div>
                 <!-- End Left Panel -->
 
                 <!-- Right Panel -->
                 <div class="col-md-8">
-                    <div id="secondary-alerts" class="mb-4"></div>
-                    <div id="results-container" style="display: none">
-                        <div class="border mb-2 p-4 text-center">
-                            <img class="img-fluid" id="plot" alt="output plot">
+                    <div class="h-100 border p-2">
+                        <div id="alerts" class="mb-4"></div>
+                        <div id="results-container" style="display: none">
+                            <div class="mb-2 text-center">
+                                <img class="img-fluid" id="plot" alt="output plot">
+                            </div>
+                            <div class="ml-3 mb-2">
+                                <a href="#" class="btn btn-sm btn-primary" id="download-link" target="_blank" download>Download Output</a>
+                                <em class="small">* Directly opening the CSV file into Excel will render numbers as dates incorrectly</em>
+                            </div>
                         </div>
-
-                        <a href="#" class="btn btn-sm btn-primary" id="download-link" target="_BLANK" download>Download Output</a>
-                        <em class="small">* Directly opening the CSV file into Excel will render numbers as dates incorrectly</em>
                     </div>
                 </div>
                 <!-- End Right Panel -->
