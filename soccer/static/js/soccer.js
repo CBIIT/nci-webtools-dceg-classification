@@ -87,7 +87,12 @@ $(function () {
         // alerts container
         $('#alerts').html('');
 
+        // set default queue description text
         $('#queue-description').text('Note: If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
+
+        // clear query parameters if they exist
+        if (location.search)
+            history.pushState(null, null, location.pathname);
 
         return false;
     }).trigger('reset'); // reset form on startup
@@ -194,7 +199,7 @@ $(function () {
             console.log(error);
 
             if (!error.status) {
-                $('#alerts').showAlert('alert-warning', 'An error occurred while uploading your file. Please ensure the file is not currently in use.');
+                $('#alerts').showAlert('alert-danger', 'An error occurred while uploading your file. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
                 return;
             }
 
@@ -237,6 +242,7 @@ $(function () {
 
         $('#loading').show();
         $('#reset').disable();
+        $('#submit').disable();
 
         $.post({
             url: action,
@@ -252,7 +258,7 @@ $(function () {
             }
         }).fail(function (error) {
             console.log(error);
-            $('#alerts').showAlert('alert-warning', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
+            $('#alerts').showAlert('alert-danger', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
         }).always(function () {
             $('#reset').enable();
             $('#loading').hide();
@@ -272,7 +278,7 @@ $(function () {
         }).fail(function (error) {
             console.log(error);
             $('#soccer-form').trigger('reset');
-            $('#alerts').showAlert('alert-warning', 'We were unable to retrieve results for the specified file id.');
+            $('#alerts').showAlert('alert-danger', 'Results could not be found for the specified id. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> for assistance.');
         });
     }
 
