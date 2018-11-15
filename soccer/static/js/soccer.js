@@ -17,7 +17,7 @@ $.fn.enable = function () {
 }
 
 /**
- * Sets a progress indicator's text, aria-value, and width
+ * Sets a bootstrap progress indicator's text, aria-value, and width
  * @param {number} value The numeric value of the indicator (0-100)
  */
 $.fn.setProgress = function (value) {
@@ -73,7 +73,7 @@ $(function () {
         $('#upload-progress').setProgress(0).parent().hide();
 
         // submit button
-        $('#submit').show().disable();
+        $('#submit').disable();
 
         // reset button
         $('#reset').enable();
@@ -235,7 +235,6 @@ $(function () {
             ? 'enqueue'
             : 'code-file';
 
-        $('#submit').hide();
         $('#loading').show();
         $('#reset').disable();
 
