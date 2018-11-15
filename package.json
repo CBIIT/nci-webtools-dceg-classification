@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:dev": "docker-compose up",
     "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
     "test:e2e": "mocha -R xunit -O output=tests/e2e.xml tests/end-to-end/*test.js",
     "test:integration": "echo TODO: Implement integration tests",
