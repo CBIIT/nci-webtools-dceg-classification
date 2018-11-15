@@ -190,6 +190,10 @@ blockquote {
     box-shadow: 0 .125rem .9rem rgba(0,0,0,.075)!important;
 }
 
+.text-muted {
+    color: #595959 !important;
+}
+
 /** Adds a spin animation to the element */
 .spinner {
     animation: spin 1s infinite linear;

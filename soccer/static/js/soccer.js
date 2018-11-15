@@ -54,6 +54,22 @@ $.fn.formData = function () {
 
 $(function () {
 
+    // if we have a file id in the url, fetch and show the results
+    var query = parseQueryString(location.search);
+    if (query.id) {
+        showResults(query.id);
+        $('#soccer-tab').tab('show');
+        $('#submit').disable();
+        $('#model-version').disable();
+        $('#input-file').disable();
+    }
+
+    // disable default form submission (eg: on enter)
+    $('#soccer-form').submit(function (e) { return false });
+
+    // submit form only when button is clicked
+    $('#submit').click(submitFile);
+
     // handle form reset events (triggered by clicking [type="reset"])
     $('#soccer-form').on('reset', function () {
         // file input (accept only csv)
@@ -88,44 +104,30 @@ $(function () {
         $('#alerts').html('');
 
         // set default queue description text
-        $('#queue-description').text('Note: If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
+        $('#email-help').text('Note: If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
 
         // clear query parameters if they exist
         if (location.search)
             history.pushState(null, null, location.pathname);
 
         return false;
-    }).trigger('reset'); // reset form on startup
-
-    // disable default form submission
-    $('#soccer-form').submit(function (e) { return false });
-
-    // if we have a file id in the url, fetch and show the results
-    var query = parseQueryString(location.search);
-    if (query.id) {
-        showResults(query.id);
-        $('#soccer-tab').tab('show');
-        $('#upload').disable();
-        $('#model-version').disable();
-        $('#input-file').disable();
-    }
+    });
 
     // update the input file's description when a new file is selected
     $('#input-file').change(function (e) {
         updateDescription();
-        uploadFile();
+        if ($(this).val())
+            uploadFile();
     });
 
+    // update the required property of the email input whenever
+    // we check the "#submit-queue" input
     $('#submit-queue').change(function(e) {
         var emailRequired = $(this).prop('checked');
         $('#email')
             .prop('required', emailRequired)
             .prop('readonly', !emailRequired);
     }).change();
-
-    $('#submit').click(function (e) {
-        submitFile();
-    });
 
     function updateDescription() {
         $('#input-file-description').text('');
@@ -151,15 +153,11 @@ $(function () {
      * in '#secondary-alerts'
      */
     function uploadFile (e) {
-        // do not proceed if there are no input files
-        if (!$('#input-file').val()) return;
-
-        // clear all alerts and results when starting file upload
+        // clear all alerts and results
         $('#alerts').html('');
         $('#results-container').hide();
 
-        // disable upload button and show upload progress animation
-        $('#upload').disable();
+        // show upload progress animation
         $('#upload-progress')
             .addClass('progress-bar-animated')
             .parent().show();
@@ -192,10 +190,10 @@ $(function () {
                 // if the calculation is estimated to take more than 30 seconds, then we should enqueue the file when submitted
                 $('#email').prop('required', true);
                 $('#submit-queue').prop('checked', true).change().disable();
-                $('#queue-description').text('Note: Since it will likely take longer than 30 seconds to process your data, please provide your email address and you will get an email notification once processing is complete.');
+                $('#email-help').text('Since it will likely take longer than 30 seconds to process your data, please provide your email address and you will get a notification once processing is complete.');
             }
         }).fail(function (error) {
-            $('#upload').enable();
+            $('#submit').enable();
             console.log(error);
 
             if (!error.status) {
@@ -240,6 +238,7 @@ $(function () {
             ? 'enqueue'
             : 'code-file';
 
+        $('#alerts').html('');
         $('#loading').show();
         $('#reset').disable();
         $('#submit').disable();

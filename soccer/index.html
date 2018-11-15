@@ -115,9 +115,9 @@
                                     </label>
                                     <img tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="cursor-pointer ml-2" src="static/img/icons/info-circle.svg" height="16" width="16" alt="info circle" />
                                 </div>
-                                <select id="model-version" name="model-version" class="form-control">
+                                <select id="model-version" name="model-version" class="form-control" required>
                                     <option value="1">model v1.0</option>
-                                    <option value="2">model v2.0</option>
+                                    <option value="2" selected>model v2.0</option>
                                 </select>
                             </div>
 
@@ -132,7 +132,7 @@
                                 <input class="small d-block mb-1" type="file" id="input-file" name="input-file" accept=".csv" required>
                                 <div class="small text-dark font-italic" id="input-file-description"></div>
 
-                                <div class="progress my-1">
+                                <div class="progress my-1" style="display: none;">
                                     <div id="upload-progress" class="progress-bar progress-bar-striped bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                                 </div>
                             </div>
@@ -146,7 +146,8 @@
 
                             <label class="mb-1 font-weight-semibold" for="email">Email Address</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-                            <p class="my-2 font-italic text-muted" id="queue-description"></p>
+                            <small id="email-help" class="form-text text-muted">If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.</small>
+
                             <input type="hidden" name="file-id" id="file-id">
                         </div>
 
@@ -163,9 +164,15 @@
 
                 <!-- Right Panel -->
                 <div class="col-md-8">
-                    <div class="h-100 rounded shadow-light p-2">
-                        <div id="alerts" class="mb-4"></div>
-                        <div id="results-container" style="display: none">
+                    <div class="h-100 rounded shadow-light p-3">
+                        <div id="alerts"></div>
+                        <div id="instructions" style="display: none;">
+                            <h2 class="h5 font-weight-semibold">Instructions</h2>
+                            <p>To begin, select a model version and upload a csv input file which conforms to the <a href="#help" data-tab="#help-tab">input data format.</a></p>
+                        </div>
+                        <div id="results-container" class="my-4" style="display: none;">
+                            <h2 class="h5 font-weight-semibold">Results</h2>
+
                             <div class="mb-2 text-center">
                                 <img class="img-fluid" id="plot" alt="output plot">
                             </div>
