@@ -108,7 +108,9 @@ blockquote {
     border-color: #2a7ba5;
 }
 
-.btn-outline-light.focus, .btn-outline-light:focus {
+.btn-outline-light.focus,
+.btn-outline-light:focus,
+.btn-outline-light:hover {
     text-decoration: underline;
 }
 
