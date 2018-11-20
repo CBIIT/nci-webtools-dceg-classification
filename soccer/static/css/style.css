@@ -178,6 +178,10 @@ blockquote {
     font-weight: 600;
 }
 
+.h-90 {
+    height: 90%;
+}
+
 .vh-100 {
     height: 100vh;
 }

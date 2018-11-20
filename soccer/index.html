@@ -90,7 +90,7 @@
     <main class="tab-content flex-grow-auto d-flex align-items-stretch" id="main">
         <!-- Welcome Tab -->
         <section class="active tab-pane container shadow-lg p-4 w-100 bg-white" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <h1 class="h4 my-2 text-primary text-center">
+            <h1 class="h4 text-primary text-center">
                 Welcome to <img src="static/img/logos/soccer-logo-inline.png" alt="soccer logo" height="24" style="margin-bottom: 8px">
             </h1>
             <p>SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational risk into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an <a href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble classifier</a>, which combines the results of multiple classifiers to produce a single classifier that performs better than any single classifier in the ensemble.</p>
@@ -101,12 +101,12 @@
 
         <!-- SOCcer Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="soccer" role="tabpanel" aria-labelledby="soccer-tab">
-            <h1 class="h4 mb-3 my-2 text-primary">SOCcer</h1>
+            <h1 class="h4 mb-3 text-primary">SOCcer</h1>
             <!-- <hr> -->
-            <div class="row p-0">
+            <div class="row p-0 h-90">
                 <!-- Left Panel -->
                 <div class="col-md-4">
-                    <form id="soccer-form" class="h-100 shadow-light rounded d-flex flex-column justify-content-between">
+                    <form id="soccer-form" class="h-100 bg-light shadow-light rounded">
                         <div class="p-3">
 
                             <div class="form-group">
@@ -151,7 +151,8 @@
                             <input type="hidden" name="file-id" id="file-id">
                         </div>
 
-                        <div class="text-right bg-light p-3 rounded-bottom">
+                        <div class="text-right p-3">
+                            <hr>
                             <button type="reset" id="reset" class="btn btn-outline-light text-dark font-weight-semibold">Reset</button>
                             <button type="submit" id="submit" class="btn btn-primary font-weight-semibold d-flex-inline align-items-center">
                                 Submit
@@ -190,7 +191,7 @@
 
         <!-- Models Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="models" role="tabpanel" aria-labelledby="models-tab">
-            <h1 class="h4 my-2 text-primary">Models</h1>
+            <h1 class="h4 text-primary">Models</h1>
             <hr>
             <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
             <table class="table border">
@@ -212,7 +213,7 @@
 
         <!-- Begin SOCAssign Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="socassign" role="tabpanel" aria-labelledby="socassign-tab">
-            <h1 class="h4 my-2 text-primary">SOCAssign</h1>
+            <h1 class="h4 text-primary">SOCAssign</h1>
             <hr>
             <p>SOCAssign is an application to assist expert review of the top 10 SOCcer assignments for each job description to provide an expert SOC-2010 assignment. SOCAssign will read SOCcer ouput. Before importing, the SOCcer results can be preprocessed to focus the expert review on a subset of job descriptions, such as job descriptions with SOC codes that are tied for the highest score or that had low SOCcer scores. For each job description, SOCAssign will allow the selection of up to 3 SOC-2010 codes. The code scan be selected from the SOCcer output list, from a list of all SOC-2010 codes, or manually entered. A validation check ensures that only valid SOC-2010 can be entered.</p>
             <table class="mb-3">
@@ -231,7 +232,7 @@
 
         <!-- Begin Resources Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="resources" role="tabpanel" aria-labelledby="resources-tab">
-            <h1 class="h4 my-2 text-primary">Resources</h1>
+            <h1 class="h4 text-primary">Resources</h1>
             <hr>
             <h2 class="h5">Links</h2>
             <ul>
@@ -245,7 +246,7 @@
 
         <!-- Begin Help Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <h1 class="h4 my-2 text-primary">Help</h1>
+            <h1 class="h4 text-primary">Help</h1>
             <hr>
             <h2 class="h5">Input Data Format</h2>
 
@@ -335,7 +336,7 @@
 
         <!-- FAQ Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="faq" role="tabpanel" aria-labelledby="faq-tab">
-            <h1 class="h4 my-2 text-primary">Frequently Asked Questions</h1>
+            <h1 class="h4 text-primary">Frequently Asked Questions</h1>
             <hr>
             <dl>
                 <dt class="h5 text-dark">What can I do to improve the results of SOCcer?</dt>
