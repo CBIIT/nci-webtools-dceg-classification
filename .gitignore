@@ -1,6 +1,5 @@
 node_modules
 tests/*.xml
-Dockerfile
 config.ini
 @input_dir@
 @output_dir@
