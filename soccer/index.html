@@ -154,7 +154,7 @@
                         <div class="text-right p-3">
                             <hr>
                             <button type="reset" id="reset" class="btn btn-outline-light text-dark font-weight-semibold">Reset</button>
-                            <button type="submit" id="submit" class="btn btn-primary font-weight-semibold d-flex-inline align-items-center">
+                            <button type="submit" id="submit" class="btn btn-primary font-weight-semibold d-inline-flex align-items-center">
                                 Submit
                                 <img id="loading" style="display: none" class="spinner ml-2" src="static/img/icons/spinner-third.svg" alt="loading" height="16" width="16" />
                             </button>
@@ -171,13 +171,12 @@
                             <h2 class="h5 font-weight-semibold">Instructions</h2>
                             <p>To begin, select a model version and upload a csv input file which conforms to the <a href="#help" data-tab="#help-tab">input data format.</a></p>
                         </div>
-                        <div id="results-container" class="my-4" style="display: none;">
-                            <h2 class="h5 font-weight-semibold">Results</h2>
-
+                        <div id="results-container" style="display: none;">
+                            <!-- <h2 class="h5 font-weight-semibold">Results</h2> -->
                             <div class="mb-2 text-center">
                                 <img class="img-fluid" id="plot" alt="output plot">
                             </div>
-                            <div class="ml-3 mb-2">
+                            <div>
                                 <a href="#" class="btn btn-sm btn-primary" id="download-link" target="_blank" download>Download Output</a>
                                 <em class="small">* Directly opening the CSV file into Excel will render numbers as dates incorrectly</em>
                             </div>

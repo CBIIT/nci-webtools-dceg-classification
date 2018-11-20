@@ -180,12 +180,10 @@ $(function () {
             // disable modifying input parameters after the file is validated
             $('#input-file').disable();
             $('#model-version').disable();
+            $('#submit').enable();
 
             // update the file id
             $('#file-id').val(response.file_id);
-
-            $('#submit').enable();
-
             if (response.estimated_runtime > 30) {
                 // if the calculation is estimated to take more than 30 seconds, then we should enqueue the file when submitted
                 $('#email').prop('required', true);
@@ -239,9 +237,9 @@ $(function () {
             : 'code-file';
 
         $('#alerts').html('');
-        $('#loading').show();
         $('#reset').disable();
         $('#submit').disable();
+        $('#loading').delay(200).fadeIn(100); // IE does not .show properly when .disable is also in progress
 
         $.post({
             url: action,
@@ -260,7 +258,7 @@ $(function () {
             $('#alerts').showAlert('alert-danger', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
         }).always(function () {
             $('#reset').enable();
-            $('#loading').hide();
+            $('#loading').fadeOut(100);
         });
     }
 
