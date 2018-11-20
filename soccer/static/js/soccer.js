@@ -104,7 +104,7 @@ $(function () {
         $('#alerts').html('');
 
         // set default queue description text
-        $('#email-help').text('Note: If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
+        $('#email-help').text('If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
 
         // clear query parameters if they exist
         if (location.search)
