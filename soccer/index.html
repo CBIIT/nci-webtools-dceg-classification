@@ -185,7 +185,7 @@
                 <tbody>
 		    <tr>
 		      <td>model v2.0</td>
-		      <td> :-)</td>
+		      <td>This model  is trained using data from NCI epidemiological studies to train primary classifiers based on the job title and job tasks.  The results are transformed using a lower threshold ( y  =  x if x>threshold, otherwise 0), similar to but not the same as a rectified linear  unit.     The transformed results of the classifier are fed into a logistic regression for classification.</td>
 		    </tr>
 
                     <tr>
@@ -368,6 +368,14 @@ myid2,, "formulate lesson plans, teach 11th grade match"<br/>
         <section class="tab-pane shadow-lg p-4 w-100" id="faq" role="tabpanel" aria-labelledby="faq-tab">
             <h1 class="h4 mb-3">Frequently Asked Questions</h1>
             <dl>
+	        <dt class="h5 text-dark">Which jobs require expert review?</dt>
+                <dd class="mb-4">SOCcer does not replace manual expert review for many jobs. The proportion requiring review is largely dependent on the quality of the job description data in your study. It also depends on the level of detail needed. Accuracy is higher for 3-digit SOC-2010 codes than for 6-digit SOC codes. For an accurate 6-digit score, we recommend that jobs with scores less than 0.3 be reviewed by an expert. We also recommend reviewing jobs whose two highest scoring SOC codes have similar scores (within 0.1 score units). Our companion software SOCAssign can be used to assist with the manual review.</dd>
+		<dt class="h5 text-dark">What is the “gold standard” for assignment?</dt>
+                <dd class="mb-4">Best practice is to use two experts to code each job and resolve discrepancies in their coding. However, there is no gold standard. This is because the job descriptions often do not provide sufficient information to pick a single code; multiple, equally plausible codes may exist for a given job description. </dd>
+                <dt class="h5 text-dark">Which version of SOCcer do I use?</dt>
+                <dd class="mb-4">For all new projects, you will have more accurate results with SOCcer v2.0. SOCcer 1.0 remains available for comparison purposes and for users who wish to recreate previous assessments that used v. 1.0.</dd>
+
+
                 <dt class="h5">What can I do to improve the results of SOCcer?</dt>
                 <dd class="mb-4">To improve SOCcer’s performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
 
@@ -376,6 +384,8 @@ myid2,, "formulate lesson plans, teach 11th grade match"<br/>
 
                 <dt class="h5">What are SOCcer scores?</dt>
                 <dd class="mb-4">Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details on the relationship between SOCcer score and probability of matching an expert coder's SOC assignment. Some dataset are more difficult to classify than others and depend on the quality of the data. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.</dd>
+                <dt class="h5 text-dark"></dt>
+                <dd class="mb-4"></dd>
             </dl>
         </section>
         <!-- End FAQ Tab -->
