@@ -152,6 +152,23 @@ blockquote {
     border-bottom-color: #14819b;
 }
 
+.custom-tabs .nav-item .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 8px;
+}
+
+.nav-tabs.custom-tabs .nav-link.active {
+    border: none;
+    border-bottom: 2px solid #22313f;
+}
+
+.nav-tabs.custom-tabs .nav-link:focus,
+.nav-tabs.custom-tabs .nav-link:hover {
+    border: none;
+    border-bottom: 2px solid #446cb3;
+}
+
 .table thead th {
     vertical-align: bottom;
     border-bottom: 1px solid #dee2e6;

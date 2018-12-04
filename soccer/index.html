@@ -115,10 +115,11 @@
                                     </label>
                                     <img tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="cursor-pointer ml-2" src="static/img/icons/info-circle.svg" height="16" width="16" alt="info circle" />
                                 </div>
-                                <select id="model-version" name="model-version" class="form-control" required>
+                                <select id="model-version" name="model-version" class="form-control mb-2" required>
                                     <option value="1">model v1.0</option>
                                     <option value="2" selected>model v2.0</option>
                                 </select>
+                                <div class="alert alert-danger" role="alert">We recommend using model v2.0, the most recent and more accurate version.</div>
                             </div>
 
                             <div class="form-group">
@@ -202,6 +203,10 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>model v2.0</td>
+                        <td>SOCcer v2.0 was developed using an expanded training data set comprising job descriptions from epidemiologic studies. V2’s scoring algorithm was revised to account for deviations from linearity in the maximum entropy classifiers for job title and task and interactions between classifiers. SOCcer’s v1 vs. v2 agreement with the expert for 11,943 jobs from a population-based case-control study improved from 44.5% to 50.2% at the 6-digit level and from 51.6% to 56.3% at the 5-digit level. Ties increased from 1.1% in v1 to 7.1% in v2; however, 97% of v2 ties were at scores &lt;0.1. V2 had a stronger, less attenuated linear relationship between expert agreement and SOCcer score than v1, with v2 scores of 0.50 and 0.75 predicting 51% and 70% agreement with experts, respectively. A presentation about SOCcer 2.0 and its performance in comparison to SOCcer 1.0 from the X2018 International Conference on the Science of Exposure Assessment held in Manchester, UK, on September 24-26, 2018 is available at the following link: <a href="https://www.x2018.org/wp-content/uploads/sites/88/2018/09/Session-2a-Friesen-presentation-2.pdf">SOCcer 2.0: An improved computer algorithm to code free-text job descriptions to standardized occupation classification codes.</a></td>
+                    </tr>
+                    <tr>
                         <td>model v1.0</td>
                         <td>This model codes job descriptions to the SOC 2010 classification system as described in Computer-Based Coding of Free-Text Job Descriptions to Efficiently and Reliably Incorporate Occupational Risk Factors into Large-Scale Epidemiological Studies. This model uses the variables JobTitle, SIC, and JobTask. This model can be used even if parts of the Job Description are not available (e.g. SIC or JobTask is missing). The classifiers will assign a '0' for the missing information in the calculation of the overall SOCcer score.</td>
                     </tr>
@@ -245,84 +250,123 @@
 
         <!-- Begin Help Tab -->
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <h1 class="h4 text-primary">Help</h1>
-            <hr>
-            <h2 class="h5">Input Data Format</h2>
+            <h1 class="h4 text-primary mb-4">Help</h1>
 
-            <p>Currently, the input for SOCcer is a comma-separated file with three columns: job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also):</p>
-            <blockquote>
-                JobTitle,SIC,JobTask
-            </blockquote>
+            <ul class="nav nav-tabs custom-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="v1-help-tab" data-toggle="tab" href="#v1-help" role="tab" aria-controls="v1-help" aria-selected="true">SOCcer 1.0</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="v2-help-tab" data-toggle="tab" href="#v2-help" role="tab" aria-controls="v2-help" aria-selected="false">SOCcer 2.0</a>
+                </li>
+            </ul>
+            <div class="tab-content pt-4" id="help-tab-content">
+                <div class="tab-pane show active" id="v1-help" role="tabpanel" aria-labelledby="v1-help-tab">
+                    <h2 class="h5">Input Format</h2>
 
-            <p>After the header line this is a separate row for each job description. There MUST be three comma-separated values on each line. If the job title or task contains a comma, the value must be in quotes or else there will be an error. An example of a valid job description is:</p>
+                    <div class="alert alert-danger">
+                        We recomend use of the most recent version, SOCcer 2.0, which has improved accuracy. SOCcer 1.0 remains enabled for those who used it prior to the update.
+                    </div>
 
-            <blockquote>
-                "Teacher, high school", 8211, "formulate lesson plans, teach 11th grade match"
-            </blockquote>
+                    <p>Currently, the input for SOCcer is a comma-separated file with three columns: job title, SIC, and job tasks. SOCcer strictly enforces the format of the input file. The input file must contain the header line (the case must match also):</p>
+                    <blockquote>
+                        JobTitle,SIC,JobTask
+                    </blockquote>
 
-            <p>Leaving out the quotation marks would cause the line to appear to have five values and will return an error. SOCcer will list all line numbers with errors and require you to fix the input before proceeding. A value may be blank (missing information), but must be included. Valid examples with missing information are:</p>
+                    <p>After the header line this is a separate row for each job description. There MUST be three comma-separated values on each line. If the job title or task contains a comma, the value must be in quotes or else there will be an error. An example of a valid job description is:</p>
 
-            <blockquote>
-                "Teacher, high school", , "formulate lesson plans, teach 11th grade match"<br>
-                ,8211, "formulate lesson plans, teach 11th grade match"<br>
-                "Teacher, high school",,
-            </blockquote>
+                    <blockquote>
+                        "Teacher, high school", 8211, "formulate lesson plans, teach 11th grade match"
+                    </blockquote>
 
-            <div class="alert alert-danger" role="alert"><strong>Warning:</strong> Microsoft Word and other word processesors often use smart quotes (&ldquo; &rdquo;) instead of standard quotation marks (", ASCII character 34). This will cause problems with the word count and require fixing before SOCcer can proceed.</div>
+                    <p>Leaving out the quotation marks would cause the line to appear to have five values and will return an error. SOCcer will list all line numbers with errors and require you to fix the input before proceeding. A value may be blank (missing information), but must be included. Valid examples with missing information are:</p>
 
-            <p>The SOCcer results are provided in a comma-separated file that contains the row number, job title, SIC, job tasks, and the ten highest ranked SOC codes, with corresponding SOCcer scores.</p>
+                    <blockquote>
+                        "Teacher, high school", , "formulate lesson plans, teach 11th grade match"<br>
+                        ,8211, "formulate lesson plans, teach 11th grade match"<br>
+                        "Teacher, high school",,
+                    </blockquote>
 
-            <div class="table-responsive mb-4">
-                <table class="table border">
-                    <thead>
-                        <tr class="bg-primary-dark text-light">
-                            <th scope="col">Id</th>
-                            <th scope="col">JobTitle</th>
-                            <th scope="col">SIC</th>
-                            <th scope="col">JobTask</th>
-                            <th scope="col">SOC2010_1</th>
-                            <th scope="col">Score_1</th>
-                            <th scope="col">SOC2010_2</th>
-                            <th scope="col">Score_2</th>
-                            <th scope="col">...</th>
-                            <th scope="col">SOC2010_10</th>
-                            <th scope="col">Score_10</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>"Teacher, high school"</td>
-                            <td>"8211"</td>
-                            <td>"formulate lesson plans, teach 11th grade match"</td>
-                            <td>25-2031</td>
-                            <td>0.979</td>
-                            <td>25-2032</td>
-                            <td>0.357</td>
-                            <td>...</td>
-                            <td>25-1194</td>
-                            <td>0.042</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>"Java Developer"</td>
-                            <td>"7371"</td>
-                            <td>"Develop use cases, write computer software in java"</td>
-                            <td>15-1131</td>
-                            <td>0.959</td>
-                            <td>15-1132</td>
-                            <td>0.717</td>
-                            <td>...</td>
-                            <td>11-2031</td>
-                            <td>0.034</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td class="small" colspan="11"><strong>Note:</strong> SOC3 through SOC9 were omitted and scores were rounded for display purposes.</td>
-                        </tr>
-                    </tfoot>
-                </table>
+                    <div class="alert alert-danger" role="alert"><strong>Warning:</strong> Microsoft Word and other word processesors often use smart quotes (&ldquo; &rdquo;) instead of standard quotation marks (", ASCII character 34). This will cause problems with the word count and require fixing before SOCcer can proceed.</div>
+
+                    <p>The SOCcer results are provided in a comma-separated file that contains the row number, job title, SIC, job tasks, and the ten highest ranked SOC codes, with corresponding SOCcer scores.</p>
+
+                    <div class="table-responsive mb-4">
+                        <table class="table border">
+                            <thead>
+                                <tr class="bg-primary-dark text-light">
+                                    <th scope="col">Id</th>
+                                    <th scope="col">JobTitle</th>
+                                    <th scope="col">SIC</th>
+                                    <th scope="col">JobTask</th>
+                                    <th scope="col">SOC2010_1</th>
+                                    <th scope="col">Score_1</th>
+                                    <th scope="col">SOC2010_2</th>
+                                    <th scope="col">Score_2</th>
+                                    <th scope="col">...</th>
+                                    <th scope="col">SOC2010_10</th>
+                                    <th scope="col">Score_10</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>"Teacher, high school"</td>
+                                    <td>"8211"</td>
+                                    <td>"formulate lesson plans, teach 11th grade match"</td>
+                                    <td>25-2031</td>
+                                    <td>0.979</td>
+                                    <td>25-2032</td>
+                                    <td>0.357</td>
+                                    <td>...</td>
+                                    <td>25-1194</td>
+                                    <td>0.042</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>"Java Developer"</td>
+                                    <td>"7371"</td>
+                                    <td>"Develop use cases, write computer software in java"</td>
+                                    <td>15-1131</td>
+                                    <td>0.959</td>
+                                    <td>15-1132</td>
+                                    <td>0.717</td>
+                                    <td>...</td>
+                                    <td>11-2031</td>
+                                    <td>0.034</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="small" colspan="11"><strong>Note:</strong> SOC3 through SOC9 were omitted and scores were rounded for display purposes.</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="v2-help" role="tabpanel" aria-labelledby="v2-help-tab">
+                    <h2 class="h5">Input Format</h2>
+
+                    <p>SOCcer 2.0 requires data in comma separated value (csv) format. The data should contain an id and a job title at the minimum. Optionally, job tasks can be added to the data to improve classification. Industry is no longer part of the classifier, because the improvement to the results were small.</p>
+
+                    <p>The first line of the file is a header line that contains describe the column of data. The order of the columns is set by the header. The id column must of the header of “id” or “personid”. The job titles must be labelled “jobtitle”, and the job tasks must be labelled “task”, “tasks”, “jobtask”, or “jobtasks”. The rest of the file should be data. If the data contains a comma, make sure you surround the data with quotes (e.g. if the job title is professor, chemistry, the job title data should be “professor, chemistry”.). Do not quote the entire line. All columns must be filled, even if it is blank. Make sure you have commas to specify blank data.</p>
+
+                    <p>An example of a valid file is: </p>
+
+                    <blockquote>
+                        id,jobtitle,jobtask<br>
+                        myid1,"Teacher, high school", "formulate lesson plans, teach 11th grade match"<br>
+                        myid2,, "formulate lesson plans, teach 11th grade match"<br>
+                        myid3,"Teacher, high school",
+                    </blockquote>
+
+                    <p>If the id’s are left blank, ids will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
+
+                    <p class="alert alert-danger">If you are using Microsoft excel, be careful about have newline characters and smart quotes in your data. They are going to cause problems with the data upload procedure.</p>
+
+                </div>
+
+
             </div>
             <p>If you have any questions, comments, or concerns, send us an e-mail at <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a>.</p>
             <h2 class="h5">References</h2>
@@ -338,6 +382,15 @@
             <h1 class="h4 text-primary">Frequently Asked Questions</h1>
             <hr>
             <dl>
+                <dt class="h5 text-dark">Which jobs require expert review?</dt>
+                <dd class="mb-4">SOCcer does not replace manual expert review for many jobs. The proportion requiring review is largely dependent on the quality of the job description data in your study. It also depends on the level of detail needed. Accuracy is higher for 3-digit SOC-2010 codes than for 6-digit SOC codes. For an accurate 6-digit score, we recommend that jobs with scores less than 0.3 be reviewed by an expert. We also recommend reviewing jobs whose two highest scoring SOC codes have similar scores (within 0.1 score units). Our companion software SOCAssign can be used to assist with the manual review.</dd>
+
+                <dt class="h5 text-dark">What is the “gold standard” for assignment?</dt>
+                <dd class="mb-4">Best practice is to use two experts to code each job and resolve discrepancies in their coding. However, there is no gold standard. This is because the job descriptions often do not provide sufficient information to pick a single code; multiple, equally plausible codes may exist for a given job description.</dd>
+
+                <dt class="h5 text-dark">Which version of SOCcer do I use?</dt>
+                <dd class="mb-4">For all new projects, you will have more accurate results with SOCcer v2.0. SOCcer 1.0 remains available for comparison purposes and for users who wish to recreate previous assessments that used v. 1.0.</dd>
+
                 <dt class="h5 text-dark">What can I do to improve the results of SOCcer?</dt>
                 <dd class="mb-4">To improve SOCcer's performance, we are building a database of job descriptions linked to SOC-2010 (and other classification systems) that can be used to build and refine classifiers. If you have job descriptions that have been coded by an expert coder (or initially coded by SOCcer, then reviewed by an expert) and you are willing to provide them to us, we will be happy to include those job descriptions in our knowledge base for use in future versions of SOCcer. If the data are protected, a data use agreement may be possible. Your institute may provide guidance on data use agreements.</dd>
 

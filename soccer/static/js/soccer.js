@@ -116,7 +116,7 @@
             console.log(error);
 
             if (!error.status) {
-                $('#alerts').showAlert('alert-danger', 'An error occurred while uploading your file. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
+                $('#alerts').alert('alert-danger', 'An error occurred while uploading your file. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
                 return;
             }
 
@@ -134,7 +134,7 @@
             });
 
             // display validation errors
-            $('#alerts').showAlert('alert-warning',
+            $('#alerts').alert('alert-warning',
                 $('<div/>')
                     .append('<p><b>Your file has been uploaded successfully but contains the following errors:</b></p>')
                     .append(errorList)
@@ -172,10 +172,10 @@
             if (action === 'code-file')
                 showResults(response);
             else if (action === 'enqueue')
-                $('#alerts').showAlert('alert-success', 'Your results will be emailed to you.');
+                $('#alerts').alert('alert-success', 'Your results will be emailed to you.');
         }).fail(function (error) {
             console.log(error);
-            $('#alerts').showAlert('alert-danger', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
+            $('#alerts').alert('alert-danger', 'Your request could not be processed due to an internal error. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> if this problem persists.');
         }).always(function () {
             $('#soccer-form :reset').enable();
             $('#loading').fadeOut(100);
@@ -199,7 +199,7 @@
         }).fail(function (error) {
             console.log(error);
             $('#soccer-form').trigger('reset');
-            $('#alerts').showAlert('alert-danger', 'Results could not be found for the specified id. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> for assistance.');
+            $('#alerts').alert('alert-danger', 'Results could not be found for the specified id. Please contact <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a> for assistance.');
         }).always(function () {
             $('#soccer-tab').tab('show');
             $('#soccer-form :input').disable();
