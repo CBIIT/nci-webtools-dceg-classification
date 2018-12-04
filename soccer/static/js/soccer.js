@@ -112,7 +112,7 @@
                 $('#email-help').text('Since it will likely take longer than 30 seconds to process your data, please provide your email address and you will get a notification once processing is complete.');
             }
         }).fail(function (error) {
-            $('#soccer-form :submit').enable();
+            $('#soccer-form :submit').disable();
             console.log(error);
 
             if (!error.status) {
