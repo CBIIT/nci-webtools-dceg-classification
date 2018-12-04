@@ -180,6 +180,11 @@ def enqueue():
     return jsonify(True)
 
 
+@app.route('/ping', methods=['GET'], strict_slashes=False)
+def ping():
+    return jsonify(True)
+
+
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     return send_file('index.html')
