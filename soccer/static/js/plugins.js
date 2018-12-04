@@ -22,14 +22,25 @@
 
     /**
      * Disables a jQuery collection using the (aria)-disabled attributes
+     * @param {disabled} True if we should disable the element
+     * @returns {jQuery} The original jQuery collection
+     * @memberof plugins
+     * @example $('#element').disable();
+     */
+    $.fn.disabled = function (disabled) {
+        return $(this)
+            .prop('disabled', disabled)
+            .attr('aria-disabled', disabled);
+    }
+
+    /**
+     * Disables a jQuery collection using the (aria)-disabled attributes
      * @returns {jQuery} The original jQuery collection
      * @memberof plugins
      * @example $('#element').disable();
      */
     $.fn.disable = function () {
-        return $(this)
-            .prop('disabled', true)
-            .attr('aria-disabled', true);
+        return $(this).disabled(true);
     }
 
     /**
@@ -39,9 +50,7 @@
      * @example $('#element').enable();
      */
     $.fn.enable = function () {
-        return $(this)
-            .prop('disabled', false)
-            .attr('aria-disabled', false);
+        return $(this).disabled(false);
     }
 
     /**

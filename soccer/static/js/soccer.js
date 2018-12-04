@@ -9,24 +9,21 @@
     var query = parseQuery(location.search);
     if (query.id) showResults(query.id);
 
-    /** Attach form submit/reset handlers */
-    $('#soccer-form')
-        .on('submit', submit)
-        .on('reset', reset);
+    /** Attach form submit handler  */
+    $('#soccer-form').submit(submit);
+
+    /** Attach reset handler without overriding default reset behavior */
+    $('#soccer-form :reset').click(reset);
 
     /** Upload and validate input file on changes */
-    $('#input-file')
-        .change(upload);
+    $('#input-file').change(upload);
 
     /** Enable email input if #submit-queue is checked */
     $('#submit-queue').change(function (e) {
-        $(this).prop('checked')
-            ? $('#email')
-                .attr('required', true)
-                .enable()
-            : $('#email')
-                .attr('required', false)
-                .disable()
+        var checked = $(this).prop('checked');
+        $('#email')
+            .attr('required', checked)
+            .disabled(!checked);
     });
 
     /**
@@ -37,7 +34,6 @@
     function reset(e) {
         var form = $('#soccer-form').get(0);
 
-        // reset all inputs
         form.reset();
 
         // enable/disable elements
