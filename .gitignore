@@ -6,3 +6,4 @@ config.ini
 @model_file@
 @wordnet_dir@
 *.pyc
+out
