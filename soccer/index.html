@@ -249,14 +249,14 @@
 
             <ul class="nav nav-tabs custom-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="v1-help-tab" data-toggle="tab" href="#v1-help" role="tab" aria-controls="v1-help" aria-selected="true">SOCcer 1.0</a>
+                    <a class="nav-link" id="v1-help-tab" data-toggle="tab" href="#v1-help" role="tab" aria-controls="v1-help" aria-selected="true">SOCcer 1.0</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="v2-help-tab" data-toggle="tab" href="#v2-help" role="tab" aria-controls="v2-help" aria-selected="false">SOCcer 2.0</a>
+                    <a class="nav-link active" id="v2-help-tab" data-toggle="tab" href="#v2-help" role="tab" aria-controls="v2-help" aria-selected="false">SOCcer 2.0</a>
                 </li>
             </ul>
             <div class="tab-content pt-4" id="help-tab-content">
-                <div class="tab-pane show active" id="v1-help" role="tabpanel" aria-labelledby="v1-help-tab">
+                <div class="tab-pane" id="v1-help" role="tabpanel" aria-labelledby="v1-help-tab">
                     <h2 class="h5">Input Format</h2>
 
                     <div class="alert alert-danger">
@@ -339,12 +339,12 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane" id="v2-help" role="tabpanel" aria-labelledby="v2-help-tab">
+                <div class="tab-pane show active" id="v2-help" role="tabpanel" aria-labelledby="v2-help-tab">
                     <h2 class="h5">Input Format</h2>
 
                     <p>SOCcer 2.0 requires data in comma separated value (csv) format. The data should contain an id and a job title at the minimum. Optionally, job tasks can be added to the data to improve classification. Industry is no longer part of the classifier, because the improvement to the results were small.</p>
 
-                    <p>The first line of the file is a header line that contains describe the column of data. The order of the columns is set by the header. The id column must of the header of “id” or “personid”. The job titles must be labelled “jobtitle”, and the job tasks must be labelled “task”, “tasks”, “jobtask”, or “jobtasks”. The rest of the file should be data. If the data contains a comma, make sure you surround the data with quotes (e.g. if the job title is professor, chemistry, the job title data should be “professor, chemistry”.). Do not quote the entire line. All columns must be filled, even if it is blank. Make sure you have commas to specify blank data.</p>
+                    <p>The first line of the file is a header line that describes the column of data. The order of the columns is set by the header. The id column must have the header of “id” or “personid”. The job titles must be labelled “jobtitle”, and the job tasks must be labelled “task”, “tasks”, “jobtask”, or “jobtasks”. The rest of the file should be data. If the data contains a comma, make sure you surround the data with quotes (e.g. if the job title is professor, chemistry, the job title data should be “professor, chemistry”.). Do not quote the entire line. All columns must be filled, even if they are blank. Make sure to use commas to specify blank data.</p>
 
                     <p>An example of a valid file is: </p>
 
@@ -355,9 +355,9 @@
                         myid3,"Teacher, high school",
                     </blockquote>
 
-                    <p>If the id’s are left blank, ids will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
+                    <p>If the ids are left blank, they will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
 
-                    <p class="alert alert-danger">If you are using Microsoft excel, be careful about have newline characters and smart quotes in your data. They are going to cause problems with the data upload procedure.</p>
+                    <p class="alert alert-danger">If you are using Microsoft Excel, be careful about having newline characters and smart quotes in your data. They are going to cause problems with the data upload procedure.</p>
 
                 </div>
 
