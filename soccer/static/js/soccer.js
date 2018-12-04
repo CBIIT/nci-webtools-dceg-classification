@@ -21,8 +21,12 @@
     /** Enable email input if #submit-queue is checked */
     $('#submit-queue').change(function (e) {
         $(this).prop('checked')
-            ? $('#email').enable()
-            : $('#email').disable()
+            ? $('#email')
+                .attr('required', true)
+                .enable()
+            : $('#email')
+                .attr('required', false)
+                .disable()
     });
 
     /**
@@ -41,7 +45,7 @@
             .find(':input').enable()
             .find(':submit').disable();
 
-        $('#submit-queue').change();
+        $('#submit-queue').prop('checked', false).change();
 
         // reset bootstrap upload progress indicator
         $('#upload-progress').progress(0).parent().hide();
