@@ -114,9 +114,17 @@ blockquote {
     text-decoration: underline;
 }
 
-.form-control {
-    border: none;
-    background-color: #f4f4f4;
+.border-light {
+    border: 1px solid #eee !important
+}
+
+.form-control.light {
+    border: 1px solid #eee;
+    background-color: white;
+}
+
+.form-control.light[disabled] {
+    background-color: #eee;
 }
 
 .navbar-dark {
