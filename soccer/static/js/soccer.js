@@ -111,6 +111,9 @@
                 $('#submit-queue').prop('checked', true).change().disable();
                 $('#email-help').text('Since it will likely take longer than 30 seconds to process your data, please provide your email address and you will get a notification once processing is complete.');
             }
+
+            // display success alert (screenreader only)
+            $('#alerts').alert('alert-success sr-only', 'Your file was uploaded successfully.');
         }).fail(function (error) {
             $('#soccer-form :submit').disable();
             console.log(error);
