@@ -47,7 +47,7 @@ describe('SOCcer Smoke Test', function() {
         const driver = this.driver;
 
         // switch to soccer tab
-        const submitLocator = By.id('submit');
+        const submitLocator = By.css('[type="submit"]');
         await driver.wait(until.elementLocated(submitLocator));
 
         const submitElement = driver.findElement(submitLocator);
