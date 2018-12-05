@@ -36,9 +36,6 @@ describe('SOCcer Smoke Test', function() {
         const uploadPath = path.join(process.cwd(), 'tests', 'data', 'example1.csv');
         await driver.findElement(By.name('input-file')).sendKeys(uploadPath);
 
-        // upload file
-        await driver.findElement(By.id('upload')).click();
-
         // wait until success message is shown
         const resultStatus = By.css('#alerts > .alert');
         await driver.wait(until.elementLocated(resultStatus));
