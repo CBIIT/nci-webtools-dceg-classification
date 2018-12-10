@@ -19,14 +19,14 @@
         <a href="#main" class="sr-only sr-only-focusable text-white bg-primary-dark text-center py-2 d-block">Skip to main content</a>
         <div class="container px-0">
             <div class="row d-flex align-items-center">
-                <div class="col text-left d-none d-md-block">
+                <div class="col-md-7 text-left d-none d-md-block">
                     <a href="https://dceg.cancer.gov/">
-                        <img src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="100">
+                        <img class="img-fluid" src="static/img/logos/nci-dceg-logo.svg" alt="National Cancer Institute - Division of Cancer Epidemiology and Genetics" height="100">
                     </a>
                 </div>
-                <div class="col text-right d-none d-xl-block">
+                <div class="col-md-5 text-right d-none d-md-block">
                     <a href="https://cit.nih.gov/">
-                        <img src="static/img/logos/cit-dcb-logo.svg" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="70">
+                        <img class="img-fluid" src="static/img/logos/cit-dcb-logo.svg" alt="NIH Center for Information Technology - Division of Computational Bioscience" height="70">
                     </a>
                 </div>
             </div>
@@ -48,35 +48,15 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="soccer-navigation">
-                    <ul class="nav navbar-nav mr-auto" role="tablist">
-                        <li class="nav-item">
-                            <a class=" active nav-link text-uppercase px-4 py-2" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="soccer-tab" data-toggle="tab" href="#soccer" role="tab" aria-controls="soccer" aria-selected="false">SOCcer</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="models-tab" data-toggle="tab" href="#models" role="tab" aria-controls="models" aria-selected="false">Models</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="socassign-tab" data-toggle="tab" href="#socassign" role="tab" aria-controls="socassign" aria-selected="false">SOCAssign</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase px-4 py-2" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
-                        </li>
-                    </ul>
+                    <div class="nav navbar-nav mr-auto" role="tablist">
+                        <a class=" active nav-link text-uppercase px-4 py-2" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="soccer-tab" data-toggle="tab" href="#soccer" role="tab" aria-controls="soccer" aria-selected="false">SOCcer</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="models-tab" data-toggle="tab" href="#models" role="tab" aria-controls="models" aria-selected="false">Models</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="socassign-tab" data-toggle="tab" href="#socassign" role="tab" aria-controls="socassign" aria-selected="false">SOCAssign</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">Resources</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="help-tab" data-toggle="tab" href="#help" role="tab" aria-controls="help" aria-selected="false">Help</a>
+                        <a class="nav-link text-uppercase px-4 py-2" id="faq-tab" data-toggle="tab" href="#faq" role="tab" aria-controls="faq" aria-selected="false">FAQ</a>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -247,14 +227,10 @@
         <section class="tab-pane container shadow-lg p-4 w-100 bg-white" id="help" role="tabpanel" aria-labelledby="help-tab">
             <h1 class="h4 text-primary mb-4">Help</h1>
 
-            <ul class="nav nav-tabs custom-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" id="v1-help-tab" data-toggle="tab" href="#v1-help" role="tab" aria-controls="v1-help" aria-selected="true">SOCcer 1.0</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="v2-help-tab" data-toggle="tab" href="#v2-help" role="tab" aria-controls="v2-help" aria-selected="false">SOCcer 2.0</a>
-                </li>
-            </ul>
+            <div class="nav nav-tabs custom-tabs" role="tablist">
+                <a class="nav-link" id="v1-help-tab" data-toggle="tab" href="#v1-help" role="tab" aria-controls="v1-help" aria-selected="false">SOCcer 1.0</a>
+                <a class="nav-link active" id="v2-help-tab" data-toggle="tab" href="#v2-help" role="tab" aria-controls="v2-help" aria-selected="true">SOCcer 2.0</a>
+            </div>
             <div class="tab-content pt-4" id="help-tab-content">
                 <div class="tab-pane" id="v1-help" role="tabpanel" aria-labelledby="v1-help-tab">
                     <h2 class="h5">Input Format</h2>
