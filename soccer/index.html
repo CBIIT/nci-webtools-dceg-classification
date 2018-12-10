@@ -81,7 +81,7 @@
             <div class="row p-0 mh-90">
                 <!-- Left Panel -->
                 <div class="col-md-4">
-                    <form id="soccer-form" class="h-100 bg-light shadow-light rounded">
+                    <form id="soccer-form" class="h-100 bg-light border-light shadow-sm rounded">
                         <div class="p-3">
 
                             <div class="form-group">
@@ -90,11 +90,11 @@
                                     </label>
                                     <img tabindex="0" data-trigger="focus" data-toggle="popover" title="Model: SOCcer" data-content="Features: Job Title, SIC, Job Tasks" class="cursor-pointer ml-2" src="static/img/icons/info-circle.svg" height="16" width="16" alt="info circle" />
                                 </div>
-                                <select id="model-version" name="model-version" class="form-control mb-2" required>
+                                <select id="model-version" name="model-version" class="light form-control mb-2" required>
                                     <option value="1">model v1.0</option>
                                     <option value="2" selected>model v2.0</option>
                                 </select>
-                                <div class="alert alert-danger" role="alert">We recommend using model v2.0, the most recent and more accurate version.</div>
+                                <div class="alert alert-info" role="alert">We recommend using model v2.0, the most recent and more accurate version.</div>
                             </div>
 
                             <div class="form-group">
@@ -121,7 +121,7 @@
                             <hr class="mt-0 mb-1">
 
                             <label class="mb-1 font-weight-semibold" for="email">Email Address</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" aria-describedby="email-help" disabled aria-disabled="true">
+                            <input type="email" class="light form-control" id="email" name="email" placeholder="Enter email" aria-describedby="email-help" disabled aria-disabled="true">
                             <em id="email-help" class="small form-text font-italic text-muted">If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.</em>
 
                             <input type="hidden" name="file-id" id="file-id">
@@ -141,7 +141,7 @@
 
                 <!-- Right Panel -->
                 <div class="col-md-8">
-                    <div class="h-100 rounded shadow-light p-3">
+                    <div class="h-100 rounded border-light shadow-sm p-3">
                         <div id="alerts"></div>
                         <div id="instructions" style="display: none;">
                             <h2 class="h5 font-weight-semibold">Instructions</h2>
@@ -235,7 +235,7 @@
                 <div class="tab-pane" id="v1-help" role="tabpanel" aria-labelledby="v1-help-tab">
                     <h2 class="h5">Input Format</h2>
 
-                    <div class="alert alert-danger">
+                    <div class="alert alert-info">
                         We recomend use of the most recent version, SOCcer 2.0, which has improved accuracy. SOCcer 1.0 remains enabled for those who used it prior to the update.
                     </div>
 
@@ -258,7 +258,7 @@
                         "Teacher, high school",,
                     </blockquote>
 
-                    <div class="alert alert-danger" role="alert"><strong>Warning:</strong> Microsoft Word and other word processesors often use smart quotes (&ldquo; &rdquo;) instead of standard quotation marks (", ASCII character 34). This will cause problems with the word count and require fixing before SOCcer can proceed.</div>
+                    <div class="alert alert-warning" role="alert"><strong>Warning:</strong> Microsoft Word and other word processesors often use smart quotes (&ldquo; &rdquo;) instead of standard quotation marks (", ASCII character 34). This will cause problems with the word count and require fixing before SOCcer can proceed.</div>
 
                     <p>The SOCcer results are provided in a comma-separated file that contains the row number, job title, SIC, job tasks, and the ten highest ranked SOC codes, with corresponding SOCcer scores.</p>
 
@@ -333,7 +333,7 @@
 
                     <p>If the ids are left blank, they will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
 
-                    <p class="alert alert-danger">If you are using Microsoft Excel, be careful about having newline characters and smart quotes in your data. They are going to cause problems with the data upload procedure.</p>
+                    <p class="alert alert-warning">If you are using Microsoft Excel, be careful about having newline characters and smart quotes in your data. They are going to cause problems with the data upload procedure.</p>
 
                 </div>
 
