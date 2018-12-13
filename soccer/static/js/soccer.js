@@ -198,6 +198,7 @@
         return $.getJSON('results/' + id).done(function (results) {
             $('#plot').attr('src', results.plot_url);
             $('#download-link').attr('href', results.output_url);
+            $('#model-version').val(results.model_version);
             $('#results-container').show();
         }).fail(function (error) {
             console.log(error);
