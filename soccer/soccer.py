@@ -121,6 +121,7 @@ def code_file():
     file_id = request.form['file-id']
 
     input_filepath = safe_join(input_dir, file_id)
+    parameters_filepath = safe_join(input_dir, file_id + '.json')
     output_filepath = safe_join(output_dir, file_id + '.csv')
     plot_filepath = safe_join(output_dir, file_id + '.png')
 
@@ -139,6 +140,13 @@ def code_file():
         output_filepath, plot_filepath
     ])
 
+    # save parameters
+    with open(parameters_filepath, 'w') as f:
+        json.dump({
+            'input_filepath': input_filepath,
+            'model_version': model_version,
+        }, f)
+
     return jsonify(file_id)
 
 
@@ -146,14 +154,21 @@ def code_file():
 def get_results(file_id):
     '''Retrieves paths to the results files based on the file id'''
 
+    input_dir = app.config['soccer']['input_dir']
     output_dir = app.config['soccer']['output_dir']
+
+    parameters_filepath = safe_join(input_dir, file_id + '.json')
     output_filepath = safe_join(output_dir, file_id + '.csv')
     plot_filepath = safe_join(output_dir, file_id + '.png')
 
-    if not all(path.isfile(i) for i in [output_filepath, plot_filepath]):
+    if not all(path.isfile(i) for i in [parameters_filepath, output_filepath, plot_filepath]):
         raise ValueError('Invalid file id')
 
+    with open(parameters_filepath, 'r') as f:
+        parameters = json.load(f)
+
     return jsonify({
+        'model_version': parameters['model_version'],
         'output_url': pathname2url(output_filepath),
         'plot_url': pathname2url(plot_filepath),
     })
