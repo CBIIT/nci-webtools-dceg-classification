@@ -44,6 +44,7 @@ def init():
         if not path.isdir(dir):
             makedirs(dir)
 
+init()
 
 def call_soccer(method='',
                 input_filepath='',
@@ -70,22 +71,8 @@ def call_soccer(method='',
     ], stderr=STDOUT)
 
 
-init()
-
-
-@app.errorhandler(Exception)
-def error_handler(e):
-    '''Ensures errors are logged and returned as json'''
-    app.logger.error(format_exc())
-    return jsonify(getattr(e, 'output', str(e))), 500
-
-
-@app.route('/validate', methods=['POST'], strict_slashes=False)
-def validate():
-    '''Validates input files against the specified version of the model'''
+def validate_file(input_file, model_version):
     input_dir = app.config['soccer']['input_dir']
-    input_file = request.files['input-file']
-    model_version = request.form['model-version']
     file_id = str(uuid4())
 
     input_filepath = path.join(input_dir, file_id)
@@ -105,20 +92,15 @@ def validate():
         model_version=model_version
     )
 
-    return jsonify({
+    return {
         'estimated_runtime': float(estimated_runtime),
         'file_id': file_id,
-    })
+    }
 
 
-@app.route('/code-file', methods=['POST'], strict_slashes=False)
-def code_file():
-    '''Codes the input file to different SOC categories'''
-
+def process_file(file_id, model_version):
     input_dir = app.config['soccer']['input_dir']
     output_dir = app.config['soccer']['output_dir']
-    model_version = request.form['model-version']
-    file_id = request.form['file-id']
 
     input_filepath = safe_join(input_dir, file_id)
     parameters_filepath = safe_join(input_dir, file_id + '.json')
@@ -147,8 +129,31 @@ def code_file():
             'model_version': model_version,
         }, f)
 
-    return jsonify(file_id)
+    return file_id
 
+
+@app.errorhandler(Exception)
+def error_handler(e):
+    '''Ensures errors are logged and returned as json'''
+    app.logger.error(format_exc())
+    return jsonify(getattr(e, 'output', str(e))), 500
+
+
+@app.route('/validate', methods=['POST'], strict_slashes=False)
+def validate():
+    '''Validates input files against the specified version of the model'''
+    return jsonify(validate_file(
+        input_file=request.files['input-file'],
+        model_version = request.form['model-version'],
+    ))
+
+@app.route('/code-file', methods=['POST'], strict_slashes=False)
+def code_file():
+    '''Codes the input file to different SOC categories'''
+    return jsonify(process_file(
+        file_id=request.form['file-id'],
+        model_version=request.form['model-version'],
+    ))
 
 @app.route('/results/<file_id>', methods=['GET'], strict_slashes=False)
 def get_results(file_id):

@@ -15,6 +15,7 @@ from stompest.async.listener import Listener, SubscriptionListener
 from stompest.error import StompConnectionError
 from traceback import format_exc
 from werkzeug.security import safe_join
+from soccer import process_file
 
 
 class SOCcerProcessor(Listener):
@@ -22,31 +23,6 @@ class SOCcerProcessor(Listener):
     def __init__(self, config):
         self.config = config
         self.logger = logging.getLogger(__name__)
-
-    def process_file(self, file_id, model_version):
-        ''' Codes an input file and generates the output plot '''
-        input_dir = self.config['soccer']['input_dir']
-        output_dir = self.config['soccer']['output_dir']
-        model_filepath = self.config['soccer']['model_file']
-
-        input_filepath = safe_join(input_dir, file_id)
-        output_filepath = safe_join(output_dir, file_id + '.csv')
-        plot_filepath = safe_join(output_dir, file_id + '.png')
-
-        # code file
-        call_soccer(
-            'code-file',
-            input_filepath=input_filepath,
-            output_filepath=output_filepath,
-            model_version=model_version,
-            model_filepath=model_filepath
-        )
-
-        # generate plot
-        check_call([
-            'Rscript', 'soccerResultPlot.R',
-            output_filepath, plot_filepath
-        ])
 
     def send_mail(self, sender, recipient, subject, contents):
         ''' Sends an email '''
@@ -94,7 +70,7 @@ class SOCcerProcessor(Listener):
             self.logger.debug(data)
 
             # code file and generate plot
-            self.process_file(
+            process_file(
                 data['file_id'],
                 data['model_version'],
             )
