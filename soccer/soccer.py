@@ -139,8 +139,8 @@ def enqueue_parameters():
     parameters = json.dumps({
         'email': request.form['email'],
         'file_id': request.form['file_id'],
-        'original_filename': request.files['input_file'].filename,
         'model_version': request.form['model_version'][0],
+        'original_filename': request.files['input_file'].filename,
         'results_url': Href(request.url_root)(id=request.form['file_id']),
         'timestamp': strftime('%a %b %X %Z %Y'),
     })
