@@ -78,23 +78,22 @@ def submit():
     """ Codes the input file to different SOC categories """
 
     # get parameters
-    file_id = request.form['file_id'],
-    model_version = request.form['model_version'],
+    file_id = request.form['file_id']
+    model_version = request.form['model_version']
 
     # get configuration
-    config = app.config['soccer']
-    input_dir = config['input_dir']
-    output_dir = config['output_dir']
-    model_filepath = config['model_file']
+    input_dir = app.config['soccer']['input_dir']
+    output_dir = app.config['soccer']['output_dir']
+    model_filepath = app.config['soccer']['model_file']
 
     # specify input/output filepaths
     input_filepath = safe_join(input_dir, file_id)
-    output_path = safe_join(output_dir, file_id)
-    output_filepath = output_path + '.csv'
-    plot_filepath = output_path + '.png'
+    parameters_filepath = safe_join(output_dir, file_id + '.json')
+    output_filepath = safe_join(output_dir, file_id + '.csv')
+    plot_filepath = safe_join(output_dir, file_id + '.png')
 
     # save form parameters as json file
-    with open(output_path + '.json', 'w') as f:
+    with open(parameters_filepath, 'w') as f:
         json.dump(request.form, f)
 
     # results are written to output_filepath
@@ -115,23 +114,8 @@ def submit():
     })
 
 
-@app.route('/results/<path:filename>', methods=['GET'], strict_slashes=False)
-def get_results(filename):
-    """
-        Serves results files. The following convention is used:
-         - /results/<file_id>.json (calculation parameters)
-         - /results/<file_id>.csv (output csv)
-         - /results/<file_id>.png (output plot)
-    """
-    return send_from_directory(
-        directory=app.config['soccer']['output_dir'],
-        filename=filename,
-        as_attachment=True
-    )
-
-
-@app.route('/enqueue', methods=['POST'], strict_slashes=False)
-def enqueue_parameters():
+@app.route('/submit-queue', methods=['POST'], strict_slashes=False)
+def submit_queue():
     """ Sends parameters to the queue for processing """
     config = app.config['queue']
     queue_url = config['queue_url']
@@ -152,6 +136,21 @@ def enqueue_parameters():
     )
 
     return jsonify(True)
+
+
+@app.route('/results/<path:filename>', methods=['GET'], strict_slashes=False)
+def get_results(filename):
+    """
+        Serves results files. The following convention is used:
+         - /results/<file_id>.json (calculation parameters)
+         - /results/<file_id>.csv (output csv)
+         - /results/<file_id>.png (output plot)
+    """
+    return send_from_directory(
+        directory=app.config['soccer']['output_dir'],
+        filename=filename,
+        as_attachment=True
+    )
 
 
 @app.route('/ping', strict_slashes=False)

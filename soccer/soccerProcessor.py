@@ -11,14 +11,48 @@ from traceback import format_exc
 from werkzeug.security import safe_join
 from werkzeug.test import Client
 from utils import read_config, send_mail, render_template
-from wrapper import code_file
-import soccer
+from wrapper import code_file, plot_results
 
 class Processor(Listener):
 
     def __init__(self, config):
         self.config = config
         self.logger = logging.getLogger(__name__)
+
+    def process_file(self, file_id, model_version):
+        """ Codes the input file to different SOC categories """
+
+        # get configuration
+        config = self.config['soccer']
+        input_dir = config['input_dir']
+        output_dir = config['output_dir']
+        model_filepath = config['model_file']
+
+        # specify input/output filepaths
+        input_filepath = safe_join(input_dir, file_id)
+        output_path = safe_join(output_dir, file_id)
+        output_filepath = output_path + '.csv'
+        plot_filepath = output_path + '.png'
+
+        # save parameters as json file
+        with open(output_path + '.json', 'w') as f:
+            json.dump({
+                'file_id': file_id,
+                'model_version': model_version
+            }, f)
+
+        # results are written to output_filepath
+        code_file(
+            input_filepath=input_filepath,
+            output_filepath=output_filepath,
+            model_version=model_version,
+            model_filepath=model_filepath
+        )
+
+        plot_results(
+            results_filepath=output_filepath,
+            plot_filepath=plot_filepath
+        )
 
     @defer.inlineCallbacks
     def run(self):
@@ -54,8 +88,7 @@ class Processor(Listener):
             # call submit method of flask application
             # generates output file and
             self.logger.debug('processing input file: ' + params['file_id'])
-            client = Client(soccer.app)
-            client.post('/submit', data=params)
+            self.process_file(params['file_id'], params['model_version'])
             self.logger.debug('finished processing input file: ' + params['file_id'])
 
             # send user results

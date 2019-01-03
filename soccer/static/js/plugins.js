@@ -1,9 +1,32 @@
 /**
- * @file Registers jQuery plugins
+ * @file Registers plugins
  * @namespace plugins
  */
 
 (function registerPlugins ($) {
+
+    /**
+     * Formats a string using numeric or named placeholders
+     * @example
+     *  'I have {0} bugs'.format(99)
+     *  'Hello {name}'.format({name: 'World'})
+     * @see String.prototype.formatUnicorn (StackOverflow source)
+     */
+    String.prototype.format = function() {
+        var str = this.toString();
+        if (arguments.length) {
+            var args = [].slice.call(arguments);
+            if (args[0].constructor === Object)
+                args = args[0];
+
+            for (var key in args)
+                str = str.replace(
+                    new RegExp("\\{" + key + "\\}", "gi"),
+                    args[key]
+                );
+        }
+        return str;
+    }
 
     /**
      * Creates a bootstrap alert in the specified container
@@ -21,7 +44,7 @@
     }
 
     /**
-     * Disables a jQuery collection using the (aria)-disabled attributes
+     * Disables or enables a jQuery collection using the (aria)-disabled attributes
      * @param {disabled} True if we should disable the element
      * @returns {jQuery} The original jQuery collection
      * @memberof plugins
@@ -94,7 +117,7 @@
 
     /** Updates descriptions for .custom-file elements on changes */
     $('.custom-file input[type="file"]').change(function (e) {
-        var $label = $('[for="' + this.id + '"]');
+        var $label = $('[for="{0}"]'.format(this.id));
 
         $label.text('Choose file');
         if (!this.files.length) return;
