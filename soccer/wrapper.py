@@ -1,3 +1,4 @@
+import csv
 from os import makedirs, linesep, path
 from subprocess import STDOUT, CalledProcessError, check_call, check_output
 from threading import Thread
@@ -43,7 +44,12 @@ def call_soccer(method='',
 
 
 def prevalidate_file(input_filepath, model_version):
-    """ test """
+    """ Prevalidates input file before passing it to soccer """
+    with open(input_filepath, 'rb') as csvfile:
+        reader = csv.reader(csvfile)
+        for line in reader:
+            if len(line) == 0:
+                raise ValueError('Input file must not contain empty lines.')
 
 
 def validate_file(input_filepath, model_version):
