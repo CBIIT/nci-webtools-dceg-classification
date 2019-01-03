@@ -117,11 +117,10 @@ def submit():
 @app.route('/submit-queue', methods=['POST'], strict_slashes=False)
 def submit_queue():
     """ Sends parameters to the queue for processing """
-    config = app.config['queue']
-    queue_url = config['queue_url']
-    queue_name = config['queue_name']
+    queue_url = app.config['queue']['url']
+    queue_name = app.config['queue']['name']
     parameters = json.dumps({
-        'email': request.form['email'],
+        'recipient': request.form['email'],
         'file_id': request.form['file_id'],
         'model_version': request.form['model_version'][0],
         'original_filename': request.files['input_file'].filename,
