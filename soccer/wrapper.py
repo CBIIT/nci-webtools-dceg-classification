@@ -47,7 +47,7 @@ def prevalidate_file(input_filepath, model_version):
     """ Prevalidates input file before passing it to soccer """
     with open(input_filepath) as f:
         contents = f.read()
-        if re.match('[\r?\n]{3}', contents[-3:]):
+        if len(contents) - len(contents.rstrip()) > 1:
             raise ValueError('Input file ends with multiple newline characters. Only a single newline is permitted at the end of a csv file.')
 
 
