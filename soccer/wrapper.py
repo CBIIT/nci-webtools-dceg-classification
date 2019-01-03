@@ -1,4 +1,4 @@
-import csv
+from ConfigParser import SafeConfigParser
 from os import makedirs, linesep, path
 from subprocess import STDOUT, CalledProcessError, check_call, check_output
 from threading import Thread
@@ -6,7 +6,7 @@ from time import strftime
 from traceback import format_exc
 from urllib import pathname2url
 from uuid import uuid4
-from ConfigParser import SafeConfigParser
+import re
 
 from stompest.config import StompConfig
 from stompest.sync import Stomp
@@ -45,11 +45,10 @@ def call_soccer(method='',
 
 def prevalidate_file(input_filepath, model_version):
     """ Prevalidates input file before passing it to soccer """
-    with open(input_filepath, 'rb') as csvfile:
-        reader = csv.reader(csvfile)
-        for line in reader:
-            if len(line) == 0:
-                raise ValueError('Input file must not contain empty lines.')
+    with open(input_filepath) as f:
+        contents = f.read()
+        if re.match('[\r?\n]{3}', contents[-3:]):
+            raise ValueError('Input file ends with multiple newline characters. Only a single newline is permitted at the end of a csv file.')
 
 
 def validate_file(input_filepath, model_version):
