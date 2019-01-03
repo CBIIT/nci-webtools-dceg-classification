@@ -83,7 +83,7 @@ class Processor(Listener):
 
             # get parameters
             params = json.loads(frame.body.decode())
-            self.logger.debug('received parameters: ' + params)
+            self.logger.debug(params)
 
             # call submit method of flask application
             # generates output file and
