@@ -9,7 +9,7 @@
     var query = parseQuery(location.search);
     if (query.id) showResults(query.id);
 
-    /** Attach form submit handler  */
+    /** Override form submit */
     $('#soccer-form').submit(submit);
 
     /** Attach reset handler without overriding default reset behavior */
@@ -33,22 +33,22 @@
      */
     function reset(e) {
         var form = $('#soccer-form').get(0);
-
         form.reset();
 
-        // enable/disable elements
+        // enable inputs, disable submit
         $(form)
             .find(':input').enable()
             .find(':submit').disable();
 
+        // by default, we should not submit to the queue
         $('#submit-queue').prop('checked', false).change();
 
-        // reset bootstrap upload progress indicator
+        // reset file upload progress indicator
         $('#upload-progress').progress(0).parent().hide();
 
         $('#loading').hide(); // loading indicator
         $('#alerts').empty(); // alerts container
-        $('#results-container').hide(); // results container
+        $('#results').hide(); // results container
 
         // email help text
         $('#email-help').text('If this job is submitted to the queue, a notification will be sent to your email address once processing is complete.');
@@ -76,7 +76,7 @@
 
         // clear all alerts and results
         $('#alerts').html('');
-        $('#results-container').hide();
+        $('#results').hide();
 
         // show upload progress animation
         $('#upload-progress')
@@ -128,7 +128,7 @@
 
             // handle error codes
             if (errorText.length <= 4)
-                errorText = 'Invalid file header';
+                errorText = 'Invalid file format.';
 
             // create error list
             var errorList = $('<ul>');
@@ -161,10 +161,10 @@
         $('#soccer-form :input').disable();
         $('#loading').delay(200).fadeIn(100); // IE does not .show properly when .disable is also in progress
 
-        // determine if we should 'enqueue' or 'code-file'
+        // determine if we should 'submit' or 'submit/queue'
         var action = $('#submit-queue').prop('checked')
-            ? 'enqueue'
-            : 'code-file';
+            ? 'submit-queue'
+            : 'submit';
 
         $.post({
             url: action,
@@ -172,9 +172,9 @@
             processData: false,
             contentType: false,
         }).done(function (response) {
-            if (action === 'code-file')
-                showResults(response);
-            else if (action === 'enqueue')
+            if (action === 'submit')
+                showResults(response.file_id);
+            else if (action === 'submit-queue')
                 $('#alerts').alert('alert-success', 'Your results will be emailed to you.');
         }).fail(function (error) {
             console.log(error);
@@ -193,13 +193,13 @@
      * @memberof soccer
      */
     function showResults(id) {
-        $('#results-container').hide();
+        $('#results').hide();
 
-        return $.getJSON('results/' + id).done(function (results) {
-            $('#plot').attr('src', results.plot_url);
-            $('#download-link').attr('href', results.output_url);
+        return $.getJSON('results/{0}.json'.format(id)).done(function (results) {
+            $('#download-link').attr('href', 'results/{0}.csv'.format(id));
+            $('#plot').attr('src', 'results/{0}.png'.format(id));
             $('#model-version').val(results.model_version);
-            $('#results-container').show();
+            $('#results').show();
         }).fail(function (error) {
             console.log(error);
             $('#soccer-form').trigger('reset');

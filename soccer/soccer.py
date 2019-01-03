@@ -1,214 +1,168 @@
-from ConfigParser import SafeConfigParser
-from flask import Flask, json, jsonify, render_template, request, send_file
-from os import makedirs, linesep, path
-from stompest.config import StompConfig
-from stompest.sync import Stomp
-from subprocess import STDOUT, CalledProcessError, check_call, check_output
-from threading import Thread
+from os import path
 from time import strftime
 from traceback import format_exc
 from urllib import pathname2url
 from uuid import uuid4
+
+from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
-
-
-SOCCER_WRAPPER_PATH = path.join('jars', 'soccer-wrapper.jar')
-SOCCER_V1_PATH = path.join('jars', 'SOCcer-v1.0.jar')
-SOCCER_V2_PATH = path.join('jars', 'SOCcer-v2.0.jar')
+from utils import make_dirs, read_config, enqueue
+from wrapper import validate_file, estimate_runtime, code_file, plot_results
 
 
 if __name__ == '__main__':
-    '''Serve static files using Flask for local development'''
+    # Serve current directory using Flask for local development
     app = Flask(__name__, static_folder='', static_url_path='')
 else:
-    '''Otherwise, use mod_wsgi/apache to serve files'''
-    app = Flask(__name__)
+    # Otherwise, assume mod_wsgi/apache will serve static files
+    app = Flask(__name__, static_folder=None)
+
+# Load configuration from file
+app.config.update(read_config('config.ini'))
 
 
-def get_config(filepath='config.ini'):
-    '''Reads a config file as a dictionary'''
-    config = SafeConfigParser()
-    config.read(filepath)
-    return config._sections
-
-
-def init():
-    '''Loads configuration and creates output directories'''
-    app.config.update(get_config())
-    input_dir = app.config['soccer']['input_dir']
-    output_dir = app.config['soccer']['output_dir']
-
-    for dir in [input_dir, output_dir]:
-        if not path.isdir(dir):
-            makedirs(dir)
-
-init()
-
-def call_soccer(method='',
-                input_filepath='',
-                output_filepath='',
-                model_version='2',
-                model_filepath=''):
-    '''Calls methods from the SOCcer wrapper'''
-
-    if model_version == '1':
-        jar_filepath = SOCCER_V1_PATH
-    elif model_version == '2':
-        jar_filepath = SOCCER_V2_PATH
-    else:
-        raise ValueError('Invalid model version selected')
-
-    return check_output([
-        'java', '-jar', SOCCER_WRAPPER_PATH,
-        '--input-file', input_filepath,
-        '--output-file', output_filepath,
-        '--model-version', model_version,
-        '--method', method,
-        '--jar-file', jar_filepath,
-        '--model-file', model_filepath,
-    ], stderr=STDOUT)
-
-
-def validate_file(input_file, model_version):
-    input_dir = app.config['soccer']['input_dir']
-    file_id = str(uuid4())
-
-    input_filepath = path.join(input_dir, file_id)
-    input_file.save(input_filepath)
-
-    # validate file
-    call_soccer(
-        'validate-file',
-        input_filepath=input_filepath,
-        model_version=model_version
+@app.before_request
+def before_request():
+    """ Ensure input/output directories exist """
+    config = app.config['soccer']
+    make_dirs(
+        config['input_dir'],
+        config['output_dir']
     )
-
-    # get estimated runtime
-    estimated_runtime = call_soccer(
-        'estimate-runtime',
-        input_filepath=input_filepath,
-        model_version=model_version
-    )
-
-    return {
-        'estimated_runtime': float(estimated_runtime),
-        'file_id': file_id,
-    }
-
-
-def process_file(file_id, model_version):
-    input_dir = app.config['soccer']['input_dir']
-    output_dir = app.config['soccer']['output_dir']
-
-    input_filepath = safe_join(input_dir, file_id)
-    parameters_filepath = safe_join(input_dir, file_id + '.json')
-    output_filepath = safe_join(output_dir, file_id + '.csv')
-    plot_filepath = safe_join(output_dir, file_id + '.png')
-
-    # code file
-    call_soccer(
-        method='code-file',
-        input_filepath=input_filepath,
-        output_filepath=output_filepath,
-        model_version=model_version,
-        model_filepath=app.config['soccer']['model_file']
-    )
-
-    # generate plot
-    check_call([
-        'Rscript', 'soccerResultPlot.R',
-        output_filepath, plot_filepath
-    ])
-
-    # save parameters
-    with open(parameters_filepath, 'w') as f:
-        json.dump({
-            'input_filepath': input_filepath,
-            'model_version': model_version,
-        }, f)
-
-    return file_id
 
 
 @app.errorhandler(Exception)
 def error_handler(e):
-    '''Ensures errors are logged and returned as json'''
+    """ Ensure errors are logged and returned as json """
     app.logger.error(format_exc())
-    return jsonify(getattr(e, 'output', str(e))), 500
+    output = getattr(e, 'output', str(e))
+    return jsonify(output), 500
 
 
 @app.route('/validate', methods=['POST'], strict_slashes=False)
 def validate():
-    '''Validates input files against the specified version of the model'''
-    return jsonify(validate_file(
-        input_file=request.files['input-file'],
-        model_version = request.form['model-version'],
-    ))
+    """ Validate input files against the specified version of the model """
 
-@app.route('/code-file', methods=['POST'], strict_slashes=False)
-def code_file():
-    '''Codes the input file to different SOC categories'''
-    return jsonify(process_file(
-        file_id=request.form['file-id'],
-        model_version=request.form['model-version'],
-    ))
+    # get parameters
+    input_file = request.files['input_file']
+    model_version = request.form['model_version']
 
-@app.route('/results/<file_id>', methods=['GET'], strict_slashes=False)
-def get_results(file_id):
-    '''Retrieves paths to the results files based on the file id'''
-
+    # save uploaded file to the input directory
+    file_id = str(uuid4())
     input_dir = app.config['soccer']['input_dir']
-    output_dir = app.config['soccer']['output_dir']
+    input_filepath = path.join(input_dir, file_id)
+    input_file.save(input_filepath)
 
-    parameters_filepath = safe_join(input_dir, file_id + '.json')
-    output_filepath = safe_join(output_dir, file_id + '.csv')
-    plot_filepath = safe_join(output_dir, file_id + '.png')
+    # throws exception if invalid
+    validate_file(
+        input_filepath=input_filepath,
+        model_version=model_version,
+    )
 
-    if not all(path.isfile(i) for i in [parameters_filepath, output_filepath, plot_filepath]):
-        raise ValueError('Invalid file id')
-
-    with open(parameters_filepath, 'r') as f:
-        parameters = json.load(f)
+    # if estimated runtime is greater than 30, recommend enqueueing file (in UI)
+    estimated_runtime = estimate_runtime(
+        input_filepath=input_filepath,
+        model_version=model_version,
+    )
 
     return jsonify({
-        'model_version': parameters['model_version'],
-        'output_url': pathname2url(output_filepath),
-        'plot_url': pathname2url(plot_filepath),
+        'file_id': file_id,
+        'estimated_runtime': estimated_runtime
     })
 
 
-@app.route('/enqueue', methods=['POST'], strict_slashes=False)
-def enqueue():
-    '''Sends parameters to the queue for processing'''
+@app.route('/submit', methods=['POST'], strict_slashes=False)
+def submit():
+    """ Codes the input file to different SOC categories """
 
-    client = Stomp(StompConfig(app.config['queue']['url']))
-    client.connect()
-    client.send(
-        app.config['queue']['name'],  # must begin with /queue/
-        json.dumps({
-            'email': request.form['email'],
-            'file_id': request.form['file-id'],
-            'file_name': request.files['input-file'].filename,
-            'model_version': request.form['model-version'][0],
-            'results_url': Href(request.url_root)(id=request.form['file-id']),
-            'timestamp': strftime('%a %b %X %Z %Y'),
-        })
+    # get parameters
+    file_id = request.form['file_id']
+    model_version = request.form['model_version']
+
+    # get configuration
+    input_dir = app.config['soccer']['input_dir']
+    output_dir = app.config['soccer']['output_dir']
+    model_filepath = app.config['soccer']['model_file']
+
+    # specify input/output filepaths
+    input_filepath = safe_join(input_dir, file_id)
+    parameters_filepath = safe_join(output_dir, file_id + '.json')
+    output_filepath = safe_join(output_dir, file_id + '.csv')
+    plot_filepath = safe_join(output_dir, file_id + '.png')
+
+    # save form parameters as json file
+    with open(parameters_filepath, 'w') as f:
+        json.dump(request.form, f)
+
+    # results are written to output_filepath
+    code_file(
+        input_filepath=input_filepath,
+        output_filepath=output_filepath,
+        model_version=model_version,
+        model_filepath=model_filepath
     )
-    client.disconnect()
+
+    plot_results(
+        results_filepath=output_filepath,
+        plot_filepath=plot_filepath
+    )
+
+    return jsonify({
+        'file_id': file_id
+    })
+
+
+@app.route('/submit-queue', methods=['POST'], strict_slashes=False)
+def submit_queue():
+    """ Sends parameters to the queue for processing """
+    queue_url = app.config['queue']['url']
+    queue_name = app.config['queue']['name']
+    parameters = json.dumps({
+        'recipient': request.form['email'],
+        'file_id': request.form['file_id'],
+        'model_version': request.form['model_version'][0],
+        'original_filename': request.files['input_file'].filename,
+        'results_url': Href(request.url_root)(id=request.form['file_id']),
+        'timestamp': strftime('%a %b %X %Z %Y'),
+    })
+
+    enqueue(
+        queue_url=queue_url,
+        queue_name=queue_name,
+        data=parameters
+    )
+
     return jsonify(True)
 
 
-@app.route('/ping', methods=['GET'], strict_slashes=False)
+@app.route('/results/<path:filename>', methods=['GET'], strict_slashes=False)
+def get_results(filename):
+    """
+        Serves results files. The following convention is used:
+         - /results/<file_id>.json (calculation parameters)
+         - /results/<file_id>.csv (output csv)
+         - /results/<file_id>.png (output plot)
+    """
+    return send_from_directory(
+        directory=app.config['soccer']['output_dir'],
+        filename=filename,
+        as_attachment=True
+    )
+
+
+@app.route('/ping', strict_slashes=False)
 def ping():
+    """ Healthcheck endpoint """
     return jsonify(True)
-
-
-@app.route('/', methods=['GET'], strict_slashes=False)
-def index():
-    return send_file('index.html')
 
 
 if __name__ == '__main__':
+    """ Serve application on port 10000 when running locally """
+
+    @app.route('/')
+    def index():
+        return send_file('index.html')
+
     app.run('0.0.0.0', port=10000, debug=True)

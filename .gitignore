@@ -7,3 +7,4 @@ config.ini
 @wordnet_dir@
 *.pyc
 out
+.idea
