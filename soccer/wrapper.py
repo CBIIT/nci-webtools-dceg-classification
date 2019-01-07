@@ -49,6 +49,8 @@ def prevalidate_file(input_filepath, model_version):
         lines = f.readlines()
         if not lines[-1].rstrip():
             raise ValueError('The csv input file must not end with multiple empty lines.')
+        elif ',' not in lines[-1]:
+            raise ValueError('The csv input file ends with an invalid entry.')
 
 
 def validate_file(input_filepath, model_version):
