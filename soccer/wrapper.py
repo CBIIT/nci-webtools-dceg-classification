@@ -46,17 +46,16 @@ def call_soccer(method='',
 def prevalidate_file(input_filepath, model_version):
     """ Prevalidates input file before passing it to soccer """
     with open(input_filepath) as f:
-        contents = f.read()
-        if len(contents) - len(contents.rstrip()) > 1:
-            raise ValueError('Input file ends with multiple newline characters. Only a single newline is permitted at the end of a csv file.')
+        lines = f.readlines()
+        if not lines[-1].rstrip():
+            raise ValueError('The csv input file must not end with multiple empty lines.')
 
 
 def validate_file(input_filepath, model_version):
     """
         Validates an input file against the specified model version
-        Returns the estimated runtime if validation is successful
-
-        Otherwise, throws an exception with validation errors
+        If there are validation errors, they will be available in the
+        'output' attribute of the exception
     """
 
     # run prevalidation
