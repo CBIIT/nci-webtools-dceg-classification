@@ -34,7 +34,7 @@ describe('SOCcer Smoke Test', function() {
 
         // upload tests/data/example1.csv
         const uploadPath = path.join(process.cwd(), 'tests', 'data', 'example1.csv');
-        await driver.findElement(By.name('input-file')).sendKeys(uploadPath);
+        await driver.findElement(By.name('input_file')).sendKeys(uploadPath);
 
         // wait until success message is shown
         const resultStatus = By.css('#alerts > .alert');
@@ -54,7 +54,7 @@ describe('SOCcer Smoke Test', function() {
         await driver.wait(until.elementIsEnabled(submitElement));
         await submitElement.click();
 
-        const resultsElement = driver.findElement(By.id('results-container'));
+        const resultsElement = driver.findElement(By.id('results'));
         await driver.wait(until.elementIsVisible(resultsElement));
 
         // check if we have a valid download link
