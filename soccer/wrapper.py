@@ -47,6 +47,8 @@ def prevalidate_file(input_filepath, model_version):
     """ Prevalidates input file before passing it to soccer """
     with open(input_filepath) as f:
         lines = f.readlines()
+        if len(lines) < 2:
+            raise ValueError('The csv input file must contain data.')
         if not lines[-1].rstrip():
             raise ValueError('The csv input file must not end with multiple empty lines.')
         elif ',' not in lines[-1]:
