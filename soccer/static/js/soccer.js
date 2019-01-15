@@ -139,7 +139,7 @@
             // display validation errors
             $('#alerts').alert('alert-warning',
                 $('<div/>')
-                    .append('<p><b>Your file has been uploaded successfully but contains the following errors:</b></p>')
+                    .append('<p><b>Your file could not be uploaded due to the following errors:</b></p>')
                     .append(errorList)
                     .append('<p><b>Please modify your data file and re-upload.</b></p>')
             );
