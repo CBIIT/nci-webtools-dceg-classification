@@ -1,11 +1,12 @@
 from ConfigParser import SafeConfigParser
 from os import makedirs, linesep, path
 from subprocess import STDOUT, CalledProcessError, check_call, check_output
-from threading import Thread
+from tempfile import TemporaryFile
 from time import strftime
 from traceback import format_exc
 from urllib import pathname2url
 from uuid import uuid4
+import mimetypes
 import re
 
 from stompest.config import StompConfig
@@ -43,16 +44,37 @@ def call_soccer(method='',
     ], stderr=STDOUT)
 
 
-def prevalidate_file(input_filepath, model_version):
-    """ Prevalidates input file before passing it to soccer """
-    with open(input_filepath) as f:
-        lines = f.readlines()
-        if len(lines) < 2:
-            raise ValueError('The csv input file must contain data.')
-        if not lines[-1].rstrip():
-            raise ValueError('The csv input file must not end with multiple empty lines.')
-        elif ',' not in lines[-1]:
-            raise ValueError('The csv input file ends with an invalid entry.')
+def prevalidate_file(input_file, model_version):
+    """ Prevalidates input file before passing to SOCCER validation
+        input_file - werkzeug FileStorage object
+        model_version - '1' or '2'
+    """
+
+    lines = input_file.readlines()
+    input_file.seek(0) # reset cursor so we can call save() later
+
+    # these rules stop further validation
+    if not re.search(r'\.csv$', input_file.filename):
+        raise ValueError('The input file must be a valid csv file.')
+    try:
+        header = lines[0].decode('ascii')
+        print(header)
+        if ',' not in header: raise(Exception())
+    except Exception:
+        raise ValueError('The input file must be a valid csv file.')
+    if len(lines) < 2:
+        raise ValueError('The input file must contain data.')
+
+    errors = []
+    if not lines[-1].rstrip():
+        errors.append('The input file must not end with multiple empty lines.')
+
+    for index, line in enumerate(lines):
+        if not line.strip():
+            errors.append('The input file contains an empty line on row %d.' % (index + 1))
+
+    if errors:
+        raise ValueError('\n'.join(errors))
 
 
 def validate_file(input_filepath, model_version):
@@ -61,14 +83,6 @@ def validate_file(input_filepath, model_version):
         If there are validation errors, they will be available in the
         'output' attribute of the exception
     """
-
-    # run prevalidation
-    prevalidate_file(
-        input_filepath=input_filepath,
-        model_version=model_version
-    )
-
-    # validate file
     call_soccer(
         'validate-file',
         input_filepath=input_filepath,

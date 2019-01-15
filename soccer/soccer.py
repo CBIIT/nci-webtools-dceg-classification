@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
 from utils import make_dirs, read_config, enqueue
-from wrapper import validate_file, estimate_runtime, code_file, plot_results
+from wrapper import prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
 
 
 if __name__ == '__main__':
@@ -48,6 +48,9 @@ def validate():
     # get parameters
     input_file = request.files['input_file']
     model_version = request.form['model_version']
+
+    # prevalidate input file before saving
+    prevalidate_file(input_file, model_version)
 
     # save uploaded file to the input directory
     file_id = str(uuid4())
