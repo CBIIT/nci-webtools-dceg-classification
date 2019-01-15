@@ -54,12 +54,10 @@ def prevalidate_file(input_file, model_version):
     input_file.seek(0) # reset cursor so we can call save() later
 
     # these rules stop further validation
-    if not re.search(r'\.csv$', input_file.filename):
-        raise ValueError('The input file must be a valid csv file.')
     try:
-        header = lines[0].decode('ascii')
-        print(header)
-        if ',' not in header: raise(Exception())
+        if (not re.search(r'\.csv$', input_file.filename)
+            or ',' not in lines[0].decode('ascii')):
+            raise(Exception()) # catch decode errors as well
     except Exception:
         raise ValueError('The input file must be a valid csv file.')
     if len(lines) < 2:
