@@ -194,8 +194,16 @@ blockquote {
     font-weight: 600;
 }
 
+.overflow-hidden {
+    overflow: hidden;
+}
+
 .mh-90 {
     min-height: 90%;
+}
+
+.mw-100 {
+    max-width: 100%;
 }
 
 .vh-100 {
