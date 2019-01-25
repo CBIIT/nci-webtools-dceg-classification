@@ -215,6 +215,33 @@
         });
     }
 
+    window.downloadJNLP = function() {
+        var contents = [
+            '<?xml version="1.0" encoding="utf-8"?>',
+            '<jnlp spec="1.0+" codebase="{codebase}">',
+            '    <information>',
+            '           <title>SOCAssign</title>',
+            '           <vendor>NCI CBIIT</vendor>',
+            '           <homepage href="{codebase}" />',
+            '           <description>SOCAssign Application</description>',
+            '    </information>',
+            '    <security>',
+            '           <all-permissions/>',
+            '    </security>',
+            '    <resources>',
+            '          <j2se version="1.7+" />',
+            '          <jar href="{jarHref}" />',
+            '    </resources>',
+            '    <application-desc main-class="gov.nih.cit.socassign.SOCAssign" />',
+            '</jnlp>',
+        ].join('\n').format({
+            codebase: location.protocol + '//' + location.host,
+            jarHref: 'soccer/static/files/SOCAssign.jar'
+        });
+        var blob = new Blob([contents], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, 'SOCAssign.jnlp');
+    }
+
     /**
      * Parses a query string as an object
      * @param {string} query A query string (eg: the value of `location.search`)
