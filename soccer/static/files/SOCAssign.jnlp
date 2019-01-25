@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0+" codebase="https://soccer.nci.nih.gov" href="soccerassign/SOCAssign.jnlp">
+<jnlp spec="1.0+" codebase="https://soccer.nci.nih.gov" href="soccer/static/files/SOCAssign.jnlp">
     <information>
            <title>SOCAssign</title>
            <vendor>NCI CBIIT</vendor>
@@ -11,7 +11,7 @@
     </security>
     <resources>
           <j2se version="1.7+" />
-          <jar href="soccerassign/SOCAssign.jar" />
+          <jar href="soccer/static/files/SOCAssign.jar" />
     </resources>
     <application-desc main-class="gov.nih.cit.socassign.SOCAssign" />
 </jnlp>

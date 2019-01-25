@@ -9,6 +9,8 @@
     var query = parseQuery(location.search);
     if (query.id) showResults(query.id);
 
+    /** Begin Attaching Event Handlers */
+
     /** Override form submit */
     $('#soccer-form').submit(submit);
 
@@ -25,6 +27,8 @@
             .attr('required', checked)
             .disabled(!checked);
     });
+
+    /** End Attaching Event Handlers */
 
     /**
      * Resets the SOCcer input form
