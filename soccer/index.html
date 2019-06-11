@@ -320,15 +320,15 @@
 
                     <p>SOCcer 2.0 requires data in comma separated value (csv) format. The data should contain an id and a job title at the minimum. Optionally, job tasks can be added to the data to improve classification. Industry is no longer part of the classifier, because the improvement to the results were small.</p>
 
-                    <p>The first line of the file is a header line that describes the column of data. The order of the columns is set by the header. The id column must have the header of “id” or “personid”. The job titles must be labelled “jobtitle”, and the job tasks must be labelled “task”, “tasks”, “jobtask”, or “jobtasks”. The rest of the file should be data. If the data contains a comma, make sure you surround the data with quotes (e.g. if the job title is professor, chemistry, the job title data should be “professor, chemistry”.). Do not quote the entire line. All columns must be filled, even if they are blank. Make sure to use commas to specify blank data.</p>
+                    <p>The first line of the file is a header line that describes the column of data. The order of the columns is set by the header. The id column must have the header of “id” or “personid”. The job titles must be labelled “jobtitle”. The industry should be labelled as "sic" or "industry", and the job tasks must be labelled “task”, “tasks”, “jobtask”, or “jobtasks”. The rest of the file should be data. If the data contains a comma, make sure you surround the data with quotes (e.g. if the job title is professor, chemistry, the job title data should be “professor, chemistry”.). Do not quote the entire line. All columns must be filled, even if they are blank. Make sure to use commas to specify blank data.</p>
 
                     <p>An example of a valid file is: </p>
 
                     <blockquote>
-                        id,jobtitle,jobtask<br>
-                        myid1,"Teacher, high school", "formulate lesson plans, teach 11th grade match"<br>
-                        myid2,, "formulate lesson plans, teach 11th grade match"<br>
-                        myid3,"Teacher, high school",
+                        id,jobtitle,sic,jobtask<br>
+                        myid1,"Teacher, high school",8211, "formulate lesson plans, teach 11th grade match"<br>
+                        myid2,, 8211,"formulate lesson plans, teach 11th grade match"<br>
+                        myid3,"Teacher, high school", 8211,
                     </blockquote>
 
                     <p>If the ids are left blank, they will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
