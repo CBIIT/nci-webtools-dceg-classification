@@ -318,7 +318,7 @@
                 <div class="tab-pane show active" id="v2-help" role="tabpanel" aria-labelledby="v2-help-tab">
                     <h2 class="h5">Input Format</h2>
 
-                    <p>SOCcer 2.0 requires data in comma separated value (csv) format. The data should contain an id and a job title at the minimum. Optionally, job tasks can be added to the data to improve classification. Industry is no longer part of the classifier, because the improvement to the results were small; however, at this time the data format still requires a valid SIC (9999 is acceptable). Make sure to use commas to specify blank data (e.g., no task information).</p>
+                    <p>SOCcer 2.0 requires data in comma separated value (csv) format. The data format requires four variables (ID, job title, SIC, and job task), but only id and job title are necessary to obtain a SOCcer score. Job tasks help improve the performance of the classifier. SIC is no longer part of the classifier, because improvement to the results were small; however, at this time the data format still requires a valid SIC code as a placeholder (e.g., 9999 if no SIC). For task information, use commas to specify blank data.</p>
 
                     <p>An example of a valid file is: </p>
 
@@ -327,6 +327,7 @@
                         myid1,"Teacher, high school",8211, "formulate lesson plans, teach 11th grade match"<br>
                         myid2,, 8211,"formulate lesson plans, teach 11th grade match"<br>
                         myid3,"Teacher, high school", 8211,
+                        myid4,”high school teacher”,9999,
                     </blockquote>
 
                     <p>If the ids are left blank, they will be assigned by SOCcer as 1, 2, 3, … , &lt;number of lines&gt;.</p>
