@@ -1,7 +1,7 @@
 from os import path
 from time import strftime
 from traceback import format_exc
-from urllib import pathname2url
+from urllib.request import pathname2url
 from uuid import uuid4
 
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
@@ -37,8 +37,11 @@ def before_request():
 def error_handler(e):
     """ Ensure errors are logged and returned as json """
     app.logger.error(format_exc())
-    output = getattr(e, 'output', str(e))
-    return jsonify(output), 500
+    output = getattr(e, 'output', None)
+    return jsonify(
+        output.decode('utf-8') if output
+        else str(e)
+    ), 500
 
 
 @app.route('/validate', methods=['POST'], strict_slashes=False)
