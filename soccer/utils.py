@@ -13,7 +13,7 @@ def enqueue(queue_url, queue_name, data):
     """ Sends a message to a queue """
     client = Stomp(StompConfig(queue_url))
     client.connect()
-    client.send(queue_name, data)
+    client.send(queue_name, data.encode())
     client.disconnect()
 
 
