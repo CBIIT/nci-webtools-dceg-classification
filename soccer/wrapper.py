@@ -1,10 +1,10 @@
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 from os import makedirs, linesep, path
 from subprocess import STDOUT, CalledProcessError, check_call, check_output
 from tempfile import TemporaryFile
 from time import strftime
 from traceback import format_exc
-from urllib import pathname2url
+from urllib.request import pathname2url
 from uuid import uuid4
 import mimetypes
 import re
@@ -56,7 +56,7 @@ def prevalidate_file(input_file, model_version):
     # these rules stop further validation
     try:
         if (not re.search(r'\.csv$', input_file.filename)
-            or ',' not in lines[0].decode('ascii')):
+            or ',' not in lines[0].decode('utf-8')):
             raise(Exception()) # catch decode errors as well
     except Exception:
         raise ValueError('The input file must be a valid csv file.')
