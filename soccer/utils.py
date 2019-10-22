@@ -2,7 +2,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os import makedirs, linesep, path
 from smtplib import SMTP
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 
 from jinja2 import Template
 from stompest.config import StompConfig
@@ -26,7 +26,7 @@ def make_dirs(*dirs):
 
 def read_config(filepath='config.ini'):
     """ Reads a configuration file as a dictionary """
-    config = SafeConfigParser()
+    config = ConfigParser()
     config.read(filepath)
     return config._sections
 
