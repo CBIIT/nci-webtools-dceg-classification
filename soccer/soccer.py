@@ -130,7 +130,7 @@ def submit_queue():
         'file_id': request.form['file_id'],
         'model_version': request.form['model_version'][0],
         'original_filename': request.files['input_file'].filename,
-        'results_url': Href(request.url_root)(id=request.form['file_id']),
+        'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
         'timestamp': strftime('%a %b %X %Z %Y'),
     })
 

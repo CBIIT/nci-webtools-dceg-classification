@@ -170,9 +170,12 @@
             ? 'submit-queue'
             : 'submit';
 
+        var formData = $('#soccer-form').formData();
+        formData.append('url_root', location.protocol + '//' + location.host);
+
         $.post({
             url: action,
-            data: $('#soccer-form').formData(),
+            data: formData,
             processData: false,
             contentType: false,
         }).done(function (response) {
