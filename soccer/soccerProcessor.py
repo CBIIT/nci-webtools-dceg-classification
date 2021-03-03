@@ -126,7 +126,7 @@ class Processor(Listener):
             send_mail(
                 host=mail_host,
                 sender='SOCcer<do.not.reply@nih.gov>',
-                recipient=self.config['mail']['admin'],
+                recipient=self.config['mail']['support'],
                 subject='SOCcer - Exception occurred',
                 contents=render_template('templates/admin_error_email.html', error_info)
             )
