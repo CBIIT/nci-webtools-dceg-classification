@@ -7,13 +7,13 @@ class Util:
         config.read(filename)
 
         # Folder settings
-        #self.INPUT_DATA_PATH = config.get('folders', 'input_data_path')
-        #if not os.path.exists(self.INPUT_DATA_PATH):
-        #    os.makedirs(self.INPUT_DATA_PATH)
+        self.INPUT_DATA_PATH = config.get('soccer', 'input_dir')
+        if not os.path.exists(self.INPUT_DATA_PATH):
+            os.makedirs(self.INPUT_DATA_PATH)
 
-        #self.OUTPUT_DATA_PATH = config.get('folders', 'output_data_path')
-        #if not os.path.exists(self.OUTPUT_DATA_PATH):
-        #    os.makedirs(self.OUTPUT_DATA_PATH)
+        self.OUTPUT_DATA_PATH = config.get('soccer', 'output_dir')
+        if not os.path.exists(self.OUTPUT_DATA_PATH):
+            os.makedirs(self.OUTPUT_DATA_PATH)
 
 
         # S3 settings
@@ -44,3 +44,17 @@ class Util:
 
     def getFilePath(self, path, id):
         return os.path.join(path + id)
+
+    def createArchive(self, targetDirectory):
+        rootDir = os.path.basename(targetDirectory)
+        try:
+            with ZipFile(targetDirectory + '.zip', "w", ZIP_DEFLATED) as archive:
+                for dirpath, dirnames, filenames in os.walk(targetDirectory):
+                    for filename in filenames:
+                        filepath = os.path.join(dirpath, filename)
+                        parentpath = os.path.relpath(filepath, targetDirectory)
+                        arcname = os.path.join(rootDir, parentpath)
+                        archive.write(filepath, arcname)
+            return targetDirectory + '.zip'
+        except Exception as err:
+            return False
