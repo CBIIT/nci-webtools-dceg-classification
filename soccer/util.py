@@ -1,9 +1,10 @@
 import os
-from configparser import SafeConfigParser
+from configparser import ConfigParser
+from zipfile import ZipFile, ZIP_DEFLATED
 
 class Util:
     def __init__(self, filename):
-        config = SafeConfigParser()
+        config = ConfigParser()
         config.read(filename)
 
         # Folder settings

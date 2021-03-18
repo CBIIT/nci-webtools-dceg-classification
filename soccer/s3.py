@@ -8,6 +8,8 @@ class S3Bucket:
         self.log = log
 
     def uploadFileObj(self, key, data):
+        self.log.info(key)
+        self.log.info(data)
         return self.bucket.put_object(Key=key, Body=data)
 
     def downloadFile(self, key, filename):

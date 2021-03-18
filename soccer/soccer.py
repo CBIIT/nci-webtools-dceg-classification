@@ -10,7 +10,15 @@ from werkzeug.security import safe_join
 from werkzeug.urls import Href
 from utils import make_dirs, read_config, enqueue
 from wrapper import prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
+from sqs import Queue
+from s3 import S3Bucket
+from util import Util
 
+import os
+import datetime
+
+
+config_file = "../soccer/config.ini"
 
 if __name__ == '__main__':
     # Serve current directory using Flask for local development
@@ -21,7 +29,15 @@ else:
 
 # Load configuration from file
 app.config.update(read_config('config.ini'))
+config = Util(config_file)
 
+
+def upload_dir(token):
+    filepath = os.path.join(config.INPUT_DATA_PATH, token)
+    path = os.path.join(os.getcwd(), filepath)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
 @app.before_request
 def before_request():
@@ -123,24 +139,56 @@ def submit():
 @app.route('/submit-queue', methods=['POST'], strict_slashes=False)
 def submit_queue():
     """ Sends parameters to the queue for processing """
-    queue_url = app.config['queue']['url']
-    queue_name = app.config['queue']['name']
-    parameters = json.dumps({
-        'recipient': request.form['email'],
-        'file_id': request.form['file_id'],
-        'model_version': request.form['model_version'][0],
-        'original_filename': request.files['input_file'].filename,
-        'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
-        'timestamp': strftime('%a %b %X %Z %Y'),
-    })
+    tokenId = request.form['file_id']
+    UPLOAD_DIR = upload_dir(tokenId)
+    timestr = datetime.datetime.now().strftime("%Y-%m-%d")
+    bucket = S3Bucket(config.INPUT_BUCKET, app.logger)
+    
+    try:
+        saveLoc = config.createArchive(UPLOAD_DIR)
+        if saveLoc:
+            zipFilename = tokenId + '.zip'
+            with open(saveLoc, 'rb') as archive:
+                object = bucket.uploadFileObj(config.getInputFileKey(zipFilename), archive)
+                app.logger.info('hihi')
+                if object:
+                    app.logger.info('Succesfully Uploaded ' + tokenId + '.zip')
+                else:
+                    app.logger.error('Failed to upload ' + tokenId + '.zip')
 
-    enqueue(
-        queue_url=queue_url,
-        queue_name=queue_name,
-        data=parameters
-    )
+            sqs = Queue(app.logger, config)
 
-    return jsonify(True)
+            parameters = json.dumps({
+                'recipient': request.form['email'],
+                'file_id': request.form['file_id'],
+                'model_version': request.form['model_version'][0],
+                'original_filename': request.files['input_file'].filename,
+                'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
+                'timestamp': strftime('%a %b %X %Z %Y'),
+            })
+
+            sqs.sendMsgToQueue({
+                'jobId': tokenId,
+                'parameters': {
+                    'data': parameters,
+                    'bucket_name': config.INPUT_BUCKET,
+                    'key': config.getInputFileKey(tokenId),
+                    'timestamp': strftime('%a %b %X %Z %Y')
+                }
+            })
+
+            return jsonify(True)
+
+        else:
+            app.logger
+        
+    except Exception as err:
+        message = "Upload to S3 failed!\n" + str(err)
+        app.logger.error(message)
+        response = jsonify(message)
+        response.status_code = 500
+        return response
+
 
 
 @app.route('/results/<path:filename>', methods=['GET'], strict_slashes=False)
