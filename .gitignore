@@ -8,3 +8,5 @@ config.ini
 *.pyc
 out
 .idea
+config.ini
+.DS_Store
