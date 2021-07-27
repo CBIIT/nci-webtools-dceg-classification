@@ -1,17 +1,21 @@
 import json
+import os
+import sys
+import rpy2.robjects as robjects
+import smtplib
+import datetime
 import logging
-from twisted.internet import defer, reactor
+
 from subprocess import CalledProcessError, check_call
-from stompest.config import StompConfig
-from stompest.protocol import StompSpec
-from stompest.async import Stomp
-from stompest.async.listener import Listener, SubscriptionListener
-from stompest.error import StompConnectionError
 from traceback import format_exc
 from werkzeug.security import safe_join
 from werkzeug.test import Client
-from utils import read_config, send_mail, render_template
 from wrapper import code_file, plot_results
+from jinja2 import Template
+from util import Util
+from sqs import Queue, VisibilityExtender
+from s3 import S3Bucket
+
 
 class Processor(Listener):
 
@@ -19,7 +23,7 @@ class Processor(Listener):
         self.config = config
         self.logger = logging.getLogger(__name__)
 
-    def process_file(self, file_id, model_version):
+    def process_file(self, file_id, input_file, model_version):
         """ Codes the input file to different SOC categories """
 
         # get configuration
@@ -29,10 +33,10 @@ class Processor(Listener):
         model_filepath = config['model_file']
 
         # specify input/output filepaths
-        input_filepath = safe_join(input_dir, file_id)
+        input_filepath = safe_join(input_dir, input_file)
         output_path = safe_join(output_dir, file_id)
-        output_filepath = output_path + '.csv'
-        plot_filepath = output_path + '.png'
+        output_filepath = safe_join(output_dir, file_id, file_id + '.csv')
+        plot_filepath = safe_join(output_dir, file_id, file_id + '.png')
 
         # save parameters as json file
         with open(output_path + '.json', 'w') as f:
@@ -88,8 +92,10 @@ class Processor(Listener):
             # call submit method of flask application
             # generates output file and
             self.logger.debug('processing input file: ' + params['file_id'])
-            self.process_file(params['file_id'], params['model_version'])
-            self.logger.debug('finished processing input file: ' + params['file_id'])
+            self.process_file(
+                params['file_id'], params['original_filename'], params['model_version'])
+            self.logger.debug(
+                'finished processing input file: ' + params['file_id'])
 
             # send user results
             self.logger.debug('sending results email to user')
@@ -118,7 +124,8 @@ class Processor(Listener):
                 sender='SOCcer<do.not.reply@nih.gov>',
                 recipient=params['recipient'],
                 subject='SOCcer - An error occurred while processing your file',
-                contents=render_template('templates/user_error_email.html', params)
+                contents=render_template(
+                    'templates/user_error_email.html', params)
             )
 
             # send admin error email
@@ -128,7 +135,8 @@ class Processor(Listener):
                 sender='SOCcer<do.not.reply@nih.gov>',
                 recipient=self.config['mail']['support'],
                 subject='SOCcer - Exception occurred',
-                contents=render_template('templates/admin_error_email.html', error_info)
+                contents=render_template(
+                    'templates/admin_error_email.html', error_info)
             )
 
     def onConnectionLost(self, connection, reason):
