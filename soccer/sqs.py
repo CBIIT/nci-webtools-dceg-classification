@@ -8,9 +8,11 @@ from threading import Timer
 class Queue:
     def __init__(self, log, config):
         self.log = log
-        self.sqs = boto3.resource('sqs')
-        self.queue = self.sqs.get_queue_by_name(QueueName=config.QUEUE_NAME)
-        self.config = config
+        self.config = config['sqs']
+        self.sqs = boto3.resource(
+            'sqs', region_name=self.config['region_name'])
+        self.queue = self.sqs.get_queue_by_name(
+            QueueName=self.config['queue_name'])
 
     def sendMsgToQueue(self, msg, id):
         response = self.queue.send_message(MessageBody=json.dumps(msg),
@@ -19,8 +21,9 @@ class Queue:
         self.log.debug(response.get('MessageId'))
 
     def receiveMsgs(self):
-        return self.queue.receive_messages(VisibilityTimeout=self.config.VISIBILITY_TIMEOUT,
-                                           WaitTimeSeconds=self.config.QUEUE_LONG_PULL_TIME,
+        return self.queue.receive_messages(VisibilityTimeout=int(self.config['visibility_timeout']),
+                                           WaitTimeSeconds=int(
+                                               self.config['queue_long_pull_time']),
                                            MaxNumberOfMessages=1)
 
     def getApproximateNumberOfMessages(self):

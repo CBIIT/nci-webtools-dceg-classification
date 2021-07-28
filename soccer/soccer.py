@@ -1,18 +1,19 @@
-from os import path
+from os import getcwd, path
 from time import strftime
 from traceback import format_exc
-from urllib.request import pathname2url
+# from urllib.request import pathname2url
 from uuid import uuid4
 
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
-from utils import make_dirs, read_config
+from utils import make_dirs, read_config, createArchive, create_rotating_log
 from wrapper import prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
-from util import Util
 from sqs import Queue
 from s3 import S3Bucket
+from zipfile import ZipFile, ZIP_DEFLATED
+
 
 if __name__ == '__main__':
     # Serve current directory using Flask for local development
@@ -22,7 +23,10 @@ else:
     app = Flask(__name__, static_folder=None)
 
 # Load configuration from file
-app.config.update(read_config('config.ini'))
+app.config.update(read_config('../config/config.ini'))
+
+# create logger
+app.logger = create_rotating_log('SOCcer', app.config)
 
 
 @app.before_request
@@ -87,7 +91,6 @@ def submit():
     """ Codes the input file to different SOC categories """
 
     # get parameters
-    # request.form['file_id'] = uid + inputfile
     file_id = request.form['file_id']
     model_version = request.form['model_version']
 
@@ -122,7 +125,7 @@ def submit():
     )
 
     return jsonify({
-        'file_id': path.join(file_id, file_id)
+        'file_id': file_id
     })
 
 
@@ -130,62 +133,82 @@ def submit():
 def submit_queue():
     """ Sends parameters to the queue for processing """
     # get parameters
-    uid = path.dirname(request.form['file_id'])
-
-    # get configuration
-    input_dir = path.join(app.config['soccer']['input_dir'], uid)
+    file_id = request.form['file_id']
 
     try:
         # zip work directory and upload to s3
-        archivePath = config.createArchive(input_dir)
+        bucket = S3Bucket(app.config['s3']['bucket'], app.logger)
+        input_dir = path.join(app.config['soccer']['input_dir'], file_id)
+        archivePath = createArchive(input_dir)
 
         if archivePath:
-            zipFilename = tokenId + '.zip'
-            with open(saveLoc, 'rb') as archive:
+            with open(archivePath, 'rb') as archive:
                 object = bucket.uploadFileObj(
-                    config.getInputFileKey(zipFilename), archive)
-                # if object:
-                #     app.logger.info('Succesfully Uploaded ' + tokenId + '.zip')
-                # else:
-                #     app.logger.error('Failed to upload ' + tokenId + '.zip')
+                    path.join(app.config['s3']['input_folder'], f'{file_id}.zip'), archive)
+                if object:
+                    app.logger.info('Succesfully Uploaded ' + file_id + '.zip')
+                else:
+                    app.logger.error('Failed to upload ' + file_id + '.zip')
 
-            sqs = Queue(app.logger, app.config['sqs'])
+            sqs = Queue(app.logger, app.config)
             sqs.sendMsgToQueue({
-                'jobId': uid,
-                'parameters': json.dumps({
-                    'recipient': request.form['email'],
-                    'file_id': request.form['file_id'],
-                    'model_version': request.form['model_version'][0],
-                    'original_filename': request.files['input_file'].filename,
-                    'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
-                    'timestamp': strftime('%a %b %X %Z %Y'),
-                })
-            }, uid)
+                'recipient': request.form['email'],
+                'file_id': request.form['file_id'],
+                'model_version': request.form['model_version'][0],
+                'original_filename': request.files['input_file'].filename,
+                'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
+                'timestamp': strftime('%a %b %X %Z %Y'),
+            }, file_id)
             return jsonify(True)
         else:
-            # msg = 'failed to archive input files'
-            # app.logger.error(msg)
+            msg = 'failed to archive input files'
+            app.logger.error(msg)
             return jsonify(False)
 
     except Exception as err:
-        # message = "Upload to S3 failed!\n" + str(err)
-        # app.logger.error(message)
+        message = "Upload to S3 failed!\n"
+        app.logger.error(message)
+        app.logger.exception(err)
         return jsonify(False)
 
 
-@app.route('/results/<path:filename>', methods=['GET'], strict_slashes=False)
-def get_results(filename):
+@app.route('/results/<path:json_file>', methods=['GET'], strict_slashes=False)
+def get_results(json_file):
     """
         Serves results files. The following convention is used:
-         - /results/<file_id>.json (calculation parameters)
-         - /results/<file_id>.csv (output csv)
-         - /results/<file_id>.png (output plot)
+         - /results/<file_id>/<file_id>.json (calculation parameters)
+         - /results/<file_id>/<file_id>.csv (output csv)
+         - /results/<file_id>/<file_id>.png (output plot)
     """
+    file_id = path.splitext(json_file)[0]
+
     return send_from_directory(
-        directory=app.config['soccer']['output_dir'],
-        filename=filename,
+        directory=path.join(app.config['soccer']['output_dir'], file_id),
+        filename=json_file,
         as_attachment=True
     )
+
+
+@app.route('/resultsS3', methods=['POST'], strict_slashes=False)
+def get_queue_results():
+    file_id = request.json.get('id')
+    archiveFile = f'{file_id}.zip'
+    key = path.join(app.config['s3']['output_folder'], archiveFile)
+    savePath = path.join(app.config['soccer']['output_dir'], archiveFile)
+    app.logger.debug(key)
+    try:
+        bucket = S3Bucket(app.config['s3']['bucket'], app.logger)
+        bucket.downloadFile(key, savePath)
+
+        with ZipFile(savePath) as archive:
+            archive.extractall(app.config['soccer']['output_dir'])
+
+        return app.response_class(json.dumps({'status': 'OK'}), 200, mimetype='application/json')
+    except Exception as err:
+        message = "Download from S3 failed!\n" + str(err)
+        app.logger.error(message)
+        app.logger.exception(err)
+        return app.response_class(json.dumps(message), 500, mimetype='application/json')
 
 
 @app.route('/ping', strict_slashes=False)

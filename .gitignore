@@ -12,3 +12,4 @@ config.ini
 .DS_Store
 /model_file
 /tmp
+/logs

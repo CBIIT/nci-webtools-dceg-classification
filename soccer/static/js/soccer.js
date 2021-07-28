@@ -6,7 +6,7 @@
 $(function () {
   /** Show results if the location's query parameters contain an id */
   var query = parseQuery(location.search);
-  if (query.id) showResults(query.id);
+  if (query.id) fetchQueueResults(query.id);
 
   /** Begin Attaching Event Handlers */
 
@@ -239,6 +239,22 @@ $(function () {
         $('#soccer-form :input').disable();
         $('#soccer-form :reset').enable();
       });
+  }
+
+  /**
+   * Fetch and show queue results (sets attributes for plot/download link)
+   * @param {string} id A file id containing the results
+   * @memberof soccer
+   */
+  function fetchQueueResults(id) {
+    $.post({
+      url: 'resultsS3',
+      data: JSON.stringify({ id }),
+      contentType: 'application/json',
+      dataType: 'json',
+    }).always(function () {
+      showResults(id);
+    });
   }
 
   window.downloadJNLP = function () {

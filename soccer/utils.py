@@ -1,20 +1,14 @@
+import logging
+import datetime
+
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from os import makedirs, linesep, path
+from os import makedirs, walk, path
 from smtplib import SMTP
 from configparser import ConfigParser
-
 from jinja2 import Template
-from stompest.config import StompConfig
-from stompest.sync import Stomp
-
-
-def enqueue(queue_url, queue_name, data):
-    """ Sends a message to a queue """
-    client = Stomp(StompConfig(queue_url))
-    client.connect()
-    client.send(queue_name, data.encode())
-    client.disconnect()
+from zipfile import ZipFile, ZIP_DEFLATED
+from logging.handlers import RotatingFileHandler
 
 
 def make_dirs(*dirs):
@@ -48,3 +42,41 @@ def send_mail(host, sender, recipient, subject, contents):
 
     smtp = SMTP(host)
     smtp.sendmail(sender, recipient, msg.as_string())
+
+
+def createArchive(targetDirectory):
+    rootDir = path.basename(targetDirectory)
+    try:
+        with ZipFile(targetDirectory + '.zip', "w", ZIP_DEFLATED) as archive:
+            for dirpath, dirnames, filenames in walk(targetDirectory):
+                for filename in filenames:
+                    filepath = path.join(dirpath, filename)
+                    parentpath = path.relpath(filepath, targetDirectory)
+                    arcname = path.join(rootDir, parentpath)
+                    archive.write(filepath, arcname)
+        return targetDirectory + '.zip'
+    except Exception as err:
+        return False
+
+
+def create_rotating_log(name, config):
+    make_dirs('../logs')
+    config = config['logs']
+    size = int(config['size'])
+    rollover = int(config['rollover'])
+
+    formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s',
+                                  '%Y-%m-%d %H:%M:%S')
+    time = datetime.datetime.now().strftime("%Y-%m-%d_%H")
+    logFile = f'../logs/{name}.log.' + time
+
+    my_handler = RotatingFileHandler(logFile, mode='a', maxBytes=size,
+                                     backupCount=rollover, encoding=None, delay=0)
+    my_handler.setFormatter(formatter)
+    my_handler.setLevel(config['loglevel'])
+
+    logger = logging.getLogger('root')
+    logger.setLevel(config['loglevel'])
+
+    logger.addHandler(my_handler)
+    return logger

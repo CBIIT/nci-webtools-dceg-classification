@@ -1,5 +1,6 @@
 import boto3
 
+
 class S3Bucket:
     def __init__(self, bucket, log):
         self.client = boto3.client('s3')
@@ -41,18 +42,3 @@ class S3Bucket:
                 message = "Upload file {} to S3 failed!".format(fileName)
                 self.log.error(message)
                 return None
-
-    def generateUrl(self, object, fileName=None):
-        bucket_name = object.bucket_name if hasattr(
-            object, 'bucket_name') else object['bucket_name']
-        key = object.key if hasattr(object, 'key') else object['key']
-        fileName = fileName if fileName else object['originalName']
-        url = self.client.generate_presigned_url(
-            'get_object',
-            Params={
-                'Bucket': bucket_name,
-                'Key': key,
-                'ResponseContentDisposition': "attachment;filename={}".format(fileName)
-            },
-            ExpiresIn=URL_EXPIRE_TIME)
-        return(url)
