@@ -163,13 +163,13 @@ def submit_queue():
         else:
             msg = 'failed to archive input files'
             app.logger.error(msg)
-            return jsonify(False)
+            return app.response_class(json.dumps(msg), 500, mimetype='application/json')
 
     except Exception as err:
         message = "Upload to S3 failed!\n"
         app.logger.error(message)
         app.logger.exception(err)
-        return jsonify(False)
+        return app.response_class(json.dumps(err), 500, mimetype='application/json')
 
 
 @app.route('/results/<path:json_file>', methods=['GET'], strict_slashes=False)
