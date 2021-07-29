@@ -73,12 +73,10 @@ if __name__ == '__main__':
                         extender.start()
 
                         # specify paths
-                        input_dir = path.join(
-                            config['soccer']['input_dir'])
+                        input_dir = config['soccer']['input_dir']
                         input_archive_path = path.join(
                             config['soccer']['input_dir'], f'{file_id}.zip')
                         WORKING_DIR = path.join(getcwd(), input_dir, file_id)
-
 
                         # download input file archive
                         s3Key = path.join(
@@ -124,7 +122,7 @@ if __name__ == '__main__':
                                     recipient=params['recipient'],
                                     subject='SOCcer - Your file has been processed',
                                     contents=render_template(
-                                        'templates/user_email.html', params)
+                                        'templates/user_email.html', {**params, 'admin': config['mail']['admin']})
                                 )
 
                         except Exception as e:
@@ -133,7 +131,8 @@ if __name__ == '__main__':
                                 'file_id': params['file_id'],
                                 'params': json.dumps(params, indent=4),
                                 'exception_info': format_exc(),
-                                'process_output': getattr(e, 'output', 'None')
+                                'process_output': getattr(e, 'output', 'None'),
+                                'admin': config['mail']['admin']
                             }
                             logger.exception(error_info)
 
@@ -141,11 +140,11 @@ if __name__ == '__main__':
                             logger.debug('sending error email to user')
                             send_mail(
                                 host=mail_host,
-                                sender='SOCcer<do.not.reply@nih.gov>',
+                                sender=config['mail']['sender'],
                                 recipient=params['recipient'],
                                 subject='SOCcer - An error occurred while processing your file',
                                 contents=render_template(
-                                    'templates/user_error_email.html', params)
+                                    'templates/user_error_email.html', {**params, 'admin': config['mail']['admin']})
                             )
 
                             # send admin error email
@@ -153,7 +152,8 @@ if __name__ == '__main__':
                                 'sending error email to administrator')
                             send_mail(
                                 host=mail_host,
-                                sender='SOCcer<do.not.reply@nih.gov>',
+                                sender=config['mail']['sender'],
+                                admin=config['mail']['admin'],
                                 recipient=config['mail']['support'],
                                 subject='SOCcer - Exception occurred',
                                 contents=render_template(
