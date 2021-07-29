@@ -9,8 +9,6 @@ from uuid import uuid4
 import mimetypes
 import re
 
-from stompest.config import StompConfig
-from stompest.sync import Stomp
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
