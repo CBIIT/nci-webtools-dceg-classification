@@ -6,7 +6,7 @@ from zipfile import ZipFile
 from traceback import format_exc
 from werkzeug.security import safe_join
 from wrapper import code_file, plot_results
-from utils import createArchive, read_config, create_rotating_log, send_mail, render_template
+from utils import createArchive, read_config, create_rotating_log, send_mail, render_template, make_dirs
 from sqs import Queue, VisibilityExtender
 from s3 import S3Bucket
 
@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     config = read_config('../config/config.ini')
     logger = create_rotating_log('queue', config)
+    make_dirs(config['soccer']['input_dir'])
 
     try:
         logger.info("SOCcer processor has started")
@@ -67,7 +68,7 @@ if __name__ == '__main__':
                             msg, jobName, file_id, int(config['sqs']['visibility_timeout']), logger)
 
                         logger.info(
-                            'Start processing job name: "{}", file_id: {} ...'.format(jobName, file_id))
+                            'Start processing job name: "{}", file_id: {}'.format(jobName, file_id))
 
                         extender.start()
 
@@ -77,6 +78,7 @@ if __name__ == '__main__':
                         input_archive_path = path.join(
                             config['soccer']['input_dir'], f'{file_id}.zip')
                         WORKING_DIR = path.join(getcwd(), input_dir, file_id)
+
 
                         # download input file archive
                         s3Key = path.join(
