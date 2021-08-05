@@ -17,7 +17,7 @@ def process_file(config, file_id, input_file, model_version):
     # get configuration
     input_dir = config['input_dir']
     output_dir = config['output_dir']
-    model_filepath = config['model_file']
+    model_filepath = config['model_file_1.1']
 
     # specify input/output filepaths
     input_filepath = safe_join(input_dir, file_id, input_file)

@@ -98,7 +98,7 @@ def submit():
     input_dir = app.config['soccer']['input_dir']
     output_dir = app.config['soccer']['output_dir']
     make_dirs(output_dir)
-    model_filepath = app.config['soccer']['model_file']
+    model_filepath = app.config['soccer']['model_file_1.1']
 
     # specify input/output filepaths
     input_filepath = safe_join(
