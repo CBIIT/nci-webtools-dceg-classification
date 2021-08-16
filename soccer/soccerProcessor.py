@@ -122,7 +122,7 @@ if __name__ == '__main__':
                                     recipient=params['recipient'],
                                     subject='SOCcer - Your file has been processed',
                                     contents=render_template(
-                                        'templates/user_email.html', {**params, 'admin': config['mail']['admin']})
+                                        'templates/user_email.html', {**params, 'adminSupport': config['mail']['adminSupport']})
                                 )
 
                         except Exception as e:
@@ -132,7 +132,7 @@ if __name__ == '__main__':
                                 'params': json.dumps(params, indent=4),
                                 'exception_info': format_exc(),
                                 'process_output': getattr(e, 'output', 'None'),
-                                'admin': config['mail']['admin']
+                                'adminSupport': config['mail']['adminSupport']
                             }
                             logger.exception(error_info)
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
                                 recipient=params['recipient'],
                                 subject='SOCcer - An error occurred while processing your file',
                                 contents=render_template(
-                                    'templates/user_error_email.html', {**params, 'admin': config['mail']['admin']})
+                                    'templates/user_error_email.html', {**params, 'adminSupport': config['mail']['adminSupport']})
                             )
 
                             # send admin error email
@@ -153,8 +153,8 @@ if __name__ == '__main__':
                             send_mail(
                                 host=mail_host,
                                 sender=config['mail']['sender'],
-                                admin=config['mail']['admin'],
-                                recipient=config['mail']['support'],
+                                adminSupport=config['mail']['adminSupport'],
+                                recipient=config['mail']['techSupport'],
                                 subject='SOCcer - Exception occurred',
                                 contents=render_template(
                                     'templates/admin_error_email.html', error_info)
