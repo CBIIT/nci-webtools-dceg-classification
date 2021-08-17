@@ -81,8 +81,7 @@ if __name__ == '__main__':
                         # download input file archive
                         s3Key = path.join(
                             config['s3']['input_folder'], file_id + '.zip')
-                        bucketName = config['s3']['bucket']
-                        bucket = S3Bucket(bucketName, logger)
+                        bucket = S3Bucket(config['s3']['bucket'], logger)
                         bucket.downloadFile(s3Key, input_archive_path)
 
                         # extract input files
@@ -139,7 +138,7 @@ if __name__ == '__main__':
                             # send user error email
                             logger.debug('sending error email to user')
                             send_mail(
-                                host=mail_host,
+                                host=config['mail']['host'],
                                 sender=config['mail']['sender'],
                                 recipient=params['recipient'],
                                 subject='SOCcer - An error occurred while processing your file',
@@ -151,7 +150,7 @@ if __name__ == '__main__':
                             logger.debug(
                                 'sending error email to administrator')
                             send_mail(
-                                host=mail_host,
+                                host=config['mail']['host'],
                                 sender=config['mail']['sender'],
                                 adminSupport=config['mail']['adminSupport'],
                                 recipient=config['mail']['techSupport'],

@@ -21,6 +21,7 @@ def make_dirs(*dirs):
 def read_config(filepath='config.ini'):
     """ Reads a configuration file as a dictionary """
     config = ConfigParser()
+    config.optionxform = str
     config.read(filepath)
     return config._sections
 
@@ -60,7 +61,8 @@ def createArchive(targetDirectory):
 
 
 def create_rotating_log(name, config):
-    make_dirs('../logs')
+    if not path.exists('../logs'):
+        makedirs('../logs')
     config = config['logs']
     size = int(config['size'])
     rollover = int(config['rollover'])
