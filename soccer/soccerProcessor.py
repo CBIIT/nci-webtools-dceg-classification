@@ -163,7 +163,7 @@ if __name__ == '__main__':
                         logger.info(
                             f'Finish processing job name: {jobName}, file_id: {file_id} !')
                     else:
-                        logger.debug(data)
+                        logger.debug(msg)
                         logger.error('Unknown message type!')
                         msg.delete()
                 except Exception as e:
