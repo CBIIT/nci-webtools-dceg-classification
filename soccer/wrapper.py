@@ -7,6 +7,8 @@ from traceback import format_exc
 from urllib.request import pathname2url
 from uuid import uuid4
 import mimetypes
+import csv
+import os
 import re
 
 from werkzeug.utils import secure_filename
@@ -71,6 +73,27 @@ def prevalidate_file(input_file, model_version):
 
     if errors:
         raise ValueError('\n'.join(errors))
+
+
+def format_file(input_filepath):
+    """ Formats an input csv file for use with SOCCER
+        input_filepath - path to input file
+    """
+    output_filepath = input_filepath + '.formatted'
+
+    if os.path.exists(output_filepath):
+      os.remove(output_filepath)
+
+    with open(input_filepath, encoding="utf8") as input_file:
+        with open(output_filepath, 'w', newline='', encoding="utf8") as output_file:
+            reader = csv.reader(input_file)
+            writer = csv.writer(output_file)
+            for row in reader:
+                # replace newlines, tabs, etc within records
+                formatted_row = [re.sub('\s+', ' ', str(e)) for e in row]
+                writer.writerow(formatted_row)
+    
+    os.replace(output_filepath, input_filepath)
 
 
 def validate_file(input_filepath, model_version):
