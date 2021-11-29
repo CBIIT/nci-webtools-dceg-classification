@@ -152,7 +152,6 @@ if __name__ == '__main__':
                             send_mail(
                                 host=config['mail']['host'],
                                 sender=config['mail']['sender'],
-                                adminSupport=config['mail']['adminSupport'],
                                 recipient=config['mail']['techSupport'],
                                 subject='SOCcer - Exception occurred',
                                 contents=render_template(
