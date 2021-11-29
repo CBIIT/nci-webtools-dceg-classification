@@ -9,7 +9,7 @@ from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
 from utils import make_dirs, read_config, createArchive, create_rotating_log
-from wrapper import prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
+from wrapper import format_file, prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
 from sqs import Queue
 from s3 import S3Bucket
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -112,6 +112,7 @@ def submit():
         json.dump(request.form, f)
 
     # results are written to output_filepath
+    format_file(input_filepath)
     code_file(
         input_filepath=input_filepath,
         output_filepath=output_filepath,

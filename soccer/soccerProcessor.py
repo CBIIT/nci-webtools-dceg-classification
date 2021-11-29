@@ -5,7 +5,7 @@ from os import path, getcwd
 from zipfile import ZipFile
 from traceback import format_exc
 from werkzeug.security import safe_join
-from wrapper import code_file, plot_results
+from wrapper import format_file, code_file, plot_results
 from utils import createArchive, read_config, create_rotating_log, send_mail, render_template, make_dirs
 from sqs import Queue, VisibilityExtender
 from s3 import S3Bucket
@@ -33,6 +33,7 @@ def process_file(config, file_id, input_file, model_version):
         }, f)
 
     # results are written to output_filepath
+    format_file(input_filepath)
     code_file(
         input_filepath=input_filepath,
         output_filepath=output_filepath,
