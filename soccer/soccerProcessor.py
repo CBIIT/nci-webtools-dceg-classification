@@ -136,6 +136,11 @@ if __name__ == '__main__':
                             }
                             logger.exception(error_info)
 
+                            # upload failed input file to s3
+                            with open(input_archive_path, 'rb') as archive:
+                                object = bucket.uploadFileObj(
+                                    path.join(config['s3']['error_folder'], f'{file_id}.zip'), archive)
+
                             # send user error email
                             logger.debug('sending error email to user')
                             send_mail(
@@ -158,6 +163,9 @@ if __name__ == '__main__':
                                 contents=render_template(
                                     'templates/admin_error_email.html', error_info)
                             )
+
+                        # delete input file from s3
+                        bucket.deleteFile(s3Key)
 
                         msg.delete()
                         logger.info(
