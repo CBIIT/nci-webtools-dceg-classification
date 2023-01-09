@@ -1,18 +1,17 @@
-from os import getcwd, path
+from os import getcwd, path, remove, rmdir
 from time import strftime
 from traceback import format_exc
 # from urllib.request import pathname2url
 from uuid import uuid4
 
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
-# from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
 from werkzeug.urls import Href
 from utils import make_dirs, read_config, createArchive, create_rotating_log
 from wrapper import format_file, prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
 from sqs import Queue
 from s3 import S3Bucket
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile
 
 
 if __name__ == '__main__':
@@ -125,6 +124,8 @@ def submit():
         plot_filepath=plot_filepath
     )
 
+    remove(input_filepath)
+
     return jsonify({
         'file_id': file_id
     })
@@ -160,17 +161,20 @@ def submit_queue():
                 'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
                 'timestamp': strftime('%a %b %X %Z %Y'),
             }, file_id)
+            rmdir(input_dir)
+            remove(archivePath)
+
             return jsonify(True)
         else:
             msg = 'failed to archive input files'
             app.logger.error(msg)
-            return app.response_class(json.dumps(msg), 500, mimetype='application/json')
+            return jsonify(msg), 500
 
     except Exception as err:
         message = "Upload to S3 failed!\n"
         app.logger.error(message)
         app.logger.exception(err)
-        return app.response_class(json.dumps(err), 500, mimetype='application/json')
+        return jsonify(err), 500
 
 
 @app.route('/results/<path:json_file>', methods=['GET'], strict_slashes=False)
@@ -203,14 +207,12 @@ def get_queue_results():
 
         with ZipFile(savePath) as archive:
             archive.extractall(app.config['soccer']['output_dir'])
-
-        return app.response_class(json.dumps({'status': 'OK'}), 200, mimetype='application/json')
+        return jsonify({'status': 'OK'})
     except Exception as err:
         message = "Download from S3 failed!\n" + str(err)
         app.logger.error(message)
         app.logger.exception(err)
-        return app.response_class(json.dumps(message), 500, mimetype='application/json')
-
+        return jsonify(message), 500
 
 @app.route('/ping', strict_slashes=False)
 def ping():

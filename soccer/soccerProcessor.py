@@ -1,7 +1,7 @@
 import json
 import sys
 
-from os import path, getcwd
+from os import path, getcwd, remove
 from zipfile import ZipFile
 from traceback import format_exc
 from werkzeug.security import safe_join
@@ -45,6 +45,9 @@ def process_file(config, file_id, input_file, model_version):
         results_filepath=output_filepath,
         plot_filepath=plot_filepath
     )
+
+    # remove input file
+    remove(input_filepath)
 
 
 if __name__ == '__main__':
