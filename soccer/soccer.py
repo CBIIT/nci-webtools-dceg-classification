@@ -3,6 +3,7 @@ from time import strftime
 from traceback import format_exc
 # from urllib.request import pathname2url
 from uuid import uuid4
+from shutil import rmtree
 
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from werkzeug.security import safe_join
@@ -161,7 +162,7 @@ def submit_queue():
                 'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
                 'timestamp': strftime('%a %b %X %Z %Y'),
             }, file_id)
-            rmdir(input_dir)
+            rmtree(input_dir)
             remove(archivePath)
 
             return jsonify(True)
@@ -174,7 +175,7 @@ def submit_queue():
         message = "Upload to S3 failed!\n"
         app.logger.error(message)
         app.logger.exception(err)
-        return jsonify(err), 500
+        return jsonify(str(err)), 500
 
 
 @app.route('/results/<path:json_file>', methods=['GET'], strict_slashes=False)
