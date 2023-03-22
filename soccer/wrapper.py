@@ -13,7 +13,6 @@ import re
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
-from werkzeug.urls import Href
 
 SOCCER_WRAPPER_PATH = path.join('jars', 'soccer-wrapper.jar')
 SOCCER_V1_PATH = path.join('jars', 'SOCcer-v1.0.jar')
@@ -25,6 +24,9 @@ def call_soccer(method='',
                 model_version='2',
                 model_filepath=''):
     """ Calls methods from the SOCcer wrapper """
+
+    if model_version == '1.9':
+        model_version = '2'
 
     if model_version == '1':
         jar_filepath = SOCCER_V1_PATH
