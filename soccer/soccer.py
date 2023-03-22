@@ -163,7 +163,7 @@ def submit_queue():
             sqs.sendMsgToQueue({
                 'recipient': request.form['email'],
                 'file_id': request.form['file_id'],
-                'model_version': request.form['model_version'][0],
+                'model_version': request.form['model_version'],
                 'original_filename': request.files['input_file'].filename,
                 'results_url': f"{request.form['url_root']}?id={request.form['file_id']}",
                 'timestamp': strftime('%a %b %X %Z %Y'),
