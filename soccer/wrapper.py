@@ -13,7 +13,6 @@ import re
 
 from werkzeug.utils import secure_filename
 from werkzeug.security import safe_join
-from werkzeug.urls import Href
 
 SOCCER_WRAPPER_PATH = path.join('jars', 'soccer-wrapper.jar')
 SOCCER_V1_PATH = path.join('jars', 'SOCcer-v1.0.jar')
@@ -25,6 +24,9 @@ def call_soccer(method='',
                 model_version='2',
                 model_filepath=''):
     """ Calls methods from the SOCcer wrapper """
+
+    if model_version == '1.9':
+        model_version = '2'
 
     if model_version == '1':
         jar_filepath = SOCCER_V1_PATH
@@ -47,7 +49,7 @@ def call_soccer(method='',
 def prevalidate_file(input_file, model_version):
     """ Prevalidates input file before passing to SOCCER validation
         input_file - werkzeug FileStorage object
-        model_version - '1' or '2'
+        model_version - '1' or '1.9' or  '2'
     """
 
     lines = input_file.readlines()
@@ -110,12 +112,10 @@ def validate_file(input_filepath, model_version):
 
 
 def estimate_runtime(input_filepath, model_version):
-    # get estimated runtime
-    return float(call_soccer(
-        'estimate-runtime',
-        input_filepath=input_filepath,
-        model_version=model_version
-    ))
+    num_lines = count_lines(input_filepath)
+    if model_version == '1':
+        return 0.2725 * num_lines + 1.3211
+    return 0.0284 * num_lines + 2.2846
 
 
 def code_file(input_filepath, output_filepath, model_version, model_filepath):
@@ -136,3 +136,19 @@ def plot_results(results_filepath, plot_filepath):
         results_filepath,
         plot_filepath
     ])
+
+def read_file_in_chunks(file_obj, chunk_size=1024 * 1024):
+    """Yield chunks of data from a file."""
+    while True:
+        chunk = file_obj.read(chunk_size)
+        if not chunk:
+            break
+        yield chunk
+
+
+def count_lines(file_path, chunk_size=1024 * 1024):
+    """Count the number of lines in a file."""
+    with open(file_path, 'rb') as file:
+        file_chunks = read_file_in_chunks(file, chunk_size)
+        newline_count = sum(chunk.count(b'\n') for chunk in file_chunks)
+        return newline_count + 1

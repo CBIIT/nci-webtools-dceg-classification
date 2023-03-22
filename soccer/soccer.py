@@ -7,7 +7,6 @@ from shutil import rmtree
 
 from flask import Flask, json, jsonify, request, send_file, send_from_directory
 from werkzeug.security import safe_join
-from werkzeug.urls import Href
 from utils import make_dirs, read_config, createArchive, create_rotating_log
 from wrapper import format_file, prevalidate_file, validate_file, estimate_runtime, code_file, plot_results
 from sqs import Queue
@@ -98,11 +97,18 @@ def submit():
     input_dir = app.config['soccer']['input_dir']
     output_dir = app.config['soccer']['output_dir']
     make_dirs(output_dir)
+
     model_filepath = app.config['soccer']['model_file_1.1']
+    if model_version == '1.9':
+        model_filepath = '../model_file/soccer-model-v1.9.bin'
+    elif model_version == '2':
+        model_filepath = '../model_file/soccer-model-v2.0.bin'
 
     # specify input/output filepaths
     input_filepath = safe_join(
         input_dir, file_id, request.files['input_file'].filename)
+    
+    make_dirs(safe_join(output_dir, file_id))
     parameters_filepath = safe_join(output_dir, file_id, file_id + '.json')
     output_filepath = safe_join(output_dir, file_id, file_id + '.csv')
     plot_filepath = safe_join(output_dir, file_id, file_id + '.png')
@@ -157,9 +163,9 @@ def submit_queue():
             sqs.sendMsgToQueue({
                 'recipient': request.form['email'],
                 'file_id': request.form['file_id'],
-                'model_version': request.form['model_version'][0],
+                'model_version': request.form['model_version'],
                 'original_filename': request.files['input_file'].filename,
-                'results_url': Href(request.form['url_root'])(id=request.form['file_id']),
+                'results_url': f"{request.form['url_root']}?id={request.form['file_id']}",
                 'timestamp': strftime('%a %b %X %Z %Y'),
             }, file_id)
             rmtree(input_dir)
@@ -189,8 +195,8 @@ def get_results(json_file):
     file_id = path.splitext(json_file)[0]
 
     return send_from_directory(
-        directory=path.join(app.config['soccer']['output_dir'], file_id),
-        filename=json_file,
+        path.join(app.config['soccer']['output_dir'], file_id),
+        json_file,
         as_attachment=True
     )
 
