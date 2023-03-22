@@ -19,6 +19,11 @@ def process_file(config, file_id, input_file, model_version):
     output_dir = config['output_dir']
     model_filepath = config['model_file_1.1']
 
+    if model_version == '1.9':
+        model_filepath = '../model_file/soccer-model-v1.9.bin'
+    elif model_version == '2':
+        model_filepath = '../model_file/soccer-model-v2.0.bin'
+
     # specify input/output filepaths
     input_filepath = safe_join(input_dir, file_id, input_file)
     output_path = safe_join(output_dir, file_id)
