@@ -1,10 +1,24 @@
-version: '3'
 services:
-  app:
-    container_name: soccer-app
-    build: .
-    volumes:
-      - ./soccer:/deploy/app
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.dockerfile
     ports:
-      - '10000:10000'
-    command: python soccer.py
+      - "9000:9000"
+    volumes:
+      - ./data:/data
+    env_file:
+      - server/.env
+    environment:
+      MODELS_FOLDER: "/data/models"
+      JOBS_FOLDER: "/data/jobs"
+      
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      API_HOST: "http://backend:9000"
+    
