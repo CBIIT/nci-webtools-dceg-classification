@@ -1,0 +1,8 @@
+boto3
+fastapi
+gunicorn
+jinja2
+python-dotenv
+python-multipart
+pydantic[email]
+uvicorn[standard]
