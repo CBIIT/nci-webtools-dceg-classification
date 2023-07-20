@@ -58,6 +58,10 @@ blockquote {
   --bs-alert-border-color: var(--bs-primary);
 }
 
+.alert-success {
+  --bs-alert-border-color: var(--bs-success);
+}
+
 .alert-info {
   --bs-alert-border-color: var(--bs-info);
 }
