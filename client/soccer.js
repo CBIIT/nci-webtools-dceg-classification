@@ -35,9 +35,11 @@ async function submit(event) {
     if (!response.ok) {
       throw new Error(results.error || results.detail?.map((d) => `${d.msg} [${d.loc.at(-1)}]`).join("\n") || JSON.stringify(results));
     }
-    if (form.background.checked)
+    if (form.background.checked) {
       backgroundAlert.hidden = false;
-    await loadResults(results.id);
+    } else {
+      await loadResults(results.id);
+    }
   } catch (error) {
     warnings.hidden = false;
     warnings.innerText = error.message;
