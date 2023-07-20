@@ -13,3 +13,9 @@ config.ini
 /model_file
 /tmp
 /logs
+/models/*.bin
+/jobs
+/models
+
+*.env
+__pycache__
