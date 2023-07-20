@@ -35,6 +35,8 @@ async function submit(event) {
     if (!response.ok) {
       throw new Error(results.error || results.detail?.map((d) => `${d.msg} [${d.loc.at(-1)}]`).join("\n") || JSON.stringify(results));
     }
+    if (form.background.checked)
+      backgroundAlert.hidden = false;
     await loadResults(results.id);
   } catch (error) {
     warnings.hidden = false;
@@ -59,14 +61,18 @@ function reset() {
   resultsFile.href = "data:,";
   results.hidden = true;
   warnings.hidden = true;
+  backgroundAlert.hidden = true;
 }
 
+/**
+ * Handles changes to the form
+ */
 async function handleChange() {
   const file = form.file.files && form.file.files[0];
 
   // enforce background mode if file is larger than 4kb
   if (file) {
-    // validate file
+    // todo: validate file
 
     // if file is larger than 4kb, enforce background mode
     if (file.size > 4 * 1024)
@@ -76,18 +82,6 @@ async function handleChange() {
   // disable email if background mode is disabled
   form.email.disabled = !form.background.checked;
 
-}
-
-/**
- * Validates the selected file
- * @param {Event} event
- * @returns
- */
-async function validateFile(event) {
-  /** @type FileList */
-  const files = event.target.files;
-  const file = files[0];
-  if (!file) return;
 }
 
 /**
