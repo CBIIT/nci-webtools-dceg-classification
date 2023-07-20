@@ -31,4 +31,9 @@ COPY server/ .
 
 EXPOSE ${PORT}
 
-CMD gunicorn server:app --workers `nproc` --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:${PORT}
+CMD gunicorn \
+    server:app \
+    --workers `nproc` \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --bind 0.0.0.0:${PORT} \
+    --enable-stdio-inheritance
