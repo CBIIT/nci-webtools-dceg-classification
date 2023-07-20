@@ -13,7 +13,6 @@ COPY client .
 RUN chown -R apache:apache .
 
 EXPOSE 80
-EXPOSE 443
 
 ENV TIMEOUT=900
 
