@@ -10,6 +10,7 @@
     <script src="https://assets.adobedtm.com/f1bfa9f7170c81b1a9a9ecdcc6c5215ee0b03c84/satelliteLib-4b219b82c4737db0e1797b6c511cf10c802c95cb.js" async></script>
     <script src="https://www.googletagmanager.com/gtag/js?id=UA-62346354-5"async></script>
     <script>
+		  window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'UA-62346354-5');
@@ -632,6 +633,6 @@
     <script src="lib/bootstrap@5.3.0/bootstrap.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> -->
     <script src="soccer.js"></script>
-    <script>_satellite?.pageBottom();</script>
+    <script>_satellite && _satellite.pageBottom();</script>
   </body>
 </html>
