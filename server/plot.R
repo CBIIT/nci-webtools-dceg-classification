@@ -1,7 +1,7 @@
 #SoccerResultPlot.R
-options(echo=TRUE) # if you want see commands in output file
+# options(echo=TRUE) # if you want see commands in output file
 args <- commandArgs(trailingOnly = TRUE)
-print(args)
+# print(args)
 # trailingOnly=TRUE means that only your arguments are returned, check:
 # print(commandsArgs(trailingOnly=FALSE))
 
