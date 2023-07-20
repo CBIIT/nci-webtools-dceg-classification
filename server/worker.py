@@ -58,7 +58,7 @@ async def create_job(
         "filesize": file.size,
         "email": email,
         "background": bool(background),
-        "timestamp": datetime.now(timezone.utc).strftime(DEFAULT_DATE_FORMAT)
+        "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
     }
 
     logger.info("Created job %s", job_id)
