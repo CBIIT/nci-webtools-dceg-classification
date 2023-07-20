@@ -75,7 +75,7 @@ async function handleChange() {
     // todo: validate file
 
     // if file is larger than 4kb, enforce background mode
-    if (file.size > 4 * 1024)
+    if (file.size > 10000)
       form.background.checked = true;
   }
 
