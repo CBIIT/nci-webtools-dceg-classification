@@ -10,7 +10,7 @@ from boto3 import client
 from fastapi import UploadFile
 from pydantic import EmailStr
 from dotenv import load_dotenv
-from utils import get_logger, send_mail, render_template, DEFAULT_DATE_FORMAT
+from utils import get_logger, send_mail, render_template
 
 load_dotenv()
 
@@ -279,4 +279,6 @@ async def run_soccer(job_id: str, env: dict) -> str:
 
 
 if __name__ == "__main__":
-    run(run_soccer(argv[1], environ))
+    job_id = argv[1]
+    logger.info("Starting SOCcer worker for job %s", job_id)
+    run(run_soccer(job_id, environ))
