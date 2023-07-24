@@ -36,13 +36,14 @@ async function submit(event) {
       throw new Error(results.error || results.detail?.map((d) => `${d.msg} [${d.loc.at(-1)}]`).join("\n") || JSON.stringify(results));
     }
     if (form.background.checked) {
-      backgroundAlert.hidden = false;
+      successAlert.hidden = false;
+      successMessage.innerText = "Your results will be emailed to you.";
     } else {
       await loadResults(results.id);
     }
   } catch (error) {
-    warnings.hidden = false;
-    warnings.innerText = error.message;
+    errorAlert.hidden = false;
+    errorMessage.innerText = error.message;
   } finally {
     form.resetButton.disabled = false;
     loader.hidden = true;
@@ -50,7 +51,7 @@ async function submit(event) {
 }
 
 /**
- * Resets the form and clears results and warnings
+ * Resets the form and clears results and errorAlert
  */
 function reset() {
   if (id) history.pushState(null, null, window.location.pathname);
@@ -62,8 +63,10 @@ function reset() {
   resultsPlot.src = "data:,";
   resultsFile.href = "data:,";
   results.hidden = true;
-  warnings.hidden = true;
-  backgroundAlert.hidden = true;
+  errorAlert.hidden = true;
+  errorMessage.innerText = "";
+  successAlert.hidden = true;
+  successMessage.innerText = "";
 }
 
 /**
@@ -83,7 +86,6 @@ async function handleChange() {
 
   // disable email if background mode is disabled
   form.email.disabled = !form.background.checked;
-
 }
 
 /**
@@ -104,6 +106,7 @@ async function loadResults(id) {
     const resultsFileResponse = await fetch(resultsFileUrl, { method: "HEAD" });
     const resultsPlotResponse = await fetch(resultsPlotUrl, { method: "HEAD" });
 
+    // check if job exists
     if (!paramsResponse.ok || !resultsFileResponse.ok || !resultsPlotResponse.ok) {
       throw new Error("The specified job does not exist. Please submit a new job or try again later.");
     }
@@ -119,7 +122,7 @@ async function loadResults(id) {
     resultsPlot.src = resultsPlotUrl;
     resultsPlot.onload = () => results.hidden = false;
   } catch (error) {
-    warnings.hidden = false;
-    warnings.innerText = error.message;
+    errorAlert.hidden = false;
+    errorMessage.innerText = error.message;
   }
 }
