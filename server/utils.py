@@ -1,4 +1,5 @@
 import logging
+from sys import stdout
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from smtplib import SMTP
@@ -17,7 +18,7 @@ def get_logger(
     logger = logging.getLogger(name)
     logger.setLevel(level)
 
-    handler = logging.StreamHandler()
+    handler = logging.StreamHandler(stdout)
     handler.setLevel(level)
     handler.setFormatter(formatter)
 
