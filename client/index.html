@@ -150,8 +150,15 @@
               <div class="col-md-8">
                 <div class="h-100 card border-light shadow-sm">
                   <div class="card-body">
-                    <div id="warnings" class="alert alert-warning" hidden></div>
-                    <div id="backgroundAlert" class="alert alert-success" hidden>Your results will be emailed to you.</div>
+                    <div id="errorAlert" class="alert alert-warning" hidden>
+                      <h2 class="h5">Job Failed</h2>
+                      <p>Your submission could not be processed due to the following error(s):</p>
+                      <div id="errorMessage"></div>
+                    </div>
+                    <div id="successAlert" class="alert alert-success" hidden>
+                      <h2 class="h5">Job Submitted</h2>
+                      <div id="successMessage"></div>
+                    </div>
 
                     <div id="results" hidden>
                       <div class="mb-3 text-center">
@@ -633,6 +640,6 @@
     <script src="lib/bootstrap@5.3.0/bootstrap.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> -->
     <script src="soccer.js"></script>
-    <script>_satellite && _satellite.pageBottom();</script>
+    <script>window?._satellite?.pageBottom();</script>
   </body>
 </html>
