@@ -38,4 +38,6 @@ CMD gunicorn \
     --workers `nproc` \
     --worker-class uvicorn.workers.UvicornWorker \
     --bind 0.0.0.0:${PORT} \
-    --enable-stdio-inheritance
+    --enable-stdio-inheritance \
+    --log-level debug \
+    --capture-output
