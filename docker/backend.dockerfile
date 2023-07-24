@@ -39,5 +39,4 @@ CMD gunicorn \
     --worker-class uvicorn.workers.UvicornWorker \
     --bind 0.0.0.0:${PORT} \
     --enable-stdio-inheritance \
-    --log-level debug \
     --capture-output
