@@ -6,7 +6,6 @@
   --bs-dark: #444444;
   --bs-dark-rgb: 68, 68, 68;
   --bs-link-color-rgb: 42, 113, 165;
-  --bs-border-color: #eee;
   --bs-link-color: var(--bs-primary);
 }
 
