@@ -187,9 +187,11 @@ async def run_soccer(job_id: str, env: dict) -> str:
         )
 
         stdout, stderr = await soccer_process.communicate()
+        stdout = stdout.decode()
+        stderr = stderr.decode()
         
-        if soccer_process.returncode != 0:
-            raise ValueError(stderr.decode())
+        if soccer_process.returncode != 0 or stderr.index("Exception") > -1:
+            raise ValueError(stderr)
 
         if model == "1.0":
             rename(filepaths["results_v1"], filepaths["results"])
@@ -225,7 +227,7 @@ async def run_soccer(job_id: str, env: dict) -> str:
                 env = env
             )
 
-        return stdout.decode()
+        return stdout
     
     except Exception as error:
 
