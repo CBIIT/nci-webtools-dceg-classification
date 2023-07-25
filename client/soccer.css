@@ -98,6 +98,10 @@ blockquote {
   cursor: pointer;
 }
 
+.form-check-input {
+  border: 1px solid #aaa;
+}
+
 [disabled],
 .form-control:disabled,
 .form-select:disabled,
