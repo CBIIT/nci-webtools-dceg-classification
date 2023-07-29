@@ -187,10 +187,10 @@ async def run_soccer(job_id: str, env: dict) -> str:
         )
 
         stdout, stderr = await soccer_process.communicate()
-        stdout = stdout.decode() if stdout else ""
-        stderr = stderr.decode() if stderr else ""
+        stdout = stdout.decode()
+        stderr = stderr.decode()
 
-        if soccer_process.returncode != 0 or stderr.index("Exception") > -1:
+        if soccer_process.returncode != 0 or "Exception" in (stdout + stderr):
             raise ValueError(stderr if stderr else stdout)
 
         if model == "1.0":
