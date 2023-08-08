@@ -186,16 +186,17 @@ function getValidationErrors(file, model) {
           return;
         }
 
-        // skip lines that contain only empty values
-        if (results.data.every((d) => d === "")) {
-          return;
-        }
 
         // validate # of columns
         if (results.data.length !== headers.length) {
           errors = errors.concat(`[Line ${line}] Expected ${headers.length} columns, found ${results.data.length} columns`);
         }
 
+        // skip lines that contain only empty values
+        if (results.data.every((d) => d === "")) {
+          return;
+        }
+        
         // validate sic
         const sic = results.data[headers.indexOf("sic")];
         if (sic && !/^\d+$/.test(sic)) {
