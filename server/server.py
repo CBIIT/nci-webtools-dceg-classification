@@ -47,5 +47,5 @@ async def submit(
 ):
     """ Creates and submits a job """
     job_id = await create_job(model, file, email, background, environ)
-    output = await submit_job(job_id, environ)
-    return {"id": job_id, "output": output}
+    await submit_job(job_id, environ)
+    return {"id": job_id}
