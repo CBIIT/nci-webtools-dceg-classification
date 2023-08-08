@@ -7,6 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import EmailStr
 from dotenv import load_dotenv
 from worker import create_job, submit_job
+from utils import get_logger
 
 load_dotenv()
 app = FastAPI(
@@ -15,6 +16,7 @@ app = FastAPI(
     openapi_url = "/api/openapi.json",
     docs_url = "/api/docs",
 )
+logger = get_logger(__name__)
 
 
 # Mounts the jobs folder to the /jobs endpoint
@@ -26,7 +28,8 @@ app.mount("/api/jobs", StaticFiles(directory = jobs_folder))
 @app.exception_handler(Exception)
 async def default_exception_handler(request, exc: Exception):
     """ Handles all uncaught exceptions """
-    return JSONResponse({"error": str(exc)}, status_code=500)
+    logger.error(str(exc))
+    return JSONResponse({"error": "Invalid parameters"}, status_code=400)
 
 
 @app.get("/api/ping")

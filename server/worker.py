@@ -249,8 +249,7 @@ async def run_soccer(job_id: str, env: dict) -> str:
                         "model": params["model"],
                         "timestamp": params["timestamp"],
                         "job_id": params["id"],
-                        "email_admin": env.get("EMAIL_ADMIN"),
-                        "error": str(error)
+                        "email_admin": env.get("EMAIL_ADMIN")
                     }
                 ),
                 env = env
