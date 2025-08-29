@@ -40,6 +40,9 @@
                 <a href="#home" class="nav-link active" id="nav-home" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">HOME</a>
               </li>
               <li class="nav-item">
+                <a href="#soccernet" class="nav-link" id="nav-soccernet" data-bs-toggle="tab" data-bs-target="#soccernet" type="button" role="tab" aria-controls="soccernet" aria-selected="false">SOCCERNET</a>
+              </li>
+              <li class="nav-item">
                 <a href="#soccer" class="nav-link" id="nav-soccer" data-bs-toggle="tab" data-bs-target="#soccer" type="button" role="tab" aria-controls="soccer" aria-selected="false">SOCCER</a>
               </li>
               <li class="nav-item">
@@ -85,6 +88,99 @@
                 <button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccer'].click()">Run SOCcer</button>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="soccernet" role="tabpanel" aria-labelledby="nav-soccernet" tabindex="0">
+          <div class="container">
+            <div class="form-check form-switch" id="soccernet-file-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="fileSwitch">
+              <label class="form-check-label" for="fileSwitch">Run A File</label>
+            </div>
+            <div class="row g-3 align-items-center">
+              <div class="col-4 col-md-2 text-end">
+                <label for="soccernet-model" class="form-label">Version</label>
+              </div>
+              <div class="col-8 col-md-4">
+                <select class="form-select" id="soccernet-model" name="soccernet-model" required>
+                  <option selected value="3.0.0">SOCcerNET 1.0.0</option>
+                </select>
+              </div>
+              <div class="col-4 col-md-2 text-end">
+                <label for="soccernet-n" class="form-label">Number of results</label>
+              </div>
+              <div class="col-8 col-md-4">
+                <input id="soccerNet-n" type="number" class="form-control" value=10 min=1 max=840>
+              </div>
+            </div>
+            <form id="soccerNet-singleJob" class="h-100 card bg-light border-light shadow-sm">
+              <div class="row g-3 mt-1 align-items-center">
+                <div class="col-4 col-md-2 text-end">
+                  <label for="soccerNet-singleJob-JobTitle" class="form-label">Job Title</label>
+                </div>
+                <div class="col-8 col-md-4  text-end">
+                  <input id="soccerNet-singleJob-JobTitle" type="text" class="form-control">
+                </div>
+                <div class="col-4 col-md-2 text-end">
+                  <label for="soccerNet-singleJob-JobTask" class="form-label">Job Task</label>
+                </div>
+                <div class="col-8 col-md-4 text-end">
+                  <input id="soccerNet-singleJob-JobTask" type="text" class="form-control">
+                </div>
+              </div>
+            
+              <div class="row g-3 my-1 align-items-center">
+                <div class="col-4 col-md-2 text-end">
+                  <label for="soccerNet-singleJob-soc1980" class="form-label">SOC 1980</label>
+                </div>
+                <div class="col-8 col-md-4 text-end">
+                  <input id="soccerNet-singleJob-soc1980" type="text" class="form-control">
+                </div>
+                <div class="col-4 col-md-2 text-end">
+                  <label for="soccerNet-singleJob-noc2011" class="form-label">NOC 2011</label>
+                </div>
+                <div class="col-8 col-md-4 text-end">
+                  <input id="soccerNet-singleJob-noc2011" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="row g-3 my-1 align-items-center">
+                <div class="col-4 col-md-2 text-end">
+                  <label for="soccerNet-singleJob-isco1988" class="form-label">ISCO 1988</label>
+                </div>
+                <div class="col-8 col-md-4 text-end">
+                  <input id="soccerNet-singleJob-isco1988" type="text" class="form-control">
+                </div>
+
+              </div>
+
+              <button type="button" id="soccerNet-singleJob-run" class="btn btn-primary mt-2">Run SOCcerNET</button>
+            </form>
+            <section id="soccerNet-singleJob-results" class="d-none">
+            </section>
+            <form class="d-none" id="soccerNet-file">
+              <div class="row g-3 my-1 align-items-center">
+                <div class="col-4  text-end">
+                  <label for="soccerNet-file-file" class="form-label">Job Descriptions</label>
+                </div>
+                <div class="col-8">
+                  <input id="soccerNet-file-file" type="file" accept="application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </div>
+                <div class="col-4 text-end">
+                  <label for="soccerNet-file-output-format" class="form-label">Output Format</label>
+                </div>
+                <div class="col-8">
+                  <select class="form-select" id="soccerNet-file-output-format" required>
+                    <option selected value="Excel">Excel</option>
+                    <option value="CSV">CSV</option>
+                  </select>
+                </div>
+                <button type="button" id="soccerNet-file-run" class="btn btn-primary mt-2">Run SOCcerNET</button>
+                <div class="progress" id="soccernet-file-progress" role="progressbar" aria-label="soccer progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar" id="soccernet-file-progress-value" style="width: 0%"></div>
+                </div>
+                <div id="soccernet-file-alert-container"></div>
+              </div>
+            </form>
+            
           </div>
         </div>
         <div class="tab-pane" id="soccer" role="tabpanel" aria-labelledby="nav-soccer" tabindex="0">
@@ -639,6 +735,7 @@
     <script src="lib/bootstrap@5.3.0/bootstrap.min.js"></script>
     <script src="lib/papaparse@5.4.1/papaparse.min.js"></script>
     <script src="soccer.js"></script>
+    <script src="soccernet.js" type="module"></script>
     <script>window?._satellite?.pageBottom();</script>
   </body>
 </html>
