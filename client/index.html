@@ -40,13 +40,13 @@
                 <a href="#home" class="nav-link active" id="nav-home" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">HOME</a>
               </li>
               <li class="nav-item">
-                <a href="#soccernet" class="nav-link" id="nav-soccernet" data-bs-toggle="tab" data-bs-target="#soccernet" type="button" role="tab" aria-controls="soccernet" aria-selected="false">SOCCERNET</a>
+                <a href="#soccernet" class="nav-link" id="nav-soccernet" data-bs-toggle="tab" data-bs-target="#soccernet" type="button" role="tab" aria-controls="soccernet" aria-selected="false">SOCcerNET/CLIPS</a>
               </li>
               <li class="nav-item">
                 <a href="#soccer" class="nav-link" id="nav-soccer" data-bs-toggle="tab" data-bs-target="#soccer" type="button" role="tab" aria-controls="soccer" aria-selected="false">SOCCER</a>
               </li>
               <li class="nav-item">
-                <a href="#models" class="nav-link" id="nav-models" data-bs-toggle="tab" data-bs-target="#models" type="button" role="tab" aria-controls="models" aria-selected="false">MODELS</a>
+                <a href="#models" class="nav-link" id="nav-models" data-bs-toggle="tab" data-bs-target="#models" type="button" role="tab" aria-controls="tools" aria-selected="false">TOOLS</a>
               </li>
               <li class="nav-item">
                 <a href="#socassign" class="nav-link" id="nav-socassign" data-bs-toggle="tab" data-bs-target="#socassign" type="button" role="tab" aria-controls="socassign" aria-selected="false">SOCASSIGN</a>
@@ -77,36 +77,62 @@
                   <img src="images/soccer-logo-inline.png" alt="SOCcer" height="24" class="ms-2" />
                 </h1>
                 <p>
-                  SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational risk into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low
-                  scoring job descriptions are more likely to require expert review than high scoring job description. The coding is performed using an ensemble classifier, which combines the results of multiple classifiers to produce a single classifier that performs better than any single classifier in the ensemble.
+                  SOCcer (Standardized Occupation Coding for Computer-assisted Epidemiological Research) is a publicly available application that was developed to assist epidemiological researchers incorporate occupational <b><i>and industrial risk</i></b> into their studies. The application is not intended to replace expert coders, but rather prioritizes job descriptions that would most benefit from expert coders. Low
+                  scoring job descriptions are more likely to require expert review than high scoring job description. 
                 </p>
+                
+                <p>There are several tools in the SOCcer ecosystem:</p>
+                <dl class="row">
+                  <dt class="col-4 col-md-3 col-xl-2"><button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccernet'].click();document.querySelector('[value=\'soccerNET-1.0.0\']').selected=true">SOCcerNET</button></dt>
+                  <dd class="col-8 col-md-9 col-xl-10">The newest version of our occupational coding tool.  Includes opportunity to crosswalk from US SOC 1980, Canadian NOC 2011/2016 and ISCO 1988.</dd>
+                  <dt class="col-4 col-md-3 col-xl-2"><button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccernet'].click();document.querySelector('[value=\'clips-1.0.0\']').selected=true">CLIPS</button></dt>
+                  <dd class="col-8 col-md-9 col-xl-10">Industry coding tool for NAICS 2022.</dd>
+                  <dt class="col-4 col-md-3 col-xl-2"><button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-socassign'].click();">SOCAssign</button></dt>
+                  <dd class="col-8 col-md-9 col-xl-10">Tool to aid expert coding of occupations to US SOC-2010.</dd> 
+                  <dt class="col-4 col-md-3 col-xl-2"><button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccer'].click();">SOCcer v1 and v2</button></dt>
+                  <dd class="col-8 col-md-9 col-xl-10">Previous versions of SOCcer.</dd> 
+                </dl>
 
                 <p>
+                  Both SOCcerNET and CLIPS can be incorporated into online questionnaires to facilitate participants self-coding of their occupation and industry. Please contact Dr. Friesen (friesenmc@mail.nih.gov) and Dr. Russ (druss@mail.nih.gov) for more information on how to incorporate these tools into your studies.
+                </p>
+                <p class="d-none">
                   If you publish results that use SOCcer, please reference: Daniel E. Russ, Pabitra Josse, Thomas Remen, Jonathan N. Hofmann, Mark P. Purdue, Jack Siemiatycki, Debra T. Silverman, Yawei Zhang, Jerome Lavoué, Melissa C. Friesen, "Evaluation of the updated SOCcer v2 algorithm for coding free-text job descriptions in three epidemiologic studies", Annals of Work Exposures and Health,
                   Epub 18 April 2023. DOI: <a href="https://doi.org/10.1093/annweh/wxad020" target="_blank" rel="noopener noreferrer">10.1093/annweh/wxad020</a>.
                 </p>
-                <button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccer'].click()">Run SOCcer</button>
+                <button class="d-none btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccer'].click()">Run SOCcer</button>
               </div>
             </div>
           </div>
         </div>
         <div class="tab-pane" id="soccernet" role="tabpanel" aria-labelledby="nav-soccernet" tabindex="0">
           <div class="container">
-            <div class="form-check form-switch" id="soccernet-file-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="fileSwitch">
-              <label class="form-check-label" for="fileSwitch">Run A File</label>
+            <div class="form-check form-switch mb-2" id="soccernet-file-switch">
+              <div class="d-flex align-items-center">
+                <span class="me-2 fs-extra-small" data-single-job="true">Single Record</span>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input" type="checkbox" role="switch" id="fileSwitch">
+                  <label class="form-check-label visually-hidden" for="fileSwitch">Toggle Status</label>
+                </div>
+                <span class="ms-1 fs-extra-small" data-single-job="false">File</span>
+              </div>
             </div>
             <div class="row g-3 align-items-center">
               <div class="col-4 col-md-2 text-end">
-                <label for="soccernet-model" class="form-label">Version</label>
+                <label for="soccernet-model" class="form-label">Tool (Version)</label>
               </div>
               <div class="col-8 col-md-4">
                 <select class="form-select" id="soccernet-model" name="soccernet-model" required>
-                  <option selected value="3.0.0">SOCcerNET 1.0.0</option>
+                  <optgroup label="SOCcerNET">
+                    <option selected data-model-name="soccerNet" data-model-version="3.0.0" data-max-n="840" value="soccerNET-1.0.0">SOCcerNET 1.0.0</option>
+                  </optgroup>
+                  <optgroup label="CLIPS">
+                    <option data-model-name="clips" data-model-version="0.0.2" value="clips-1.0.0" data-max-n="689">CLIPS 1.0.0</option>
+                  </optgroup>
                 </select>
               </div>
               <div class="col-4 col-md-2 text-end">
-                <label for="soccernet-n" class="form-label">Number of results</label>
+                <label for="soccernet-n" class="form-label">Number of codes requested</label>
               </div>
               <div class="col-8 col-md-4">
                 <input id="soccerNet-n" type="number" class="form-control" value=10 min=1 max=840>
@@ -149,13 +175,9 @@
                 <div class="col-8 col-md-4 text-end">
                   <input id="soccerNet-singleJob-isco1988" type="text" class="form-control">
                 </div>
-
               </div>
-
-              <button type="button" id="soccerNet-singleJob-run" class="btn btn-primary mt-2">Run SOCcerNET</button>
             </form>
-            <section id="soccerNet-singleJob-results" class="d-none">
-            </section>
+
             <form class="d-none" id="soccerNet-file">
               <div class="row g-3 my-1 align-items-center">
                 <div class="col-4  text-end">
@@ -173,14 +195,30 @@
                     <option value="CSV">CSV</option>
                   </select>
                 </div>
-                <button type="button" id="soccerNet-file-run" class="btn btn-primary mt-2">Run SOCcerNET</button>
                 <div class="progress" id="soccernet-file-progress" role="progressbar" aria-label="soccer progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                   <div class="progress-bar" id="soccernet-file-progress-value" style="width: 0%"></div>
                 </div>
                 <div id="soccernet-file-alert-container"></div>
               </div>
             </form>
-            
+            <form id="clips-singleJob" class="d-none h-100 card bg-light border-light shadow-sm">
+              <div class="row g-3 mt-1 align-items-center">
+                <div class="col-4 col-md-2 text-end">
+                  <label for="clips-singleJob-products" class="form-label">Products Made or Services Provided</label>
+                </div>
+                <div class="col-8 col-md-4  text-end">
+                  <input id="clips-singleJob-products" type="text" class="form-control">
+                </div>
+                <div class="col-4 col-md-2 text-end">
+                  <label for="clips-singleJob-sic1987" class="form-label">SIC 1987</label>
+                </div>
+                <div class="col-8 col-md-4 text-end">
+                  <input id="clips-singleJob-sic1987" type="text" class="form-control">
+                </div>
+              </div>
+            </form>
+            <button type="button" id="soccerNet-run-button" class="btn btn-primary mt-2 w-100">Run <span id="soccernet-button-model">SOCcerNET</span></button>
+            <section id="soccerNet-singleJob-results" class="d-none"></section>
           </div>
         </div>
         <div class="tab-pane" id="soccer" role="tabpanel" aria-labelledby="nav-soccer" tabindex="0">
@@ -204,8 +242,7 @@
                       </div>
 
                       <div class="alert alert-danger small" role="alert">
-                        <p class="mb-1">If you used SOCcer between 8/2020 to 3/17/2023, please <span class="btn-link text-primary" role="button" onclick="window['nav-models'].click()">see the warning under the Models tab</span>.</p>
-                        <p class="mb-0">We recommend using model v2.0, the most recent and more accurate version.</p>
+                        <p class="mb-0">We recommend using <button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-soccernet'].click();document.querySelector('[value=\'soccerNET-1.0.0\']').selected=true">SOCcerNET</button>, the most recent and more accurate version.</p>
                       </div>
 
                       <div class="mb-3">
@@ -274,22 +311,25 @@
           <div class="container">
             <div class="row">
               <div class="col">
-                <h1 class="text-primary h4 mb-3">Models</h1>
+                <h1 class="text-primary h4 mb-3">Tools</h1>
                 <hr />
-                <div class="alert alert-danger">
-                  <strong>SOCcer v2.0 was released in February 2019. At an undetermined time between its release and 3/2023, it was inadvertently replaced with an older, developmental model (v1.9) and incorrectly listed as v2.0 on the web portal.</strong> Both v1.9 and v2.0 are now correctly available online. If you used “v2” in the specified time frame, you can determine whether you actually used
-                  v1.9 or v2 by re-running your data through both versions SOCcer and seeing which output matches the original output you received. A check of the number of ties in the top two scoring codes can be a quick indication: if the number of ties is <1%, it is likely you used v1.9, and if >1% then it is likely you used v2.0. See below for a description of the model and performance
-                  differences between v1, v1.9, and v2. <strong>We recommend using v2.0 in all new coding efforts.</strong>
-                </div>
-                <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available.</p>
+                <p>SOCcer can use different models, depending on the type of data that you have. The table below describes the models available. <strong>We recommend using SOCcerNET in all new coding efforts.</strong></p>
                 <table class="table border">
                   <thead class="table-primary-dark">
                     <tr>
-                      <th scope="col" style="min-width: 120px">Model</th>
+                      <th scope="col" style="min-width: 120px">SOCcer</th>
                       <th scope="col">Description</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td>SOCcerNET</td>
+                      <td>SOCcerNET is a comprehensive redesign of SOCcer. This new version leverages a transformer-based neural network architecture to generate numeric embeddings from the combined job title and job task of a job description. In addition to the job title and job task, SOCcerNET can utilize an optional expert-assigned prior occupation code (U.S. SOC1980, Canadian NOC-2011/2016, and ISCO-1988) as an additional feature that is combined with the embeddings to classify the job description. The embeddings and the output of the crosswalk are fed into a dense neural network classification layer, which returns a score for each SOC code. Overall agreement with the expert for 11,943 jobs from a population-based case-control study improved from 50% to 56% at the 6-digit level and from 56% to 63% at the 5-digit level, compared to SOCcer v2. Agreement improved with increasing score (Figure 1).</td>
+                    </tr>
+                    <tr>
+                      <td>CLIPS</td>
+                      <td>CLIPS uses small language models to code free-text industry information to NAICS 2022 codes. It uses a two-step process that first converts (embeds) the text information to numbers and then classifies using a dense classification neural network. CLIPS provides a score for each of the 689 NAICS 5-digit codes. We validated CLIPS using 1,586 jobs coded to NAICS 2022 by an expert; these jobs were selected using a random stratified selection process that covered the range of industries. Overall, the industry code with the highest score from CLIPS had a 47% agreement with the expert-assigned codes. Agreement improved with increasing score (Figure 2). In addition, the expert-assigned code was in the top 3 CLIPS-suggested codes for 66% of the jobs, in the top 6 for 75%, and in the top 10 for 80%. <strong>This tool has primarily been developed to assist participant self-coding of industry when completing online questionnaires and its utility for post interview coding has undergone only limited evaluation.</strong></td>
+                    </tr>
                     <tr>
                       <td>model v2.0</td>
                       <td>
@@ -304,8 +344,8 @@
                     <tr>
                       <td>model v1.9</td>
                       <td>
-                        We do not recommend using this model for new coding efforts. It remains available so that previous users of this model can replicate their results or use it within on-going studies for consistency. V1.9 improved upon v1.0 by incorporating job descriptions from epidemiologic studies into the training data set. However, v1.9 does not include the refinements to the algorithm
-                        that were incorporated into v2.0 to better predict agreement with expert coding. As a result, it’s scores are generally overly optimistic. See Figure 1 below.
+                        <strong>We do not recommend using this model for new coding efforts.</strong> It remains available so that previous users of this model can replicate their results or use it within on-going studies for consistency. V1.9 improved upon v1.0 by incorporating job descriptions from epidemiologic studies into the training data set. However, v1.9 does not include the refinements to the algorithm
+                        that were incorporated into v2.0 to better predict agreement with expert coding. As a result, it’s scores are generally overly optimistic.
                       </td>
                     </tr>
                     <tr>
@@ -364,6 +404,24 @@
                       <td>7.4</td>
                       <td>0.41 (0.17-0.71)</td>
                     </tr>
+                    <tr>
+                      <td>US Renal/SOCcerNET</td>
+                      <td>80</td>
+                      <td>71</td>
+                      <td>63</td>
+                      <td>56</td>
+                      <td>0</td>
+                      <td>0.58 (0.29-0.88)</td>
+                    </tr>
+                    <tr>
+                      <td>US Renal/SOCcerNET w/SOC 1980</td>
+                      <td>87</td>
+                      <td>81</td>
+                      <td>75</td>
+                      <td>68</td>
+                      <td>0</td>
+                      <td>0.81 (0.40-0.96)</td>
+                    </tr>
                   </tbody>
                   <tfoot>
                     <tr>
@@ -373,8 +431,12 @@
                 </table>
 
                 <figure class="figure">
-                  <img src="images/soccer-model-performance.svg" class="img-fluid" alt="SOCcer Model Performance" />
-                  <figcaption class="figure-caption">Figure 1: Agreement between expert-assigned SOC code and highest scoring SOC code for jobs in the US Renal study (n=11,943) by score obtained from SOCcer models v1.0, v1.9, and 2.0</figcaption>
+                  <img src="images/soccer-model-performance.png" class="img-fluid" alt="SOCcer Model Performance" />
+                  <figcaption class="figure-caption">Figure 1: Agreement between expert-assigned SOC code and highest scoring SOC code for jobs in the US Renal study (n=11,943) by score obtained from SOCcer models v1.0, v2.0, and SOCcerNET</figcaption>
+                </figure>
+                <figure class="figure">
+                  <img src="images/clips_cumulative.png" class="img-fluid" alt="Clips Model Performance" />
+                  <figcaption class="figure-caption">Figure 2: Cumulative Agreement between expert-assigned NAICS 2022 5-digit code and highest scoring industry code for jobs in the US Renal study (n=11,943) by score obtained from CLIPS</figcaption>
                 </figure>
               </div>
             </div>
@@ -449,7 +511,10 @@
                     <button class="nav-link" id="help-model-1-9-tab" data-bs-toggle="tab" data-bs-target="#help-model-1-9" type="button" role="tab" aria-controls="help-model-1-9" aria-selected="false">SOCcer 1.9</button>
                   </li>
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="help-model-2-0-tab" data-bs-toggle="tab" data-bs-target="#help-model-2-0" type="button" role="tab" aria-controls="help-model-2-0" aria-selected="true">SOCcer 2.0</button>
+                    <button class="nav-link" id="help-model-2-0-tab" data-bs-toggle="tab" data-bs-target="#help-model-2-0" type="button" role="tab" aria-controls="help-model-2-0" aria-selected="true">SOCcer 2.0</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="help-soccernet-1-0-tab" data-bs-toggle="tab" data-bs-target="#help-soccernet-1-0" type="button" role="tab" aria-controls="help-soccernet-1-0" aria-selected="true">SOCcerNET</button>
                   </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
@@ -571,7 +636,7 @@
                       </li>
                     </ol>
                   </div>
-                  <div class="tab-pane py-4 show active" id="help-model-2-0" role="tabpanel" aria-labelledby="help-model-2-0-tab" tabindex="0">
+                  <div class="tab-pane py-4" id="help-model-2-0" role="tabpanel" aria-labelledby="help-model-2-0-tab" tabindex="0">
                     <h2 class="h5 fw-semibold">Input Format</h2>
                     <p>
                       SOCcer 2.0 requires data in comma separated value (csv) format. The data format requires four variables (ID, job title, SIC, and job task), but only id and job title are necessary to obtain a SOCcer score. Job tasks help improve the performance of the classifier. SIC is no longer part of the classifier, because improvement to the results were small; however, at this time the
@@ -613,6 +678,27 @@
                         <a href="https://doi.org/10.1093/annweh/wxad020">10.1093/annweh/wxad020</a>
                       </li>
                     </ol>
+                  </div>
+                  <div class="tab-pane py-4 show active" id="help-model-soccernet-1-0" aria-labelledby="help-soccernet-1-0-tab" tabindex="0">
+                    <h2 class="h5 fw-semibold">Input Format</h2>
+                    <p>
+                      SOCcerNET requires data in either comma separated value (csv) format or Excel format (xlsx). The data format requires a column named <i>JobTitle</i> that contains the job title and <i>JobTask</i> that contains the job task. The column order is not important.  Optionally, you can also provide provide columns <i>soc1980</i>, <i>noc2011</i>, or <i>isco1988</i> that contain expert-assigned prior occupation codes. Other columns are considered metadata and ignored, but they are copied to the outout.  
+                      An id column is recommended. If you do not provide one, an id of the form <i>row-XXXXX</i> where <i>XXXXX</i> is the row number will be created. The column names are case sensitive. An example of a valid csv file is:
+                    </p>
+                    <blockquote>
+                      Id,JobTitle,JobTask<br>
+                      studyA-01,Software Engineer,Develop and maintain software applications<br>
+                      studyA-02,Marketing Specialist,Develop and execute marketing campaigns<br>
+                      studyA-03,Human Resources Generalist,Administer employee benefits and payroll<br>
+                      studyA-04,Financial Analyst,Analyze financial data and prepare reports<br>
+                      studyA-05,Project Manager,Define project scope, goals, and deliverables<br>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">These jobs description where created by Generative AI and are not job descriptions of real people.</figcaption>
+              
+                    <p>
+                      If you have any questions, comments, or concerns, send us an e-mail at
+                      <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a>.
+                    </p>
                   </div>
                 </div>
               </div>

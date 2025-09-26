@@ -156,3 +156,7 @@ blockquote {
   --bs-table-color: #fff;
   --bs-table-bg: var(--bs-primary-dark);
 }
+
+.fs-extra-small {
+  font-size: 0.75rem;
+}
