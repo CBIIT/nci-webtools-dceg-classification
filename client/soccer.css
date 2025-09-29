@@ -160,3 +160,8 @@ blockquote {
 .fs-extra-small {
   font-size: 0.75rem;
 }
+
+.img-h75 {
+  max-height: 25vh;
+  object-fit: contain;
+}

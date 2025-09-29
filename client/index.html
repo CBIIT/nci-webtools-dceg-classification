@@ -430,11 +430,11 @@
                   </tfoot>
                 </table>
 
-                <figure class="figure">
+                <figure class="figure" id="tools-fig1" style="max-width: 90vh;" >
                   <img src="images/soccer-model-performance.png" class="img-fluid" alt="SOCcer Model Performance" />
                   <figcaption class="figure-caption">Figure 1: Agreement between expert-assigned SOC code and highest scoring SOC code for jobs in the US Renal study (n=11,943) by score obtained from SOCcer models v1.0, v2.0, and SOCcerNET</figcaption>
                 </figure>
-                <figure class="figure">
+                <figure class="figure" id="tools-fig2" style="max-width: 90vh;">
                   <img src="images/clips_cumulative.png" class="img-fluid" alt="Clips Model Performance" />
                   <figcaption class="figure-caption">Figure 2: Cumulative Agreement between expert-assigned NAICS 2022 5-digit code and highest scoring industry code for jobs in the US Renal study (n=11,943) by score obtained from CLIPS</figcaption>
                 </figure>
@@ -688,7 +688,7 @@
                       SOCcerNET requires data in either comma separated value (csv) format or Excel format (xlsx). The data format requires a column named <i>JobTitle</i> that contains the job title and <i>JobTask</i> that contains the job task. The column order is not important.  Optionally, you can also provide provide columns <i>soc1980</i>, <i>noc2011</i>, or <i>isco1988</i> that contain expert-assigned prior occupation codes. Other columns are considered metadata and ignored, but they are copied to the outout.  
                       An id column is recommended. If you do not provide one, an id of the form <i>row-XXXXX</i> where <i>XXXXX</i> is the row number will be created. The column names are case sensitive. An example of a valid csv file is:
                     </p>
-                    <blockquote>
+                    <blockquote class="fs-extra-small">
                       Id,JobTitle,JobTask<br>
                       studyA-01,Software Engineer,Develop and maintain software applications<br>
                       studyA-02,Marketing Specialist,Develop and execute marketing campaigns<br>
@@ -696,8 +696,27 @@
                       studyA-04,Financial Analyst,Analyze financial data and prepare reports<br>
                       studyA-05,Project Manager,Define project scope, goals, and deliverables<br>
                     </blockquote>
-                    <figcaption class="blockquote-footer">These jobs description where created by Generative AI and are not job descriptions of actual people.</figcaption>
-              
+                    <figcaption class="blockquote-footer">These jobs description were created by Generative AI and are not job descriptions of actual people.</figcaption>
+                    <p>
+                      For CLIPS, the input format is the same, but the column containing the products made or services provided must be named <i>products_services</i> instead of <i>JobTitle</i> and the <i>JobTask</i> column is not used.
+                    </p>
+                    <blockquote class="fs-extra-small">
+                      Id,products_services,sic1987<br>
+                      studyB-001,"Developing and publishing video games for console and PC platforms, including ongoing service updates.",7372<br>
+                      studyB-002,"Full-service dental care, including routine checkups, cleanings, and cosmetic procedures.",8021<br>
+                      studyB-003,Manufacturing commercial-grade pre-packaged frozen pizzas and other frozen entrées.,2038<br>
+                      studyB-004,"Local passenger transit via bus routes, including fixed-schedule and express services.",4111<br>
+                      studyB-005,"Wholesale distribution of industrial chemicals, solvents, and raw plastic materials to manufacturing clients.",5169<br>
+                      studyB-006,"Residential and commercial building construction, specializing in mid-rise office buildings.",1542<br>
+                      studyB-007,Providing short-term consumer loans and secured lending options.,6141<br>
+                      studyB-008,"Operating a full-service, sit-down restaurant offering American cuisine for lunch and dinner.",5812<br>
+                      studyB-009,Manufacturing and assembling complex electrical wiring harnesses and cable sets for the automotive industry.,3629<br>
+                      studyB-010,"Private investigative services, including surveillance, background checks, and corporate fraud investigation.",7381<br>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">These jobs description were created by Generative AI and are not job descriptions of actual people.</figcaption>
+                    <div class="alert alert-info">
+                      By default, SOCcerNET and CLIPS will download the results as an Excel file. You can choose to download the results as a csv file, but be careful not to open the csv file in Excel, which will read some of the SOC codes as dates.
+                    </div>
                     <p>
                       If you have any questions, comments, or concerns, send us an e-mail at
                       <a href="mailto:NCISOCcerWebAdmin@mail.nih.gov">NCI&shy;SOCcer&shy;Web&shy;Admin@mail.nih.gov</a>.
@@ -725,7 +744,7 @@
                   <dd class="mb-4">Best practice is to use two experts to code each job and resolve discrepancies in their coding. However, there is no gold standard. This is because the job descriptions often do not provide sufficient information to pick a single code; multiple, equally plausible codes may exist for a given job description.</dd>
 
                   <dt class="h5 text-dark fw-semibold">Which version of SOCcer do I use?</dt>
-                  <dd class="mb-4">For all new projects, you will have more accurate results with SOCcer v2.0. SOCcer 1.0 remains available for comparison purposes and for users who wish to recreate previous assessments that used v. 1.0.</dd>
+                  <dd class="mb-4">For all new projects, you will have more accurate results with SOCcerNET. Previous version remain available for comparison purposes and for users who wish to recreate previous assessments that used v. 1.0.</dd>
 
                   <dt class="h5 text-dark fw-semibold">What can I do to improve the results of SOCcer?</dt>
                   <dd class="mb-4">
@@ -734,12 +753,14 @@
                   </dd>
 
                   <dt class="h5 text-dark fw-semibold">What about HIPAA concerns?</dt>
-                  <dd class="mb-4">The data input file does not accept identifiers in order to help prevent you from uploading PII; however, we do not screen your data for PII. Please check your input file for PII before you upload you data onto our server.</dd>
-
-                  <dt class="h5 text-dark fw-semibold">What are SOCcer scores?</dt>
                   <dd class="mb-4">
-                    Our classifier uses logistic regression to calculate that log-odds that an expert reviewer would have selected a SOC 2010 code. The SOCcer score is the transformed log-odds (to a probability). In general the higher the SOCcer score, the greater the probability of matching an expert review. Please see our paper for more details on the relationship between SOCcer score and
-                    probability of matching an expert coder's SOC assignment. Some dataset are more difficult to classify than others and depend on the quality of the data. The SOCcer score distribution provides an overview of how well SOCcer performed on your data set.
+                    <p><strong>SOCcerNET and CLIPS</strong>: The data files never leave the user's browser and never reside on any NIH/NCI server, even temporarily.</p>
+                    <p><strong>SOCcer v1 and v2</strong>: The data input file does not accept identifiers in order to help prevent you from uploading PII; however, we do not screen your data for PII. Please check your input file for PII before you upload you data onto our server.</p>
+                  </dd>
+
+                  <dt class="h5 text-dark fw-semibold">What are SOCcer/CLIPS scores?</dt>
+                  <dd class="mb-4">
+                    The SOCcer/CLIPS scores are an estimate of the probability that the suggested code would be selected by an expert coder. In general, the higher the SOCcer score, the greater the probability of matching an expert. Please see <button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-models'].click();window['tools-fig1'].scrollIntoView()">Figure 1</button> and <button class="btn btn-link p-0 fw-bold" role="button" onclick="window['nav-models'].click();window['tools-fig2'].scrollIntoView()">Figure 2</button>, and our publications, for more details on the relationship between these scores and the probability of matching an expert coder's assignment. Some datasets are more difficult to classify than others and depends on the quality of the data. The score distributions provides an overview of how well SOCcer performed on your data set.
                   </dd>
                 </dl>
               </div>
