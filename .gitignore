@@ -20,4 +20,4 @@ config.ini
 *.env
 __pycache__
 /data
-client/soccernet.js
+/.vscode
