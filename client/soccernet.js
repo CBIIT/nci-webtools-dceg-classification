@@ -277,7 +277,13 @@ function runSOCcer(){
     }
 }
 
-
+export function soccerNetNavClicked(event){
+    window['nav-soccernet'].click()
+    console.log("SOCcerNET/CLiPS navigation",event.target.dataset)
+    soccerModelSelect.value = event.target.dataset.modelVersion
+    soccerModelSelect.dispatchEvent(new Event('change', { bubbles: true }));
+}
+document.querySelectorAll('[data-model').forEach((el)=>el.addEventListener("click",soccerNetNavClicked));
 
 soccerNetFileSwitch.addEventListener("click",displayForm)
 soccerModelSelect.addEventListener("change",configApplication);
