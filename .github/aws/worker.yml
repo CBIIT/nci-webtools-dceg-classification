@@ -1,0 +1,101 @@
+family: "{{ ecs_worker_task }}"
+networkMode: awsvpc
+cpu: "{{ ecs_worker_task_cpu_units }}"
+memory: "{{ ecs_worker_task_memory_units }}"
+executionRoleArn: "{{ role_arn }}"
+taskRoleArn: "{{ role_arn }}"
+requiresCompatibilities:
+  - FARGATE
+volumes:
+  - name: data
+    efsVolumeConfiguration:
+      fileSystemId: "{{ efs_filesystem_id }}"
+      authorizationConfig:
+        accessPointId: "{{ efs_access_point_id }}"
+        iam: ENABLED
+      transitEncryption: ENABLED
+containerDefinitions:
+  - name: logs
+    image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+    firelensConfiguration:
+      type: fluentbit
+    memoryReservation: 50
+    logConfiguration:
+      logDriver: awslogs
+      options:
+        awslogs-group: "/analysistools/{{ tier }}/{{ app }}/worker"
+        awslogs-region: "{{ aws_region }}"
+        awslogs-stream-prefix: logs
+
+  - name: "worker"
+    image: "{{ backend_image_latest }}"
+    environment:
+      - name: AWS_DEFAULT_REGION
+        value: "{{ aws_region }}"
+      - name: TZ
+        value: "{{ timezone }}"
+      - name: PORT
+        value: "{{ backend_container_port }}"
+      - name: JOBS_FOLDER
+        value: "/data/jobs"
+      - name: MODELS_FOLDER
+        value: "/data/models"
+    secrets:
+      - name: APPLICATION_NAME
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/application_name"
+      - name: APPLICATION_PATH
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/application_path"
+      - name: BASE_URL
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/base_url"
+      - name: TIMEOUT
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/server_timeout"
+      - name: LOG_LEVEL
+        valueFrom: "/analysistools/{{ tier }}/datadog/log_level"
+      - name: VPC_ID
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/vpc_id"
+      - name: SUBNET_IDS
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/subnet_ids"
+      - name: SECURITY_GROUP_IDS
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/security_group_ids"
+      - name: ECS_CLUSTER
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/ecs_cluster"
+      - name: ECS_WORKER_TASK
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/ecs_worker_task"
+      - name: EMAIL_ADMIN
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_admin"
+      - name: EMAIL_SMTP_HOST
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_smtp_host"
+      - name: EMAIL_SMTP_PORT
+        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_smtp_port"
+    mountPoints:
+      - sourceVolume: data
+        containerPath: "/data"
+        readOnly: false
+    logConfiguration:
+      logDriver: awsfirelens
+      options:
+        Name: datadog
+        tls: "on"
+        tls.verify: "off"
+        dd_service: "{{ tier }}-{{ app }}-worker"
+        dd_source: "nodejs"
+        dd_tags: "project:{{ app }} tier:{{ tier }}"
+        provider: ecs
+      secretOptions:
+        - name: Host
+          valueFrom: /analysistools/{{ tier }}/datadog/log_endpoint_host
+        - name: apikey
+          valueFrom: /analysistools/{{ tier }}/datadog/api_key
+tags:
+  - key: Project
+    value: "{{ app }}"
+  - key: ApplicationName
+    value: "{{ app }}"
+  - key: ResourceName
+    value: "{{ tier }}-{{ app }}-data-import-ecs-task"
+  - key: EnvironmentTier
+    value: "{{ tier | upper }}"
+  - key: ResourceFunction
+    value: compute
+  - key: Creator
+    value: TF
