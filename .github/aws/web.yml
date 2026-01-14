@@ -1,17 +1,17 @@
-family: "{{ ecs_web_task }}"
+family: "${ECS_WEB_TASK}"
 networkMode: awsvpc
-cpu: "{{ ecs_web_task_cpu_units }}"
-memory: "{{ ecs_web_task_memory_units }}"
-executionRoleArn: "{{ role_arn }}"
-taskRoleArn: "{{ role_arn }}"
+cpu: "${ECS_WEB_TASK_CPU_UNITS}"
+memory: "${ECS_WEB_TASK_MEMORY_UNITS}"
+executionRoleArn: "${ROLE_ARN}"
+taskRoleArn: "${ROLE_ARN}"
 requiresCompatibilities:
   - FARGATE
 volumes:
   - name: data
     efsVolumeConfiguration:
-      fileSystemId: "{{ efs_filesystem_id }}"
+      fileSystemId: "${EFS_FILESYSTEM_ID}"
       authorizationConfig:
-        accessPointId: "{{ efs_access_point_id }}"
+        accessPointId: "${EFS_ACCESS_POINT_ID}"
         iam: ENABLED
       transitEncryption: ENABLED
 containerDefinitions:
@@ -23,80 +23,80 @@ containerDefinitions:
     logConfiguration:
       logDriver: awslogs
       options:
-        awslogs-group: "/analysistools/{{ tier }}/{{ app }}/web"
-        awslogs-region: "{{ aws_region }}"
+        awslogs-group: "/analysistools/${TIER}/${APP}/web"
+        awslogs-region: "${AWS_REGION}"
         awslogs-stream-prefix: logs
 
   - name: frontend
-    image: "{{ frontend_image_latest }}"
+    image: "${FRONTEND_IMAGE_LATEST}"
     portMappings:
       - protocol: tcp
-        containerPort: {{ frontend_container_port }}
+        containerPort: ${FRONTEND_CONTAINER_PORT}
     environment:
       - name: API_HOST
-        value: http://localhost:{{ backend_container_port }}
+        value: http://localhost:${BACKEND_CONTAINER_PORT}
       - name: TZ
-        value: "{{ timezone }}"
+        value: "${TZ}"
     secrets:
       - name: TIMEOUT
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/server_timeout"
+        valueFrom: "/analysistools/${TIER}/${APP}/server_timeout"
     logConfiguration:
       logDriver: awsfirelens
       options:
         Name: datadog
         tls: "on"
         tls.verify: "off"
-        dd_service: "{{ tier }}-{{ app }}-frontend"
+        dd_service: "${TIER}-${APP}-frontend"
         dd_source: "httpd"
-        dd_tags: "project:{{ app }} tier:{{ tier }}"
+        dd_tags: "project:${APP} tier:${TIER}"
         provider: ecs
       secretOptions:
         - name: Host
-          valueFrom: /analysistools/{{ tier }}/datadog/log_endpoint_host
+          valueFrom: /analysistools/${TIER}/datadog/log_endpoint_host
         - name: apikey
-          valueFrom: /analysistools/{{ tier }}/datadog/api_key
+          valueFrom: /analysistools/${TIER}/datadog/api_key
     memoryReservation: 100
 
   - name: backend
-    image: "{{ backend_image_latest }}"
+    image: "${BACKEND_IMAGE_LATEST}"
     environment:
       - name: AWS_DEFAULT_REGION
-        value: "{{ aws_region }}"
+        value: "${AWS_REGION}"
       - name: "TZ"
-        value: "{{ timezone }}"
+        value: "${TZ}"
       - name: PORT
-        value: "{{ backend_container_port }}"
+        value: "${BACKEND_CONTAINER_PORT}"
       - name: JOBS_FOLDER
         value: "/data/jobs"
       - name: MODELS_FOLDER
         value: "/data/models"
     secrets:
       - name: APPLICATION_NAME
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/application_name"
+        valueFrom: "/analysistools/${TIER}/${APP}/application_name"
       - name: APPLICATION_PATH
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/application_path"
+        valueFrom: "/analysistools/${TIER}/${APP}/application_path"
       - name: BASE_URL
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/base_url"
+        valueFrom: "/analysistools/${TIER}/${APP}/base_url"
       - name: TIMEOUT
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/server_timeout"
+        valueFrom: "/analysistools/${TIER}/${APP}/server_timeout"
       - name: LOG_LEVEL
-        valueFrom: "/analysistools/{{ tier }}/datadog/log_level"
+        valueFrom: "/analysistools/${TIER}/datadog/log_level"
       - name: VPC_ID
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/vpc_id"
+        valueFrom: "/analysistools/${TIER}/${APP}/vpc_id"
       - name: SUBNET_IDS
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/subnet_ids"
+        valueFrom: "/analysistools/${TIER}/${APP}/subnet_ids"
       - name: SECURITY_GROUP_IDS
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/security_group_ids"
+        valueFrom: "/analysistools/${TIER}/${APP}/security_group_ids"
       - name: ECS_CLUSTER
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/ecs_cluster"
+        valueFrom: "/analysistools/${TIER}/${APP}/ecs_cluster"
       - name: ECS_WORKER_TASK
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/ecs_worker_task"
+        valueFrom: "/analysistools/${TIER}/${APP}/ecs_worker_task"
       - name: EMAIL_ADMIN
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_admin"
+        valueFrom: "/analysistools/${TIER}/${APP}/email_admin"
       - name: EMAIL_SMTP_HOST
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_smtp_host"
+        valueFrom: "/analysistools/${TIER}/${APP}/email_smtp_host"
       - name: EMAIL_SMTP_PORT
-        valueFrom: "/analysistools/{{ tier }}/{{ app }}/email_smtp_port"
+        valueFrom: "/analysistools/${TIER}/${APP}/email_smtp_port"
     mountPoints:
       - sourceVolume: data
         containerPath: "/data"
@@ -107,24 +107,24 @@ containerDefinitions:
         Name: datadog
         tls: "on"
         tls.verify: "off"
-        dd_service: "{{ tier }}-{{ app }}-backend"
+        dd_service: "${TIER}-${APP}-backend"
         dd_source: "nodejs"
-        dd_tags: "project:{{ app }} tier:{{ tier }}"
+        dd_tags: "project:${APP} tier:${TIER}"
         provider: ecs
       secretOptions:
         - name: Host
-          valueFrom: /analysistools/{{ tier }}/datadog/log_endpoint_host
+          valueFrom: /analysistools/${TIER}/datadog/log_endpoint_host
         - name: apikey
-          valueFrom: /analysistools/{{ tier }}/datadog/api_key
+          valueFrom: /analysistools/${TIER}/datadog/api_key
 tags:
   - key: Project
-    value: "{{ app }}"
+    value: "${APP}"
   - key: ApplicationName
-    value: "{{ app }}"
+    value: "${APP}"
   - key: ResourceName
-    value: "{{ tier }}-{{ app }}-web-ecs-task"
+    value: "${TIER}-${APP}-web-ecs-task"
   - key: EnvironmentTier
-    value: "{{ tier | upper }}"
+    value: "${ENVIRONMENT_TIER}"
   - key: ResourceFunction
     value: compute
   - key: Creator
