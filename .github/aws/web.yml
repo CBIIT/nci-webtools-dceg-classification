@@ -1,0 +1,131 @@
+family: "${ECS_WEB_TASK}"
+networkMode: awsvpc
+cpu: "${ECS_WEB_TASK_CPU_UNITS}"
+memory: "${ECS_WEB_TASK_MEMORY_UNITS}"
+executionRoleArn: "${ROLE_ARN}"
+taskRoleArn: "${ROLE_ARN}"
+requiresCompatibilities:
+  - FARGATE
+volumes:
+  - name: data
+    efsVolumeConfiguration:
+      fileSystemId: "${EFS_FILESYSTEM_ID}"
+      authorizationConfig:
+        accessPointId: "${EFS_ACCESS_POINT_ID}"
+        iam: ENABLED
+      transitEncryption: ENABLED
+containerDefinitions:
+  - name: logs
+    image: public.ecr.aws/aws-observability/aws-for-fluent-bit:stable
+    firelensConfiguration:
+      type: fluentbit
+    memoryReservation: 50
+    logConfiguration:
+      logDriver: awslogs
+      options:
+        awslogs-group: "/analysistools/${TIER}/${APP}/web"
+        awslogs-region: "${AWS_REGION}"
+        awslogs-stream-prefix: logs
+
+  - name: frontend
+    image: "${FRONTEND_IMAGE_LATEST}"
+    portMappings:
+      - protocol: tcp
+        containerPort: ${FRONTEND_CONTAINER_PORT}
+    environment:
+      - name: API_HOST
+        value: http://localhost:${BACKEND_CONTAINER_PORT}
+      - name: TZ
+        value: "${TZ}"
+    secrets:
+      - name: TIMEOUT
+        valueFrom: "/analysistools/${TIER}/${APP}/server_timeout"
+    logConfiguration:
+      logDriver: awsfirelens
+      options:
+        Name: datadog
+        tls: "on"
+        tls.verify: "off"
+        dd_service: "${TIER}-${APP}-frontend"
+        dd_source: "httpd"
+        dd_tags: "project:${APP} tier:${TIER}"
+        provider: ecs
+      secretOptions:
+        - name: Host
+          valueFrom: /analysistools/${TIER}/datadog/log_endpoint_host
+        - name: apikey
+          valueFrom: /analysistools/${TIER}/datadog/api_key
+    memoryReservation: 100
+
+  - name: backend
+    image: "${BACKEND_IMAGE_LATEST}"
+    environment:
+      - name: AWS_DEFAULT_REGION
+        value: "${AWS_REGION}"
+      - name: "TZ"
+        value: "${TZ}"
+      - name: PORT
+        value: "${BACKEND_CONTAINER_PORT}"
+      - name: JOBS_FOLDER
+        value: "/data/jobs"
+      - name: MODELS_FOLDER
+        value: "/data/models"
+    secrets:
+      - name: APPLICATION_NAME
+        valueFrom: "/analysistools/${TIER}/${APP}/application_name"
+      - name: APPLICATION_PATH
+        valueFrom: "/analysistools/${TIER}/${APP}/application_path"
+      - name: BASE_URL
+        valueFrom: "/analysistools/${TIER}/${APP}/base_url"
+      - name: TIMEOUT
+        valueFrom: "/analysistools/${TIER}/${APP}/server_timeout"
+      - name: LOG_LEVEL
+        valueFrom: "/analysistools/${TIER}/datadog/log_level"
+      - name: VPC_ID
+        valueFrom: "/analysistools/${TIER}/${APP}/vpc_id"
+      - name: SUBNET_IDS
+        valueFrom: "/analysistools/${TIER}/${APP}/subnet_ids"
+      - name: SECURITY_GROUP_IDS
+        valueFrom: "/analysistools/${TIER}/${APP}/security_group_ids"
+      - name: ECS_CLUSTER
+        valueFrom: "/analysistools/${TIER}/${APP}/ecs_cluster"
+      - name: ECS_WORKER_TASK
+        valueFrom: "/analysistools/${TIER}/${APP}/ecs_worker_task"
+      - name: EMAIL_ADMIN
+        valueFrom: "/analysistools/${TIER}/${APP}/email_admin"
+      - name: EMAIL_SMTP_HOST
+        valueFrom: "/analysistools/${TIER}/${APP}/email_smtp_host"
+      - name: EMAIL_SMTP_PORT
+        valueFrom: "/analysistools/${TIER}/${APP}/email_smtp_port"
+    mountPoints:
+      - sourceVolume: data
+        containerPath: "/data"
+        readOnly: false
+    logConfiguration:
+      logDriver: awsfirelens
+      options:
+        Name: datadog
+        tls: "on"
+        tls.verify: "off"
+        dd_service: "${TIER}-${APP}-backend"
+        dd_source: "nodejs"
+        dd_tags: "project:${APP} tier:${TIER}"
+        provider: ecs
+      secretOptions:
+        - name: Host
+          valueFrom: /analysistools/${TIER}/datadog/log_endpoint_host
+        - name: apikey
+          valueFrom: /analysistools/${TIER}/datadog/api_key
+tags:
+  - key: Project
+    value: "${APP}"
+  - key: ApplicationName
+    value: "${APP}"
+  - key: ResourceName
+    value: "${TIER}-${APP}-web-ecs-task"
+  - key: EnvironmentTier
+    value: "${ENVIRONMENT_TIER}"
+  - key: ResourceFunction
+    value: compute
+  - key: Creator
+    value: TF
