@@ -60,12 +60,6 @@ jobs:
           echo "PARAMETER_PATH=/analysistools/${TIER}/${APP}" >> $GITHUB_ENV
           echo "ENVIRONMENT_TIER=${TIER^^}" >> $GITHUB_ENV
 
-          if [[ "$TIER" == "dev" ]]; then
-              echo "LOG_LEVEL=debug" >> $GITHUB_ENV
-          else
-              echo "LOG_LEVEL=info" >> $GITHUB_ENV
-          fi
-
       - name: Retrieve SSM parameters
         run: |
           PARAMETER_PATH="/analysistools/${TIER}/${APP}"
