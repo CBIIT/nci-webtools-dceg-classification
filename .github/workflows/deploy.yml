@@ -115,8 +115,8 @@ jobs:
           tags: |
             ${{ env.BACKEND_IMAGE }}
             ${{ env.BACKEND_IMAGE_LATEST }}
-          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}:backend-cache
-          cache-to: type=registry,ref=${{ env.IMAGE_REPOSITORY }}:backend-cache,image-manifest=true,oci-mediatypes=true,mode=max
+          cache-from: type=registry,ref=${{ env.BACKEND_IMAGE_LATEST }}
+          cache-to: type=inline
 
       - name: Build frontend image ${{ env.FRONTEND_IMAGE }}
         uses: docker/build-push-action@v6
@@ -128,8 +128,8 @@ jobs:
           tags: |
             ${{ env.FRONTEND_IMAGE }}
             ${{ env.FRONTEND_IMAGE_LATEST }}
-          cache-from: type=registry,ref=${{ env.IMAGE_REPOSITORY }}:frontend-cache
-          cache-to: type=registry,ref=${{ env.IMAGE_REPOSITORY }}:frontend-cache,image-manifest=true,oci-mediatypes=true,mode=max
+          cache-from: type=registry,ref=${{ env.FRONTEND_IMAGE_LATEST }}
+          cache-to: type=inline
 
       - name: Substitute web task definition variables
         id: substitute-web-task-definition
