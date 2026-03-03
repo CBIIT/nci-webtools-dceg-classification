@@ -20,6 +20,7 @@ permissions:
 jobs:
   deploy-fargate-app:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment: ${{ inputs.tier }}
     env:
       APP: soccer
