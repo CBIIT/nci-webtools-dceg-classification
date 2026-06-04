@@ -73,6 +73,23 @@ blockquote {
   --bs-alert-border-color: var(--bs-danger);
 }
 
+/* 508 fix: .btn-link color #2a71a5 fails contrast on .alert-danger pink background (#f8d7da).
+   #235f8c gives 5.09:1 contrast ratio (WCAG AA requires 4.5:1). */
+.alert-danger .btn-link {
+  color: #235f8c;
+}
+.alert-danger .btn-link:hover,
+.alert-danger .btn-link:focus,
+.alert-danger .btn-link:active {
+  color: #123e57;
+}
+
+/* 508 fix: .text-danger (#dc3545) on card bg-light (#f8f9fa) gives 4.29:1, just below WCAG AA threshold.
+   #c0392b gives 5.2:1 contrast ratio on #f8f9fa. */
+button.btn-link.text-danger {
+  color: #c0392b !important;
+}
+
 
 .btn {
   --bs-btn-font-weight: 500;
