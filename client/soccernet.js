@@ -48,7 +48,7 @@ async function runSingleJob(event){
             inputObject[cs] = inputElement.value
         }
     })
-    let n = parseInt( document.getElementById("soccerNet-n").value )||10;
+    let n = parseInt( document.getElementById("soccernet-n").value )||10;
     if (n<0 || n>840) {
         n=10
     }
@@ -60,7 +60,7 @@ async function runSingleJob(event){
 async function runSingleClipsJob(){
     let products = document.getElementById("clips-singleJob-products").value.trim();
     let sic1987 = document.getElementById("clips-singleJob-sic1987").value.trim();
-    let n = parseInt( document.getElementById("soccerNet-n").value )||10
+    let n = parseInt( document.getElementById("soccernet-n").value )||10
     // no products ... just return!
     if (products.length == 0){
         console.log("... no input data...")
@@ -153,7 +153,7 @@ async function runFile(event){
     soccerNetFileSwitch.disabled=true;
     setProgress(0);
 
-    let n = parseInt( document.getElementById("soccerNet-n").value )||10;
+    let n = parseInt( document.getElementById("soccernet-n").value )||10;
     if (n<0 || n>840) {
         n=10
     }
@@ -224,7 +224,7 @@ function displayForm(event){
     clearFile()
 
     let label = document.querySelector("[for='soccernet-n']");
-    let n_element = document.getElementById("soccerNet-n");
+    let n_element = document.getElementById("soccernet-n");
     let n = parseInt( n_element.value )||10;
     if (runFile){
         // The form is the same if you are running soccer or clips
