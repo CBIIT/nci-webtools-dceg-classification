@@ -134,10 +134,12 @@ function createAlert(message, type) {
     const wrapper = document.createElement('div')
     wrapper.innerHTML = [
         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-        `   <div>${message}</div>`,
+        '   <div></div>',
         '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
         '</div>'
     ].join('')
+    // set the message as text to avoid interpreting it as HTML
+    wrapper.querySelector('.alert > div').textContent = message
 
     alertDiv.append(wrapper)
 }
